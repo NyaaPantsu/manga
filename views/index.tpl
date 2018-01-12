@@ -37,10 +37,6 @@
   </div>
 </nav>
     <div class="container">
-    <form action="" method="post">
-{{.Form | renderform}}
-</form>
-
       
     </div>
 

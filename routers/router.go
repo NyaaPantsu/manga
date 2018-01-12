@@ -15,7 +15,41 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
-	ns := beego.NewNamespace("/v1",
+	beego.Router("/search", &controllers.SearchController{})
+
+	ns3 := beego.NewNamespace("/comic",
+		beego.NSNamespace("/",
+			beego.NSInclude(
+				&controllers.ComicController{},
+			),
+		),
+	)
+	ns1 := beego.NewNamespace("/auth",
+		beego.NSNamespace("/logout",
+			beego.NSInclude(
+				&controllers.LogoutController{},
+			),
+		),
+		beego.NSNamespace("/login",
+			beego.NSInclude(
+				&controllers.LoginController{},
+			),
+		),
+		beego.NSNamespace("/signup",
+			beego.NSInclude(
+				&controllers.SignupController{},
+			),
+		),
+	)
+	ns2 := beego.NewNamespace("/mod",
+		beego.NSNamespace("/reports",
+			beego.NSInclude(
+				&controllers.SignupController{},
+			),
+		),
+	)
+
+	ns := beego.NewNamespace("/api/v1",
 
 		beego.NSNamespace("/series",
 			beego.NSInclude(
@@ -84,4 +118,7 @@ func init() {
 		),
 	)
 	beego.AddNamespace(ns)
+	beego.AddNamespace(ns1)
+	beego.AddNamespace(ns2)
+	beego.AddNamespace(ns3)
 }
