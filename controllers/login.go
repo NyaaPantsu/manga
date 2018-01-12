@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // LoginController operations for Login
@@ -23,6 +25,22 @@ func (c *LoginController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *LoginController) Post() {
+	u := User{}
+	if err := c.ParseForm(&u); err != nil {
+		//handle error
+	}
+	user, err := models.GetUserByUsername(u.Username)
+	if err != nil {
+
+	}
+	password := []byte(u.Password)
+	// Comparing the password with the hash
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), password)
+	if err != nil {
+
+	}
+	c.Redirect("/", 301)
 
 }
 
