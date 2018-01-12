@@ -11,7 +11,6 @@ type LogoutController struct {
 
 // URLMapping ...
 func (c *LogoutController) URLMapping() {
-	c.Mapping("Post", c.Post)
 	c.Mapping("Get", c.Post)
 }
 
@@ -23,5 +22,14 @@ func (c *LogoutController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [get]
 func (c *LogoutController) Get() {
+	// Check if user is logged in
+	session := c.StartSession()
+	userID := session.Get("UserID")
+	if userID != nil {
+		// UserID is set and can be deleted
+		session.Delete("UserID")
+		session.Delete("UserName")
+		session.Delete("Admin")
+	}
 	c.Redirect("/", 301)
 }

@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+
+	"strconv"
 )
 
 // ComicController operations for Comic
@@ -11,25 +14,10 @@ type ComicController struct {
 
 // URLMapping ...
 func (c *ComicController) URLMapping() {
-	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("Put", c.Put)
-	c.Mapping("Delete", c.Delete)
 }
 
-// Post ...
-// @Title Create
-// @Description create Comic
-// @Param	body		body 	models.Comic	true		"body for Comic content"
-// @Success 201 {object} models.Comic
-// @Failure 403 body is empty
-// @router / [post]
-func (c *ComicController) Post() {
-
-}
-
-// GetOne ...
 // @Title GetOne
 // @Description get Comic by id
 // @Param	id		path 	string	true		"The key for staticblock"
@@ -37,6 +25,16 @@ func (c *ComicController) Post() {
 // @Failure 403 :id is empty
 // @router /:id [get]
 func (c *ComicController) GetOne() {
+	idStr := c.Ctx.Input.Param(":id")
+	id, _ := strconv.Atoi(idStr)
+	v, err := models.GetSeriesById(id)
+	if err != nil {
+
+	}
+	c.TplName = "series.tpl"
+	c.Layout = "index.tpl"
+	c.Data["series"] = v
+	c.Render()
 
 }
 
@@ -53,28 +51,5 @@ func (c *ComicController) GetOne() {
 // @Failure 403
 // @router / [get]
 func (c *ComicController) GetAll() {
-
-}
-
-// Put ...
-// @Title Put
-// @Description update the Comic
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Comic	true		"body for Comic content"
-// @Success 200 {object} models.Comic
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *ComicController) Put() {
-
-}
-
-// Delete ...
-// @Title Delete
-// @Description delete the Comic
-// @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
-// @router /:id [delete]
-func (c *ComicController) Delete() {
 
 }

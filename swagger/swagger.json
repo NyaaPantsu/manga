@@ -1956,6 +1956,9 @@
         ".Logout": {
             "type": "object"
         },
+        ".Reader": {
+            "type": "object"
+        },
         ".Search": {
             "type": "object"
         },

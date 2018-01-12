@@ -74,4 +74,5 @@ func (c *SearchController) Get() {
 	c.Layout = "index.tpl"
 	c.TplName = "search.tpl"
 	c.Data["series"] = l
+	c.Render()
 }

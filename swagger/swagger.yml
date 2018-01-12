@@ -1298,6 +1298,8 @@ definitions:
     type: object
   .Logout:
     type: object
+  .Reader:
+    type: object
   .Search:
     type: object
   .Signup:

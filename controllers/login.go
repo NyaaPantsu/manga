@@ -27,10 +27,11 @@ func (c *LoginController) URLMapping() {
 func (c *LoginController) Post() {
 	u := User{}
 	if err := c.ParseForm(&u); err != nil {
-		//handle error
+		return
 	}
 	user, err := models.GetUserByUsername(u.Username)
 	if err != nil {
+		return
 
 	}
 	password := []byte(u.Password)
@@ -38,8 +39,23 @@ func (c *LoginController) Post() {
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), password)
 	if err != nil {
+		return
 
 	}
+	session := c.StartSession()
+	username := session.Get("Username")
+
+	if username != nil {
+		// User is logged in already, display another page
+		return
+	}
+
+	// Do input checks
+
+	// Set the UserID if everything is ok
+	session.Set("UserID", u.Id)
+	session.Set("UserName", u.Username)
+	session.Set("Admin", false)
 	c.Redirect("/", 301)
 
 }
