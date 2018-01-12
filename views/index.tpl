@@ -30,8 +30,8 @@
           Accounts
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/auth/register">Login</a>
-          <a class="dropdown-item" href="/auth/login">Register</a>
+          <a class="dropdown-item" href="/auth/login">Login</a>
+          <a class="dropdown-item" href="/auth/signup">Register</a>
         </div>
       </li> 
   </div>

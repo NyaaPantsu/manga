@@ -15,6 +15,13 @@ func (c *SignupController) URLMapping() {
 	c.Mapping("Get", c.Get)
 }
 
+type User struct {
+	Id       int    `form:"-"`
+	Username string `form:"username,text,username:"`
+	Email    string `form:"email,email,email:"`
+	Password string `form:"password,password,password:"`
+}
+
 // Post ...
 // @Title Create
 // @Description create Signup
@@ -36,7 +43,8 @@ func (c *SignupController) Post() {
 func (c *SignupController) Get() {
 	c.TplName = "signup.tpl"
 	c.Layout = "index.tpl"
-	c.LayoutSections = make(map[string]string)
+	c.Data["Form"] = &User{}
+
 	c.Render()
 
 }

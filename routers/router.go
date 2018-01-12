@@ -16,6 +16,7 @@ import (
 func init() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/search", &controllers.SearchController{})
+	beego.Router("/upload", &controllers.UploadController{})
 
 	ns1 := beego.NewNamespace("/auth",
 		beego.NSNamespace("/logout",

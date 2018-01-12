@@ -35,6 +35,6 @@ func (c *LoginController) Post() {
 func (c *LoginController) Get() {
 	c.TplName = "login.tpl"
 	c.Layout = "index.tpl"
-	c.LayoutSections = make(map[string]string)
+	c.Data["Form"] = &User{}
 	c.Render()
 }
