@@ -15,13 +15,13 @@ func (c *LogoutController) URLMapping() {
 	c.Mapping("Get", c.Post)
 }
 
-// Post ...
+// Get ...
 // @Title Logout
 // @Description Logout
 // @Param	body		body 	models.Logout	true		"body for Logout content"
 // @Success 201 {object} models.Logout
 // @Failure 403 body is empty
-// @router / [post]
-func (c *LogoutController) Post() {
-
+// @router / [get]
+func (c *LogoutController) Get() {
+	c.Redirect("/", 301)
 }

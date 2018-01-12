@@ -26,13 +26,17 @@ func (c *SignupController) Post() {
 
 }
 
-// Post ...
+// Get ...
 // @Title Create
 // @Description create Signup
 // @Param	body		body 	models.Signup	true		"body for Signup content"
 // @Success 201 {object} models.Signup
 // @Failure 403 body is empty
-// @router / [post]
+// @router / [get]
 func (c *SignupController) Get() {
+	c.TplName = "signup.tpl"
+	c.Layout = "index.tpl"
+	c.LayoutSections = make(map[string]string)
+	c.Render()
 
 }

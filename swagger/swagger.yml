@@ -9,125 +9,8 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-basePath: /comic
+basePath: /auth
 paths:
-  //:
-    get:
-      tags:
-      - ""
-      description: get Comic
-      operationId: ComicController.GetAll
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/.Comic'
-        "403":
-          description: ""
-    post:
-      tags:
-      - ""
-      description: create Comic
-      operationId: ComicController.Create
-      parameters:
-      - in: body
-        name: body
-        description: body for Comic content
-        required: true
-        schema:
-          $ref: '#/definitions/.Comic'
-      responses:
-        "201":
-          description: ""
-          schema:
-            $ref: '#/definitions/.Comic'
-        "403":
-          description: body is empty
-  //{id}:
-    get:
-      tags:
-      - ""
-      description: get Comic by id
-      operationId: ComicController.GetOne
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/.Comic'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - ""
-      description: update the Comic
-      operationId: ComicController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Comic content
-        required: true
-        schema:
-          $ref: '#/definitions/.Comic'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/.Comic'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - ""
-      description: delete the Comic
-      operationId: ComicController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
   /chapter/:
     get:
       tags:
@@ -709,32 +592,6 @@ paths:
       - login
       description: get Login
       operationId: LoginController.GetAll
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
       responses:
         "200":
           description: ""
@@ -761,67 +618,8 @@ paths:
             $ref: '#/definitions/.Login'
         "403":
           description: body is empty
-  /login/{id}:
-    get:
-      tags:
-      - login
-      description: get Login by id
-      operationId: LoginController.GetOne
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/.Login'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - login
-      description: update the Login
-      operationId: LoginController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Login content
-        required: true
-        schema:
-          $ref: '#/definitions/.Login'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/.Login'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - login
-      description: delete the Login
-      operationId: LoginController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
   /logout/:
-    post:
+    get:
       tags:
       - logout
       description: Logout
@@ -841,6 +639,25 @@ paths:
         "403":
           description: body is empty
   /reports/:
+    get:
+      tags:
+      - reports
+      description: create Signup
+      operationId: SignupController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for Signup content
+        required: true
+        schema:
+          $ref: '#/definitions/.Signup'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/.Signup'
+        "403":
+          description: body is empty
     post:
       tags:
       - reports
@@ -1321,6 +1138,25 @@ paths:
         "403":
           description: id is empty
   /signup/:
+    get:
+      tags:
+      - reports
+      description: create Signup
+      operationId: SignupController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for Signup content
+        required: true
+        schema:
+          $ref: '#/definitions/.Signup'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/.Signup'
+        "403":
+          description: body is empty
     post:
       tags:
       - reports
@@ -1455,121 +1291,6 @@ paths:
           description: '{string} delete success!'
         "403":
           description: id is empty
-  /users/:
-    get:
-      tags:
-      - users
-      description: get Users
-      operationId: UsersController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Users'
-        "403":
-          description: ""
-    post:
-      tags:
-      - users
-      description: create Users
-      operationId: UsersController.Post
-      parameters:
-      - in: body
-        name: body
-        description: body for Users content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Users'
-      responses:
-        "201":
-          description: '{int} models.Users'
-        "403":
-          description: body is empty
-  /users/{id}:
-    get:
-      tags:
-      - users
-      description: get Users by id
-      operationId: UsersController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Users'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - users
-      description: update the Users
-      operationId: UsersController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Users content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Users'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Users'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - users
-      description: delete the Users
-      operationId: UsersController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
 definitions:
   .Comic:
     type: object
@@ -1580,6 +1301,8 @@ definitions:
   .Search:
     type: object
   .Signup:
+    type: object
+  .Upload:
     type: object
   models.Chapter:
     title: Chapter
@@ -1706,8 +1429,6 @@ definitions:
       Username:
         type: string
 tags:
-- description: |
-    ComicController operations for Comic
 - name: logout
   description: |
     LogoutController operations for Logout
@@ -1729,9 +1450,6 @@ tags:
 - name: chapter_language
   description: |
     ChapterLanguageController operations for ChapterLanguage
-- name: users
-  description: |
-    UsersController operations for Users
 - name: series_type
   description: |
     SeriesTypeController operations for SeriesType

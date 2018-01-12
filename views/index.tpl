@@ -21,7 +21,7 @@
         <a class="nav-link" href="#">Link</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form-inline my-2 my-lg-0" action="">
       <input class="form-control mr-sm-2" type="text" placeholder="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
@@ -30,13 +30,14 @@
           Accounts
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/register">Login</a>
-          <a class="dropdown-item" href="/login">Register</a>
+          <a class="dropdown-item" href="/auth/register">Login</a>
+          <a class="dropdown-item" href="/auth/login">Register</a>
         </div>
       </li> 
   </div>
 </nav>
     <div class="container">
+      {{.LayoutContent}}
       
     </div>
 

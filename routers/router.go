@@ -17,13 +17,6 @@ func init() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/search", &controllers.SearchController{})
 
-	ns3 := beego.NewNamespace("/comic",
-		beego.NSNamespace("/",
-			beego.NSInclude(
-				&controllers.ComicController{},
-			),
-		),
-	)
 	ns1 := beego.NewNamespace("/auth",
 		beego.NSNamespace("/logout",
 			beego.NSInclude(
@@ -66,12 +59,6 @@ func init() {
 		beego.NSNamespace("/chapter_language",
 			beego.NSInclude(
 				&controllers.ChapterLanguageController{},
-			),
-		),
-
-		beego.NSNamespace("/users",
-			beego.NSInclude(
-				&controllers.UsersController{},
 			),
 		),
 
@@ -120,5 +107,4 @@ func init() {
 	beego.AddNamespace(ns)
 	beego.AddNamespace(ns1)
 	beego.AddNamespace(ns2)
-	beego.AddNamespace(ns3)
 }

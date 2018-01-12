@@ -9,7 +9,7 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.TplName = "index.tpl"
+	c.TplName = "home.tpl"
 	c.Layout = "index.tpl"
 	c.LayoutSections = make(map[string]string)
 	c.Render()
