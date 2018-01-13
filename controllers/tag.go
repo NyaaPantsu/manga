@@ -6,13 +6,11 @@ import (
 	"github.com/NyaaPantsu/manga/models"
 	"strconv"
 	"strings"
-
-	"github.com/astaxie/beego"
 )
 
 // TagController operations for Tag
 type TagController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...

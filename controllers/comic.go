@@ -2,14 +2,13 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego"
 
 	"strconv"
 )
 
 // ComicController operations for Comic
 type ComicController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...

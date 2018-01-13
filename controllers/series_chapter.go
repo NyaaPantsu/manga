@@ -6,13 +6,11 @@ import (
 	"github.com/NyaaPantsu/manga/models"
 	"strconv"
 	"strings"
-
-	"github.com/astaxie/beego"
 )
 
 // SeriesChapterController operations for SeriesChapter
 type SeriesChapterController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...

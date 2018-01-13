@@ -6,13 +6,11 @@ import (
 	"github.com/NyaaPantsu/manga/models"
 	"strconv"
 	"strings"
-
-	"github.com/astaxie/beego"
 )
 
 // GroupsController operations for Groups
 type GroupsController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...

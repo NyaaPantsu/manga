@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego"
 
 	"errors"
 	"strings"
@@ -10,7 +9,7 @@ import (
 
 // SearchController operations for Search
 type SearchController struct {
-	beego.Controller
+	BaseController
 }
 
 // Get ...
@@ -71,7 +70,7 @@ func (c *SearchController) Get() {
 	if err != nil {
 
 	}
-	c.Layout = "index.tpl"
+	c.Layout = "layouts/index.tpl"
 	c.TplName = "search.tpl"
 	c.Data["series"] = l
 	c.Render()

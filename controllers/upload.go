@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
+	"html/template"
 )
 
 // UploadController operations for Upload
 type UploadController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...
@@ -34,5 +34,6 @@ func (c *UploadController) Post() {
 func (c *UploadController) Get() {
 	c.Layout = "index.tpl"
 	c.TplName = "search.tpl"
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()
 }

@@ -1,12 +1,8 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
-
 // LogoutController operations for Logout
 type LogoutController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...

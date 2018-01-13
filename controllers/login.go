@@ -2,13 +2,14 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego"
 	"golang.org/x/crypto/bcrypt"
+
+	"html/template"
 )
 
 // LoginController operations for Login
 type LoginController struct {
-	beego.Controller
+	BaseController
 }
 
 type Login struct {
@@ -73,7 +74,7 @@ func (c *LoginController) Post() {
 // @router / [get]
 func (c *LoginController) Get() {
 	c.TplName = "login.tpl"
-	c.Layout = "index.tpl"
-	c.Data["Form"] = &Login{}
+	c.Layout = "layouts/index.tpl"
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()
 }

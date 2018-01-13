@@ -1,12 +1,8 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
-
 // ReaderController operations for Reader
 type ReaderController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...

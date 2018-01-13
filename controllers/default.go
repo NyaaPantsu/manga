@@ -1,12 +1,8 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
-
 // MainController operations for main page
 type MainController struct {
-	beego.Controller
+	BaseController
 }
 
 // Get ...
@@ -17,6 +13,5 @@ type MainController struct {
 // @router / [get
 func (c *MainController) Get() {
 	c.TplName = "home.tpl"
-	c.Layout = "index.tpl"
 	c.Render()
 }

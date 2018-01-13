@@ -2,14 +2,15 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"golang.org/x/crypto/bcrypt"
+
+	"html/template"
 )
 
 // SignupController operations for Signup
 type SignupController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...
@@ -71,8 +72,8 @@ func (c *SignupController) Post() {
 // @router / [get]
 func (c *SignupController) Get() {
 	c.TplName = "signup.tpl"
-	c.Layout = "index.tpl"
-	c.Data["Form"] = &Signup{}
+	c.Layout = "layouts/index.tpl"
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 
 	c.Render()
 
