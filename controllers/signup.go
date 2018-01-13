@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego"
 	"golang.org/x/crypto/bcrypt"
 
 	"html/template"
@@ -20,9 +20,9 @@ func (c *SignupController) URLMapping() {
 }
 
 type Signup struct {
-	Username string `form:"username,text,username:"`
-	Email    string `form:"email,email,email:"`
-	Password string `form:"password,password,password:"`
+	Username string `form:"username,text"`
+	Email    string `form:"email,email"`
+	Password string `form:"password,password"`
 }
 
 // Post ...
@@ -33,11 +33,13 @@ type Signup struct {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *SignupController) Post() {
-	log := logs.NewLogger(10000)
-	log.SetLogger("console")
+	flash := beego.NewFlash()
 	u := Signup{}
 	if err := c.ParseForm(&u); err != nil {
-		//handle error
+		flash.Error("Signup invalid!")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
+		return
 	}
 	_, err := models.GetUserByUsername(u.Username)
 	if err != nil {
@@ -46,8 +48,9 @@ func (c *SignupController) Post() {
 		// Hashing the password with the default cost of 10
 		hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 		if err != nil {
-			//
-			log.Debug(err.Error())
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			return
 		}
 		users := models.Users{
 			Username: u.Username,
@@ -56,10 +59,16 @@ func (c *SignupController) Post() {
 		}
 		_, err = models.AddUsers(&users)
 		if err != nil {
-			log.Debug(err.Error())
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			return
 		}
 		c.Redirect("/auth/login", 301)
 	}
+	
+	flash.Error("Signup invalid!")
+	flash.Store(&c.Controller)
+	c.Redirect("/auth/signup", 302)
 
 }
 

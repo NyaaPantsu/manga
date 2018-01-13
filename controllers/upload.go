@@ -25,6 +25,12 @@ func (c *UploadController) URLMapping() {
 // @router / [post]
 func (c *UploadController) Post() {
 	flash := beego.NewFlash()
+	if c.IsLogin {
+		flash.Error("Error you must be logged in to upload")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/login", 302)
+		return
+	}
 	file, header, err := c.GetFile("file") // where <<this>> is the controller and <<file>> the id of your form field
 	if err != nil {
 		flash.Warning(err.Error())
