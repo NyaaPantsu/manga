@@ -18,6 +18,7 @@ func (c *ComicController) URLMapping() {
 	c.Mapping("GetAll", c.GetAll)
 }
 
+// GetOne ...
 // @Title GetOne
 // @Description get Comic by id
 // @Param	id		path 	string	true		"The key for staticblock"

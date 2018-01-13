@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -17,8 +18,7 @@ func (c *SignupController) URLMapping() {
 	c.Mapping("Get", c.Get)
 }
 
-type User struct {
-	Id       int    `form:"-"`
+type Signup struct {
 	Username string `form:"username,text,username:"`
 	Email    string `form:"email,email,email:"`
 	Password string `form:"password,password,password:"`
@@ -32,7 +32,9 @@ type User struct {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *SignupController) Post() {
-	u := User{}
+	log := logs.NewLogger(10000)
+	log.SetLogger("console")
+	u := Signup{}
 	if err := c.ParseForm(&u); err != nil {
 		//handle error
 	}
@@ -44,6 +46,7 @@ func (c *SignupController) Post() {
 		hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 		if err != nil {
 			//
+			log.Debug(err.Error())
 		}
 		users := models.Users{
 			Username: u.Username,
@@ -52,7 +55,7 @@ func (c *SignupController) Post() {
 		}
 		_, err = models.AddUsers(&users)
 		if err != nil {
-
+			log.Debug(err.Error())
 		}
 		c.Redirect("/auth/login", 301)
 	}
@@ -69,7 +72,7 @@ func (c *SignupController) Post() {
 func (c *SignupController) Get() {
 	c.TplName = "signup.tpl"
 	c.Layout = "index.tpl"
-	c.Data["Form"] = &User{}
+	c.Data["Form"] = &Signup{}
 
 	c.Render()
 

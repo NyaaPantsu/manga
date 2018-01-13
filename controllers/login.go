@@ -11,6 +11,12 @@ type LoginController struct {
 	beego.Controller
 }
 
+type Login struct {
+	Username string `form:"username,text,username:"`
+	Email    string `form:"email,email,email:"`
+	Password string `form:"password,password,password:"`
+}
+
 // URLMapping ...
 func (c *LoginController) URLMapping() {
 	c.Mapping("Post", c.Post)
@@ -25,7 +31,7 @@ func (c *LoginController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *LoginController) Post() {
-	u := User{}
+	u := Login{}
 	if err := c.ParseForm(&u); err != nil {
 		return
 	}
@@ -47,13 +53,12 @@ func (c *LoginController) Post() {
 
 	if username != nil {
 		// User is logged in already, display another page
-		return
 	}
 
 	// Do input checks
 
 	// Set the UserID if everything is ok
-	session.Set("UserID", u.Id)
+	session.Set("UserID", user.Id)
 	session.Set("UserName", u.Username)
 	session.Set("Admin", false)
 	c.Redirect("/", 301)
@@ -69,6 +74,6 @@ func (c *LoginController) Post() {
 func (c *LoginController) Get() {
 	c.TplName = "login.tpl"
 	c.Layout = "index.tpl"
-	c.Data["Form"] = &User{}
+	c.Data["Form"] = &Login{}
 	c.Render()
 }
