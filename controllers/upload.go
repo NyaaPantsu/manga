@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/astaxie/beego"
 	"html/template"
 )
 
@@ -23,6 +24,24 @@ func (c *UploadController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *UploadController) Post() {
+	flash := beego.NewFlash()
+	file, header, err := c.GetFile("file") // where <<this>> is the controller and <<file>> the id of your form field
+	if err != nil {
+		flash.Warning(err.Error())
+		flash.Store(&c.Controller)
+		return
+	}
+	if file != nil {
+		// get the filename
+		fileName := header.Filename
+		// save to server
+		err := c.SaveToFile("file", "/disk1/"+fileName)
+		if err != nil {
+			flash.Warning(err.Error())
+			flash.Store(&c.Controller)
+			return
+		}
+	}
 
 }
 

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/astaxie/beego"
 	"golang.org/x/crypto/bcrypt"
 
 	"html/template"
@@ -13,9 +14,10 @@ type LoginController struct {
 }
 
 type Login struct {
-	Username string `form:"username,text,username:"`
-	Email    string `form:"email,email,email:"`
-	Password string `form:"password,password,password:"`
+	Username string `form:"username,text"`
+	Email    string `form:"email,email"`
+	Remember bool   `form:remember, checkbox"`
+	Password string `form:"password,password"`
 }
 
 // URLMapping ...
@@ -32,12 +34,23 @@ func (c *LoginController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *LoginController) Post() {
+	flash := beego.NewFlash()
+	if c.IsLogin {
+		c.Redirect("/", 302)
+	}
 	u := Login{}
+
 	if err := c.ParseForm(&u); err != nil {
+		flash.Warning(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/login", 302)
 		return
 	}
 	user, err := models.GetUserByUsername(u.Username)
 	if err != nil {
+		flash.Warning(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/login", 302)
 		return
 
 	}
@@ -46,22 +59,16 @@ func (c *LoginController) Post() {
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), password)
 	if err != nil {
+		flash.Warning(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/login", 302)
 		return
 
 	}
-	session := c.StartSession()
-	username := session.Get("Username")
-
-	if username != nil {
-		// User is logged in already, display another page
-	}
-
-	// Do input checks
-
+	flash.Success("Success logged in")
+	flash.Store(&c.Controller)
+	c.SetLogin(user)
 	// Set the UserID if everything is ok
-	session.Set("UserID", user.Id)
-	session.Set("UserName", u.Username)
-	session.Set("Admin", false)
 	c.Redirect("/", 301)
 
 }
@@ -74,7 +81,6 @@ func (c *LoginController) Post() {
 // @router / [get]
 func (c *LoginController) Get() {
 	c.TplName = "login.tpl"
-	c.Layout = "layouts/index.tpl"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()
 }

@@ -1,5 +1,9 @@
 package controllers
 
+import (
+	"github.com/astaxie/beego"
+)
+
 // LogoutController operations for Logout
 type LogoutController struct {
 	BaseController
@@ -18,14 +22,9 @@ func (c *LogoutController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [get]
 func (c *LogoutController) Get() {
-	// Check if user is logged in
-	session := c.StartSession()
-	userID := session.Get("UserID")
-	if userID != nil {
-		// UserID is set and can be deleted
-		session.Delete("UserID")
-		session.Delete("UserName")
-		session.Delete("Admin")
-	}
-	c.Redirect("/", 301)
+	c.DelLogin()
+	flash := beego.NewFlash()
+	flash.Success("Successfully logged out")
+	flash.Store(&c.Controller)
+	c.Redirect("/", 302)
 }
