@@ -11,7 +11,7 @@ type LogoutController struct {
 
 // URLMapping ...
 func (c *LogoutController) URLMapping() {
-	c.Mapping("Get", c.Post)
+	c.Mapping("Get", c.Get)
 }
 
 // Get ...

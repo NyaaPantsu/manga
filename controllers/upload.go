@@ -57,7 +57,6 @@ func (c *UploadController) Post() {
 // @Success 200 {object} models.Upload
 // @router / [get]
 func (c *UploadController) Get() {
-	c.Layout = "index.tpl"
 	c.TplName = "search.tpl"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()

@@ -65,8 +65,9 @@ func (c *LoginController) Post() {
 		return
 
 	}
-	flash.Success("Success logged in")
+	flash.Success("Successfully logged in")
 	flash.Store(&c.Controller)
+
 	c.SetLogin(user)
 	// Set the UserID if everything is ok
 	c.Redirect("/", 301)

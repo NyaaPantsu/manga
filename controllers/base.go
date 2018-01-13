@@ -29,12 +29,24 @@ func (c *BaseController) Prepare() {
 
 	c.Data["IsLogin"] = c.IsLogin
 	c.Data["Userinfo"] = c.Userinfo
-
 	c.Layout = "layouts/index.html"
+	flash := beego.ReadFromRequest(&c.Controller)
+	if n, ok := flash.Data["notice"]; ok {
+		// Display settings successful
+		c.Data["Notice"] = flash.Data["notice"]
+	} else if n, ok = flash.Data["error"]; ok {
+		// Display error messages
+		c.Data["Error"] = n
+	} else if n, ok = flash.Data["warning"]; ok {
+		c.Data["Warning"] = flash.Data["warning"]
 
+	} else if n, ok = flash.Data["success"]; ok {
+		c.Data["Success"] = flash.Data["success"]
+	}
 	if app, ok := c.AppController.(NestPreparer); ok {
 		app.NestPrepare()
 	}
+
 }
 
 func (c *BaseController) Finish() {

@@ -70,7 +70,6 @@ func (c *SearchController) Get() {
 	if err != nil {
 
 	}
-	c.Layout = "layouts/index.tpl"
 	c.TplName = "search.tpl"
 	c.Data["series"] = l
 	c.Render()
