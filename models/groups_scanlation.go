@@ -10,7 +10,7 @@ import (
 )
 
 type GroupsScanlation struct {
-	Id           int    `orm:"column(name);pk"`
+	Name         string `orm:"column(name);pk"`
 	Description  string `orm:"column(description)"`
 	ReleaseDelay int    `orm:"column(release_delay);null"`
 }
@@ -23,19 +23,27 @@ func init() {
 	orm.RegisterModel(new(GroupsScanlation))
 }
 
-// AddGroupsScanlation insert a new GroupsScanlation into database and returns
-// last inserted Id on success.
-func AddGroupsScanlation(m *GroupsScanlation) (id int64, err error) {
+// GroupsScanlationNameExists checks to see if name exists
+// returns bool
+func GroupsScanlationNameExists(name string) (exists bool) {
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
+	exists = o.QueryTable("groups_scanlation").Filter("Name", name).Exist()
 	return
 }
 
-// GetGroupsScanlationById retrieves GroupsScanlation by Id. Returns error if
-// Id doesn't exist
-func GetGroupsScanlationById(id int) (v *GroupsScanlation, err error) {
+// AddGroupsScanlation insert a new GroupsScanlation into database and returns
+// last inserted Name on success.
+func AddGroupsScanlation(m *GroupsScanlation) ( err error) {
 	o := orm.NewOrm()
-	v = &GroupsScanlation{Id: id}
+	_, err = o.Insert(m)
+	return
+}
+
+// GetGroupsScanlationByName retrieves GroupsScanlation by Name. Returns error if
+// Name doesn't exist
+func GetGroupsScanlationByName(name string) (v *GroupsScanlation, err error) {
+	o := orm.NewOrm()
+	v = &GroupsScanlation{Name: name}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
@@ -120,11 +128,11 @@ func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []s
 	return nil, err
 }
 
-// UpdateGroupsScanlation updates GroupsScanlation by Id and returns error if
+// UpdateGroupsScanlation updates GroupsScanlation by Name and returns error if
 // the record to be updated doesn't exist
-func UpdateGroupsScanlationById(m *GroupsScanlation) (err error) {
+func UpdateGroupsScanlationByName(m *GroupsScanlation) (err error) {
 	o := orm.NewOrm()
-	v := GroupsScanlation{Id: m.Id}
+	v := GroupsScanlation{Name: m.Name}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -135,15 +143,15 @@ func UpdateGroupsScanlationById(m *GroupsScanlation) (err error) {
 	return
 }
 
-// DeleteGroupsScanlation deletes GroupsScanlation by Id and returns error if
+// DeleteGroupsScanlation deletes GroupsScanlation by Name and returns error if
 // the record to be deleted doesn't exist
-func DeleteGroupsScanlation(id int) (err error) {
+func DeleteGroupsScanlation(name string) (err error) {
 	o := orm.NewOrm()
-	v := GroupsScanlation{Id: id}
+	v := GroupsScanlation{Name: name}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&GroupsScanlation{Id: id}); err == nil {
+		if num, err = o.Delete(&GroupsScanlation{Name: name}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

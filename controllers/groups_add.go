@@ -20,17 +20,11 @@ func (c *Groups_addController) URLMapping() {
 }
 
 type GroupsForm struct {
-	Username    string `form:"username,text"`
-	Id          int    `form:"-"`
-	Name        string `form:"name, text"`
-	Description string `form:"description, text"`
-	CoverImage  string `form:"cover, file"`
-	TypeName    string `form:"typename, text"`
-	TypeDemonym string `form:"typede, text"`
-	Status      string `form:"status, text"`
-	Tags        string `form:"tags, text"`
-	Authors     string `form:"author, text"`
-	Artist      string `form:"artist, text"`
+	Id          int      `form:"-"`
+	Name        string   `form:"name, text"`
+	Description string   `form:"description, text"`
+	ReleaseDlay int      `form:"release_delay, int"`
+	Urls        []string `form:"urls, text"`
 }
 
 // Post ...
@@ -57,46 +51,39 @@ func (c *Groups_addController) Post() {
 		return
 	}
 
-	exists := models.GroupsExists(u.Name)
+	exists := models.GroupsScanlationNameExists(u.Name)
 	if !exists {
-
-		file, header, err := c.GetFile("cover") // where <<this>> is the controller and <<file>> the id of your form field
-		if file != nil {
-			// get the filename
-			fileName := header.Filename
-			// save to server
-			err := c.SaveToFile("file", "/disk1/covers"+fileName)
-			if err != nil {
-
-				flash.Error(err.Error())
-				flash.Store(&c.Controller)
-				c.Redirect("/groups/add", 301)
-				return
-			}
+		groups := models.GroupsScanlation{
+			Name:        u.Name,
+			Description: u.Description,
 		}
-		if err != nil {
-
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/groups/add", 301)
-			return
-		}
-		series := models.Groups{}
-		_, err = models.AddGroups(&series)
+		err := models.AddGroupsScanlation(&groups)
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)
 			c.Redirect("/groups/add", 301)
 			return
 		}
-		flash.Success("Successfully added series!")
+		usergroups := models.UsersGroups{
+			GroupName: u.Name,
+			UserId:    c.GetLogin(),
+		}
+		err = models.AddUserGroups(&usergroups)
+		if err != nil {
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			c.Redirect("/groups/add", 301)
+			return
+		}
+
+		flash.Success("Successfully added group!")
 		flash.Store(&c.Controller)
 		c.Redirect("/groups/add", 301)
 		return
 
 	}
 
-	flash.Error("Adding series failed")
+	flash.Error("Adding a group failed")
 	flash.Store(&c.Controller)
 	c.Redirect("/groups/add", 302)
 	return
@@ -116,7 +103,7 @@ func (c *Groups_addController) Get() {
 		c.Redirect("/", 302)
 		return
 	}
-	c.TplName = "series_add.html"
+	c.TplName = "groups_add.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()
 

@@ -1,0 +1,18 @@
+<form action="/groups/add" method="POST">
+
+    {{ .xsrfdata }}
+    <div class="form-group">
+        <label for="SeriesName">Name</label>
+        <input type="text" class="form-control" id="SeriesName" placeholder="name" name="name">
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="urls">urls</label>
+        <textarea class="form-control" id="urls" name="urls" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>

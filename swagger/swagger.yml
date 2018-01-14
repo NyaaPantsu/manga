@@ -67,15 +67,15 @@ paths:
           description: '{int} models.GroupsScanlation'
         "403":
           description: body is empty
-  /groups_scanlation/{id}:
+  /groups_scanlation/{name}:
     get:
       tags:
       - groups_scanlation
-      description: get GroupsScanlation by id
+      description: get GroupsScanlation by name
       operationId: GroupsScanlationController.Get One
       parameters:
       - in: path
-        name: id
+        name: name
         description: The key for staticblock
         required: true
         type: string
@@ -85,7 +85,7 @@ paths:
           schema:
             $ref: '#/definitions/models.GroupsScanlation'
         "403":
-          description: :id is empty
+          description: :name is empty
     put:
       tags:
       - groups_scanlation
@@ -93,8 +93,8 @@ paths:
       operationId: GroupsScanlationController.Put
       parameters:
       - in: path
-        name: id
-        description: The id you want to update
+        name: name
+        description: The name you want to update
         required: true
         type: string
       - in: body
@@ -109,7 +109,7 @@ paths:
           schema:
             $ref: '#/definitions/models.GroupsScanlation'
         "403":
-          description: :id is not int
+          description: :name is not int
     delete:
       tags:
       - groups_scanlation
@@ -117,15 +117,15 @@ paths:
       operationId: GroupsScanlationController.Delete
       parameters:
       - in: path
-        name: id
-        description: The id you want to delete
+        name: name
+        description: The name you want to delete
         required: true
         type: string
       responses:
         "200":
           description: '{string} delete success!'
         "403":
-          description: id is empty
+          description: name is empty
   /languages/:
     get:
       tags:
@@ -641,11 +641,9 @@ paths:
         "403":
           description: ""
 definitions:
+  .ChapterGroup:
+    type: object
   .Comics:
-    type: object
-  .Group_add:
-    type: object
-  .Groups:
     type: object
   .Groups_add:
     type: object
@@ -663,58 +661,14 @@ definitions:
     type: object
   .Upload:
     type: object
-  models.Chapter:
-    title: Chapter
-    type: object
-    properties:
-      ChapterNumber:
-        type: string
-      Date:
-        type: string
-        format: string
-      Files:
-        type: string
-      Id:
-        type: integer
-        format: int64
-      Title:
-        type: string
-  models.ChapterGroup:
-    title: ChapterGroup
-    type: object
-    properties:
-      GroupId:
-        $ref: '#/definitions/models.Groups'
-      Id:
-        type: integer
-        format: int64
-  models.ChapterLanguage:
-    title: ChapterLanguage
-    type: object
-    properties:
-      Id:
-        type: integer
-        format: int64
-      Language:
-        type: string
-  models.ChapterUserContributions:
-    title: ChapterUserContributions
-    type: object
-    properties:
-      Id:
-        type: integer
-        format: int64
-      UserId:
-        $ref: '#/definitions/models.Users'
   models.GroupsScanlation:
     title: GroupsScanlation
     type: object
     properties:
       Description:
         type: string
-      Id:
-        type: integer
-        format: int64
+      Name:
+        type: string
       ReleaseDelay:
         type: integer
         format: int64
@@ -744,15 +698,6 @@ definitions:
         type: string
       TypeName:
         type: string
-  models.SeriesChapter:
-    title: SeriesChapter
-    type: object
-    properties:
-      ChapterId:
-        $ref: '#/definitions/models.Chapter'
-      Id:
-        type: integer
-        format: int64
   models.SeriesChapters:
     title: SeriesChapters
     type: object
@@ -791,31 +736,11 @@ definitions:
         format: int64
       Status:
         type: string
-  models.SeriesType:
-    title: SeriesType
-    type: object
-    properties:
-      Id:
-        type: integer
-        format: int64
-      Type:
-        type: string
   models.Statuses:
     title: Statuses
     type: object
     properties:
       Name:
-        type: string
-  models.Tag:
-    title: Tag
-    type: object
-    properties:
-      Id:
-        type: integer
-        format: int64
-      Name:
-        type: string
-      Namespace:
         type: string
   models.Users:
     title: Users

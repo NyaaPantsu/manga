@@ -19,8 +19,8 @@ func init() {
 	beego.Router("/upload", &controllers.UploadController{})
 	beego.Router("/comics", &controllers.ComicsController{})
 	beego.Router("/comics/add", &controllers.Series_addController{})
-	beego.Router("/groups", &controllers.Series_addController{})
-	beego.Router("/groups/add", &controllers.Series_addController{})
+	beego.Router("/groups", &controllers.Groups_addController{})
+	beego.Router("/groups/add", &controllers.Groups_addController{})
 
 	beego.Router("/reader", &controllers.ReaderController{})
 

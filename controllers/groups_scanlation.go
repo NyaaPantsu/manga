@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/NyaaPantsu/manga/models"
-	"strconv"
 	"strings"
 
 	"github.com/astaxie/beego"
@@ -34,7 +33,7 @@ func (c *GroupsScanlationController) URLMapping() {
 func (c *GroupsScanlationController) Post() {
 	var v models.GroupsScanlation
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddGroupsScanlation(&v); err == nil {
+		if err := models.AddGroupsScanlation(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
 		} else {
@@ -48,15 +47,14 @@ func (c *GroupsScanlationController) Post() {
 
 // GetOne ...
 // @Title Get One
-// @Description get GroupsScanlation by id
-// @Param	id		path 	string	true		"The key for staticblock"
+// @Description get GroupsScanlation by name
+// @Param	name		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.GroupsScanlation
-// @Failure 403 :id is empty
-// @router /:id [get]
+// @Failure 403 :name is empty
+// @router /:name [get]
 func (c *GroupsScanlationController) GetOne() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetGroupsScanlationById(id)
+	name := c.Ctx.Input.Param(":name")
+	v, err := models.GetGroupsScanlationByName(name)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
@@ -110,7 +108,7 @@ func (c *GroupsScanlationController) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
+				c.Data["json"] = errors.New("Error: invalname query key/value pair")
 				c.ServeJSON()
 				return
 			}
@@ -131,17 +129,16 @@ func (c *GroupsScanlationController) GetAll() {
 // Put ...
 // @Title Put
 // @Description update the GroupsScanlation
-// @Param	id		path 	string	true		"The id you want to update"
+// @Param	name		path 	string	true		"The name you want to update"
 // @Param	body		body 	models.GroupsScanlation	true		"body for GroupsScanlation content"
 // @Success 200 {object} models.GroupsScanlation
-// @Failure 403 :id is not int
-// @router /:id [put]
+// @Failure 403 :name is not int
+// @router /:name [put]
 func (c *GroupsScanlationController) Put() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v := models.GroupsScanlation{Id: id}
+	name := c.Ctx.Input.Param(":name")
+	v := models.GroupsScanlation{Name: name}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateGroupsScanlationById(&v); err == nil {
+		if err := models.UpdateGroupsScanlationByName(&v); err == nil {
 			c.Data["json"] = "OK"
 		} else {
 			c.Data["json"] = err.Error()
@@ -155,14 +152,13 @@ func (c *GroupsScanlationController) Put() {
 // Delete ...
 // @Title Delete
 // @Description delete the GroupsScanlation
-// @Param	id		path 	string	true		"The id you want to delete"
+// @Param	name		path 	string	true		"The name you want to delete"
 // @Success 200 {string} delete success!
-// @Failure 403 id is empty
-// @router /:id [delete]
+// @Failure 403 name is empty
+// @router /:name [delete]
 func (c *GroupsScanlationController) Delete() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteGroupsScanlation(id); err == nil {
+	name := c.Ctx.Input.Param(":name")
+	if err := models.DeleteGroupsScanlation(name); err == nil {
 		c.Data["json"] = "OK"
 	} else {
 		c.Data["json"] = err.Error()
