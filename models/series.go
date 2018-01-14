@@ -35,6 +35,14 @@ func AddSeries(m *Series) (id int64, err error) {
 	return
 }
 
+//  checks to see if username exists
+// returns bool
+func SeriesNameExists(name string) (exists bool) {
+	o := orm.NewOrm()
+	exists = o.QueryTable("series").Filter("Name", name).Exist()
+	return
+}
+
 // GetSeriesById retrieves Series by Id. Returns error if
 // Id doesn't exist
 func GetSeriesById(id int) (v *Series, err error) {

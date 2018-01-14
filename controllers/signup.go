@@ -41,8 +41,9 @@ func (c *SignupController) Post() {
 		c.Redirect("/auth/signup", 302)
 		return
 	}
-	_, err := models.GetUserByUsername(u.Username)
-	if err != nil {
+	username := models.UsernameExists(u.Username)
+	email := models.EmailExists(u.Email)
+	if !username || !email {
 		password := []byte(u.Password)
 
 		// Hashing the password with the default cost of 10
@@ -66,7 +67,7 @@ func (c *SignupController) Post() {
 		c.Redirect("/auth/login", 301)
 	}
 
-	flash.Error("Signup invalid!")
+	flash.Error("Email or username exists")
 	flash.Store(&c.Controller)
 	c.Redirect("/auth/signup", 302)
 

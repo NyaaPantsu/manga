@@ -32,6 +32,23 @@ func AddUsers(m *Users) (id int64, err error) {
 	return
 }
 
+// UsernameExists checks to see if username exists
+// returns bool
+func UsernameExists(username string) (exists bool) {
+	o := orm.NewOrm()
+	exists = o.QueryTable("users").Filter("Username", username).Exist()
+	return
+}
+
+// EmailExists checks to see if email exists
+// returns bool
+func EmailExists(email string) (exists bool) {
+	o := orm.NewOrm()
+	exists = o.QueryTable("users").Filter("Email", email).Exist()
+	return
+
+}
+
 // GetUsersById retrieves Users by Id. Returns error if
 // Id doesn't exist
 func GetUsersById(id int) (v *Users, err error) {

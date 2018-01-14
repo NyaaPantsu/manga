@@ -10,7 +10,7 @@ import (
 )
 
 type Statuses struct {
-	Id int `orm:"column(name);pk"`
+	Name string `orm:"column(name);pk"`
 }
 
 func (t *Statuses) TableName() string {
@@ -31,9 +31,9 @@ func AddStatuses(m *Statuses) (id int64, err error) {
 
 // GetStatusesById retrieves Statuses by Id. Returns error if
 // Id doesn't exist
-func GetStatusesById(id int) (v *Statuses, err error) {
+func GetStatusesById(name string) (v *Statuses, err error) {
 	o := orm.NewOrm()
-	v = &Statuses{Id: id}
+	v = &Statuses{Name: name}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
@@ -122,7 +122,7 @@ func GetAllStatuses(query map[string]string, fields []string, sortby []string, o
 // the record to be updated doesn't exist
 func UpdateStatusesById(m *Statuses) (err error) {
 	o := orm.NewOrm()
-	v := Statuses{Id: m.Id}
+	v := Statuses{Name: m.Name}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -135,13 +135,13 @@ func UpdateStatusesById(m *Statuses) (err error) {
 
 // DeleteStatuses deletes Statuses by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteStatuses(id int) (err error) {
+func DeleteStatuses(name string) (err error) {
 	o := orm.NewOrm()
-	v := Statuses{Id: id}
+	v := Statuses{Name: name}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Statuses{Id: id}); err == nil {
+		if num, err = o.Delete(&Statuses{Name: name}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

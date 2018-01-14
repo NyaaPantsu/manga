@@ -36,7 +36,10 @@ func (c *LoginController) URLMapping() {
 func (c *LoginController) Post() {
 	flash := beego.NewFlash()
 	if c.IsLogin {
+		flash.Warning("Already logged in")
+		flash.Store(&c.Controller)
 		c.Redirect("/", 302)
+		return
 	}
 	u := Login{}
 
