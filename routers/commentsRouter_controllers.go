@@ -113,22 +113,6 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:LanguagesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:LanguagesController"],
 		beego.ControllerComments{
-			Method: "GetOne",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:LanguagesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:LanguagesController"],
-		beego.ControllerComments{
-			Method: "Put",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"put"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:LanguagesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:LanguagesController"],
-		beego.ControllerComments{
 			Method: "Delete",
 			Router: `/:id`,
 			AllowHTTPMethods: []string{"delete"},

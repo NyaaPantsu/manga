@@ -7,6 +7,7 @@ import (
 	"gopkg.in/russross/blackfriday.v2"
 
 	"html/template"
+	"strings"
 )
 
 // Groups_addController operations for Groups_add
@@ -23,11 +24,11 @@ func (c *Groups_addController) URLMapping() {
 }
 
 type GroupsForm struct {
-	Id          int      `form:"-"`
-	Name        string   `form:"name, text"`
-	Description string   `form:"description, text"`
-	ReleaseDlay int      `form:"release_delay, int"`
-	Urls        []string `form:"urls, text"`
+	Id          int    `form:"-"`
+	Name        string `form:"name, text"`
+	Description string `form:"description, text"`
+	ReleaseDlay int    `form:"release_delay, int"`
+	Urls        string `form:"urls, text"`
 }
 
 // Post ...
@@ -56,13 +57,22 @@ func (c *Groups_addController) Post() {
 
 	exists := models.GroupsScanlationNameExists(u.Name)
 	if !exists {
-
 		unsafe := blackfriday.Run([]byte(u.Description))
 		html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 		groups := models.GroupsScanlation{
 			Name:        u.Name,
 			Description: string(html),
 		}
+		// todo prevent xss
+		urls := []models.GroupsScanlationUrls{}
+		for _, cond := range strings.Split(u.Urls, ",") {
+			temp := models.GroupsScanlationUrls{
+				GroupName: groups.Name,
+				Url:       cond,
+			}
+			urls = append(urls, temp)
+		}
+
 		err := models.AddGroupsScanlation(&groups)
 		if err != nil {
 			flash.Error(err.Error())

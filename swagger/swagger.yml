@@ -132,37 +132,13 @@ paths:
       - languages
       description: get Languages
       operationId: LanguagesController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Languages'
+            type: array
+            items:
+              $ref: '#/definitions/models.Languages'
         "403":
           description: ""
     post:
@@ -183,48 +159,6 @@ paths:
         "403":
           description: body is empty
   /languages/{id}:
-    get:
-      tags:
-      - languages
-      description: get Languages by id
-      operationId: LanguagesController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Languages'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - languages
-      description: update the Languages
-      operationId: LanguagesController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Languages content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Languages'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Languages'
-        "403":
-          description: :id is not int
     delete:
       tags:
       - languages
@@ -607,37 +541,13 @@ paths:
       - statuses
       description: get Statuses
       operationId: StatusesController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Statuses'
+            type: array
+            items:
+              $ref: '#/definitions/models.Statuses'
         "403":
           description: ""
 definitions:

@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+
 	"html/template"
 )
 
@@ -16,6 +18,19 @@ func (c *UploadController) URLMapping() {
 	c.Mapping("Get", c.Get)
 }
 
+type UploadForm struct {
+	Id                    int    `form:"-"`
+	Title                 string `form:"title"`
+	ChapterNumberAbsolute int    `form:"chapternum, int`
+	ChapterNumberVolume   int    ``
+	VolumeNumber          int    `form:"volnum, int"`
+	ChapterLanguage       string `form:"languages, text"`
+	ReleaseDelay          int    `form:"delay"`
+	Groups1               string `form:"group1, text"`
+	Groups2               string `form:"group2, text"`
+	Groups                string `form:"group3, text"`
+}
+
 // Post ...
 // @Title Create
 // @Description create Upload
@@ -27,6 +42,14 @@ func (c *UploadController) Post() {
 	flash := beego.NewFlash()
 	if c.IsLogin {
 		flash.Error("Error you must be logged in to upload")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/login", 302)
+		return
+	}
+
+	u := UploadForm{}
+	if err := c.ParseForm(&u); err != nil {
+		flash.Warning(err.Error())
 		flash.Store(&c.Controller)
 		c.Redirect("/auth/login", 302)
 		return
@@ -59,5 +82,14 @@ func (c *UploadController) Post() {
 func (c *UploadController) Get() {
 	c.TplName = "search.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	l, _ := models.GetAllLanguages()
+	s, _ := models.GetAllStatuses()
+	t, _ := models.GetAllTypes()
+	series, _ := models.GetAllSeriesArray()
+	c.Data["languages"] = l
+	c.Data["statuses"] = s
+	c.Data["types"] = t
+	c.Data["series"] = series
+
 	c.Render()
 }

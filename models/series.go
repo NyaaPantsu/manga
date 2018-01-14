@@ -27,6 +27,13 @@ func init() {
 	orm.RegisterModel(new(Series))
 }
 
+// GetAllSeries gets all languages and returns an array on success
+func GetAllSeriesArray() (series []*Series, err error) {
+	o := orm.NewOrm()
+	_, err = o.QueryTable("series").All(&series)
+	return
+}
+
 // AddSeries insert a new Series into database and returns
 // last inserted Id on success.
 func AddSeries(m *Series) (id int64, err error) {
