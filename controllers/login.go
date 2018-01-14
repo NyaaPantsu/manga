@@ -57,7 +57,7 @@ func (c *LoginController) Post() {
 	password := []byte(u.Password)
 	// Comparing the password with the hash
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), password)
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), password)
 	if err != nil {
 		flash.Warning(err.Error())
 		flash.Store(&c.Controller)
@@ -81,7 +81,7 @@ func (c *LoginController) Post() {
 // @Failure 403
 // @router / [get]
 func (c *LoginController) Get() {
-	c.TplName = "login.tpl"
+	c.TplName = "login.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()
 }

@@ -1,0 +1,20 @@
+<form action="/auth/signup" method="post">
+    {{ .xsrfdata }}
+    <div class="form-group">
+        <label for="inputEmail">Email address</label>
+        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+    </div>
+    <div class="form-group">
+        <label for="inputUsername">Username</label>
+        <input type="text" class="form-control" id="inputUserName" aria-describedby="emailHelp" placeholder="Username" name="username">
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+    </div>
+    <div class="form-group">
+        <label for="inputPassword1">Password</label>
+        <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -9,49 +9,43 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-type Series struct {
-	Id          int       `orm:"column(id);pk"`
-	Name        string    `orm:"column(name)"`
-	Description string    `orm:"column(description)"`
-	CoverImage  string    `orm:"column(cover_image)"`
-	TypeName    string    `orm:"column(type_name)"`
-	TypeDemonym string    `orm:"column(type_demonym)"`
-	Status      *Statuses `orm:"column(status);rel(fk)"`
+type Statuses struct {
+	Id int `orm:"column(name);pk"`
 }
 
-func (t *Series) TableName() string {
-	return "series"
+func (t *Statuses) TableName() string {
+	return "statuses"
 }
 
 func init() {
-	orm.RegisterModel(new(Series))
+	orm.RegisterModel(new(Statuses))
 }
 
-// AddSeries insert a new Series into database and returns
+// AddStatuses insert a new Statuses into database and returns
 // last inserted Id on success.
-func AddSeries(m *Series) (id int64, err error) {
+func AddStatuses(m *Statuses) (id int64, err error) {
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
 }
 
-// GetSeriesById retrieves Series by Id. Returns error if
+// GetStatusesById retrieves Statuses by Id. Returns error if
 // Id doesn't exist
-func GetSeriesById(id int) (v *Series, err error) {
+func GetStatusesById(id int) (v *Statuses, err error) {
 	o := orm.NewOrm()
-	v = &Series{Id: id}
+	v = &Statuses{Id: id}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllSeries retrieves all Series matches certain condition. Returns empty list if
+// GetAllStatuses retrieves all Statuses matches certain condition. Returns empty list if
 // no records exist
-func GetAllSeries(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllStatuses(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Series))
+	qs := o.QueryTable(new(Statuses))
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -101,7 +95,7 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 		}
 	}
 
-	var l []Series
+	var l []Statuses
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -124,11 +118,11 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 	return nil, err
 }
 
-// UpdateSeries updates Series by Id and returns error if
+// UpdateStatuses updates Statuses by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateSeriesById(m *Series) (err error) {
+func UpdateStatusesById(m *Statuses) (err error) {
 	o := orm.NewOrm()
-	v := Series{Id: m.Id}
+	v := Statuses{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -139,15 +133,15 @@ func UpdateSeriesById(m *Series) (err error) {
 	return
 }
 
-// DeleteSeries deletes Series by Id and returns error if
+// DeleteStatuses deletes Statuses by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteSeries(id int) (err error) {
+func DeleteStatuses(id int) (err error) {
 	o := orm.NewOrm()
-	v := Series{Id: id}
+	v := Statuses{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Series{Id: id}); err == nil {
+		if num, err = o.Delete(&Statuses{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

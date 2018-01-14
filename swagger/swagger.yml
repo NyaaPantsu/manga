@@ -11,12 +11,12 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /auth
 paths:
-  /chapter/:
+  /groups_scanlation/:
     get:
       tags:
-      - chapter
-      description: get Chapter
-      operationId: ChapterController.Get All
+      - groups_scanlation
+      description: get GroupsScanlation
+      operationId: GroupsScanlationController.Get All
       parameters:
       - in: query
         name: query
@@ -47,32 +47,32 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Chapter'
+            $ref: '#/definitions/models.GroupsScanlation'
         "403":
           description: ""
     post:
       tags:
-      - chapter
-      description: create Chapter
-      operationId: ChapterController.Post
+      - groups_scanlation
+      description: create GroupsScanlation
+      operationId: GroupsScanlationController.Post
       parameters:
       - in: body
         name: body
-        description: body for Chapter content
+        description: body for GroupsScanlation content
         required: true
         schema:
-          $ref: '#/definitions/models.Chapter'
+          $ref: '#/definitions/models.GroupsScanlation'
       responses:
         "201":
-          description: '{int} models.Chapter'
+          description: '{int} models.GroupsScanlation'
         "403":
           description: body is empty
-  /chapter/{id}:
+  /groups_scanlation/{id}:
     get:
       tags:
-      - chapter
-      description: get Chapter by id
-      operationId: ChapterController.Get One
+      - groups_scanlation
+      description: get GroupsScanlation by id
+      operationId: GroupsScanlationController.Get One
       parameters:
       - in: path
         name: id
@@ -83,14 +83,14 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Chapter'
+            $ref: '#/definitions/models.GroupsScanlation'
         "403":
           description: :id is empty
     put:
       tags:
-      - chapter
-      description: update the Chapter
-      operationId: ChapterController.Put
+      - groups_scanlation
+      description: update the GroupsScanlation
+      operationId: GroupsScanlationController.Put
       parameters:
       - in: path
         name: id
@@ -99,22 +99,22 @@ paths:
         type: string
       - in: body
         name: body
-        description: body for Chapter content
+        description: body for GroupsScanlation content
         required: true
         schema:
-          $ref: '#/definitions/models.Chapter'
+          $ref: '#/definitions/models.GroupsScanlation'
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Chapter'
+            $ref: '#/definitions/models.GroupsScanlation'
         "403":
           description: :id is not int
     delete:
       tags:
-      - chapter
-      description: delete the Chapter
-      operationId: ChapterController.Delete
+      - groups_scanlation
+      description: delete the GroupsScanlation
+      operationId: GroupsScanlationController.Delete
       parameters:
       - in: path
         name: id
@@ -126,12 +126,12 @@ paths:
           description: '{string} delete success!'
         "403":
           description: id is empty
-  /chapter_group/:
+  /languages/:
     get:
       tags:
-      - chapter_group
-      description: get ChapterGroup
-      operationId: ChapterGroupController.Get All
+      - languages
+      description: get Languages
+      operationId: LanguagesController.Get All
       parameters:
       - in: query
         name: query
@@ -162,32 +162,32 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.ChapterGroup'
+            $ref: '#/definitions/models.Languages'
         "403":
           description: ""
     post:
       tags:
-      - chapter_group
-      description: create ChapterGroup
-      operationId: ChapterGroupController.Post
+      - languages
+      description: create Languages
+      operationId: LanguagesController.Post
       parameters:
       - in: body
         name: body
-        description: body for ChapterGroup content
+        description: body for Languages content
         required: true
         schema:
-          $ref: '#/definitions/models.ChapterGroup'
+          $ref: '#/definitions/models.Languages'
       responses:
         "201":
-          description: '{int} models.ChapterGroup'
+          description: '{int} models.Languages'
         "403":
           description: body is empty
-  /chapter_group/{id}:
+  /languages/{id}:
     get:
       tags:
-      - chapter_group
-      description: get ChapterGroup by id
-      operationId: ChapterGroupController.Get One
+      - languages
+      description: get Languages by id
+      operationId: LanguagesController.Get One
       parameters:
       - in: path
         name: id
@@ -198,14 +198,14 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.ChapterGroup'
+            $ref: '#/definitions/models.Languages'
         "403":
           description: :id is empty
     put:
       tags:
-      - chapter_group
-      description: update the ChapterGroup
-      operationId: ChapterGroupController.Put
+      - languages
+      description: update the Languages
+      operationId: LanguagesController.Put
       parameters:
       - in: path
         name: id
@@ -214,367 +214,22 @@ paths:
         type: string
       - in: body
         name: body
-        description: body for ChapterGroup content
+        description: body for Languages content
         required: true
         schema:
-          $ref: '#/definitions/models.ChapterGroup'
+          $ref: '#/definitions/models.Languages'
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.ChapterGroup'
+            $ref: '#/definitions/models.Languages'
         "403":
           description: :id is not int
     delete:
       tags:
-      - chapter_group
-      description: delete the ChapterGroup
-      operationId: ChapterGroupController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /chapter_language/:
-    get:
-      tags:
-      - chapter_language
-      description: get ChapterLanguage
-      operationId: ChapterLanguageController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.ChapterLanguage'
-        "403":
-          description: ""
-    post:
-      tags:
-      - chapter_language
-      description: create ChapterLanguage
-      operationId: ChapterLanguageController.Post
-      parameters:
-      - in: body
-        name: body
-        description: body for ChapterLanguage content
-        required: true
-        schema:
-          $ref: '#/definitions/models.ChapterLanguage'
-      responses:
-        "201":
-          description: '{int} models.ChapterLanguage'
-        "403":
-          description: body is empty
-  /chapter_language/{id}:
-    get:
-      tags:
-      - chapter_language
-      description: get ChapterLanguage by id
-      operationId: ChapterLanguageController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.ChapterLanguage'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - chapter_language
-      description: update the ChapterLanguage
-      operationId: ChapterLanguageController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for ChapterLanguage content
-        required: true
-        schema:
-          $ref: '#/definitions/models.ChapterLanguage'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.ChapterLanguage'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - chapter_language
-      description: delete the ChapterLanguage
-      operationId: ChapterLanguageController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /chapter_user_contributions/:
-    get:
-      tags:
-      - chapter_user_contributions
-      description: get ChapterUserContributions
-      operationId: ChapterUserContributionsController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.ChapterUserContributions'
-        "403":
-          description: ""
-    post:
-      tags:
-      - chapter_user_contributions
-      description: create ChapterUserContributions
-      operationId: ChapterUserContributionsController.Post
-      parameters:
-      - in: body
-        name: body
-        description: body for ChapterUserContributions content
-        required: true
-        schema:
-          $ref: '#/definitions/models.ChapterUserContributions'
-      responses:
-        "201":
-          description: '{int} models.ChapterUserContributions'
-        "403":
-          description: body is empty
-  /chapter_user_contributions/{id}:
-    get:
-      tags:
-      - chapter_user_contributions
-      description: get ChapterUserContributions by id
-      operationId: ChapterUserContributionsController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.ChapterUserContributions'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - chapter_user_contributions
-      description: update the ChapterUserContributions
-      operationId: ChapterUserContributionsController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for ChapterUserContributions content
-        required: true
-        schema:
-          $ref: '#/definitions/models.ChapterUserContributions'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.ChapterUserContributions'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - chapter_user_contributions
-      description: delete the ChapterUserContributions
-      operationId: ChapterUserContributionsController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /groups/:
-    get:
-      tags:
-      - groups
-      description: get Groups
-      operationId: GroupsController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Groups'
-        "403":
-          description: ""
-    post:
-      tags:
-      - groups
-      description: create Groups
-      operationId: GroupsController.Post
-      parameters:
-      - in: body
-        name: body
-        description: body for Groups content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Groups'
-      responses:
-        "201":
-          description: '{int} models.Groups'
-        "403":
-          description: body is empty
-  /groups/{id}:
-    get:
-      tags:
-      - groups
-      description: get Groups by id
-      operationId: GroupsController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Groups'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - groups
-      description: update the Groups
-      operationId: GroupsController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for Groups content
-        required: true
-        schema:
-          $ref: '#/definitions/models.Groups'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.Groups'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - groups
-      description: delete the Groups
-      operationId: GroupsController.Delete
+      - languages
+      description: delete the Languages
+      operationId: LanguagesController.Delete
       parameters:
       - in: path
         name: id
@@ -792,12 +447,12 @@ paths:
           description: '{string} delete success!'
         "403":
           description: id is empty
-  /series_chapter/:
+  /series_chapters/:
     get:
       tags:
-      - series_chapter
-      description: get SeriesChapter
-      operationId: SeriesChapterController.Get All
+      - series_chapters
+      description: get SeriesChapters
+      operationId: SeriesChaptersController.Get All
       parameters:
       - in: query
         name: query
@@ -828,32 +483,32 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.SeriesChapter'
+            $ref: '#/definitions/models.SeriesChapters'
         "403":
           description: ""
     post:
       tags:
-      - series_chapter
-      description: create SeriesChapter
-      operationId: SeriesChapterController.Post
+      - series_chapters
+      description: create SeriesChapters
+      operationId: SeriesChaptersController.Post
       parameters:
       - in: body
         name: body
-        description: body for SeriesChapter content
+        description: body for SeriesChapters content
         required: true
         schema:
-          $ref: '#/definitions/models.SeriesChapter'
+          $ref: '#/definitions/models.SeriesChapters'
       responses:
         "201":
-          description: '{int} models.SeriesChapter'
+          description: '{int} models.SeriesChapters'
         "403":
           description: body is empty
-  /series_chapter/{id}:
+  /series_chapters/{id}:
     get:
       tags:
-      - series_chapter
-      description: get SeriesChapter by id
-      operationId: SeriesChapterController.Get One
+      - series_chapters
+      description: get SeriesChapters by id
+      operationId: SeriesChaptersController.Get One
       parameters:
       - in: path
         name: id
@@ -864,14 +519,14 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.SeriesChapter'
+            $ref: '#/definitions/models.SeriesChapters'
         "403":
           description: :id is empty
     put:
       tags:
-      - series_chapter
-      description: update the SeriesChapter
-      operationId: SeriesChapterController.Put
+      - series_chapters
+      description: update the SeriesChapters
+      operationId: SeriesChaptersController.Put
       parameters:
       - in: path
         name: id
@@ -880,252 +535,22 @@ paths:
         type: string
       - in: body
         name: body
-        description: body for SeriesChapter content
+        description: body for SeriesChapters content
         required: true
         schema:
-          $ref: '#/definitions/models.SeriesChapter'
+          $ref: '#/definitions/models.SeriesChapters'
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.SeriesChapter'
+            $ref: '#/definitions/models.SeriesChapters'
         "403":
           description: :id is not int
     delete:
       tags:
-      - series_chapter
-      description: delete the SeriesChapter
-      operationId: SeriesChapterController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /series_status/:
-    get:
-      tags:
-      - series_status
-      description: get SeriesStatus
-      operationId: SeriesStatusController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.SeriesStatus'
-        "403":
-          description: ""
-    post:
-      tags:
-      - series_status
-      description: create SeriesStatus
-      operationId: SeriesStatusController.Post
-      parameters:
-      - in: body
-        name: body
-        description: body for SeriesStatus content
-        required: true
-        schema:
-          $ref: '#/definitions/models.SeriesStatus'
-      responses:
-        "201":
-          description: '{int} models.SeriesStatus'
-        "403":
-          description: body is empty
-  /series_status/{id}:
-    get:
-      tags:
-      - series_status
-      description: get SeriesStatus by id
-      operationId: SeriesStatusController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.SeriesStatus'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - series_status
-      description: update the SeriesStatus
-      operationId: SeriesStatusController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for SeriesStatus content
-        required: true
-        schema:
-          $ref: '#/definitions/models.SeriesStatus'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.SeriesStatus'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - series_status
-      description: delete the SeriesStatus
-      operationId: SeriesStatusController.Delete
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to delete
-        required: true
-        type: string
-      responses:
-        "200":
-          description: '{string} delete success!'
-        "403":
-          description: id is empty
-  /series_type/:
-    get:
-      tags:
-      - series_type
-      description: get SeriesType
-      operationId: SeriesTypeController.Get All
-      parameters:
-      - in: query
-        name: query
-        description: Filter. e.g. col1:v1,col2:v2 ...
-        type: string
-      - in: query
-        name: fields
-        description: Fields returned. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: sortby
-        description: Sorted-by fields. e.g. col1,col2 ...
-        type: string
-      - in: query
-        name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
-        type: string
-      - in: query
-        name: limit
-        description: Limit the size of result set. Must be an integer
-        type: string
-      - in: query
-        name: offset
-        description: Start position of result set. Must be an integer
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.SeriesType'
-        "403":
-          description: ""
-    post:
-      tags:
-      - series_type
-      description: create SeriesType
-      operationId: SeriesTypeController.Post
-      parameters:
-      - in: body
-        name: body
-        description: body for SeriesType content
-        required: true
-        schema:
-          $ref: '#/definitions/models.SeriesType'
-      responses:
-        "201":
-          description: '{int} models.SeriesType'
-        "403":
-          description: body is empty
-  /series_type/{id}:
-    get:
-      tags:
-      - series_type
-      description: get SeriesType by id
-      operationId: SeriesTypeController.Get One
-      parameters:
-      - in: path
-        name: id
-        description: The key for staticblock
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.SeriesType'
-        "403":
-          description: :id is empty
-    put:
-      tags:
-      - series_type
-      description: update the SeriesType
-      operationId: SeriesTypeController.Put
-      parameters:
-      - in: path
-        name: id
-        description: The id you want to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: body for SeriesType content
-        required: true
-        schema:
-          $ref: '#/definitions/models.SeriesType'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/models.SeriesType'
-        "403":
-          description: :id is not int
-    delete:
-      tags:
-      - series_type
-      description: delete the SeriesType
-      operationId: SeriesTypeController.Delete
+      - series_chapters
+      description: delete the SeriesChapters
+      operationId: SeriesChaptersController.Delete
       parameters:
       - in: path
         name: id
@@ -1176,12 +601,12 @@ paths:
             $ref: '#/definitions/.Signup'
         "403":
           description: body is empty
-  /tag/:
+  /statuses/:
     get:
       tags:
-      - tag
-      description: get Tag
-      operationId: TagController.Get All
+      - statuses
+      description: get Statuses
+      operationId: StatusesController.Get All
       parameters:
       - in: query
         name: query
@@ -1212,32 +637,32 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Tag'
+            $ref: '#/definitions/models.Statuses'
         "403":
           description: ""
     post:
       tags:
-      - tag
-      description: create Tag
-      operationId: TagController.Post
+      - statuses
+      description: create Statuses
+      operationId: StatusesController.Post
       parameters:
       - in: body
         name: body
-        description: body for Tag content
+        description: body for Statuses content
         required: true
         schema:
-          $ref: '#/definitions/models.Tag'
+          $ref: '#/definitions/models.Statuses'
       responses:
         "201":
-          description: '{int} models.Tag'
+          description: '{int} models.Statuses'
         "403":
           description: body is empty
-  /tag/{id}:
+  /statuses/{id}:
     get:
       tags:
-      - tag
-      description: get Tag by id
-      operationId: TagController.Get One
+      - statuses
+      description: get Statuses by id
+      operationId: StatusesController.Get One
       parameters:
       - in: path
         name: id
@@ -1248,14 +673,14 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Tag'
+            $ref: '#/definitions/models.Statuses'
         "403":
           description: :id is empty
     put:
       tags:
-      - tag
-      description: update the Tag
-      operationId: TagController.Put
+      - statuses
+      description: update the Statuses
+      operationId: StatusesController.Put
       parameters:
       - in: path
         name: id
@@ -1264,22 +689,137 @@ paths:
         type: string
       - in: body
         name: body
-        description: body for Tag content
+        description: body for Statuses content
         required: true
         schema:
-          $ref: '#/definitions/models.Tag'
+          $ref: '#/definitions/models.Statuses'
       responses:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/models.Tag'
+            $ref: '#/definitions/models.Statuses'
         "403":
           description: :id is not int
     delete:
       tags:
-      - tag
-      description: delete the Tag
-      operationId: TagController.Delete
+      - statuses
+      description: delete the Statuses
+      operationId: StatusesController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+  /users/:
+    get:
+      tags:
+      - users
+      description: get Users
+      operationId: UsersController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Users'
+        "403":
+          description: ""
+    post:
+      tags:
+      - users
+      description: create Users
+      operationId: UsersController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Users content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      responses:
+        "201":
+          description: '{int} models.Users'
+        "403":
+          description: body is empty
+  /users/{id}:
+    get:
+      tags:
+      - users
+      description: get Users by id
+      operationId: UsersController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Users'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - users
+      description: update the Users
+      operationId: UsersController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Users content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Users'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - users
+      description: delete the Users
+      operationId: UsersController.Delete
       parameters:
       - in: path
         name: id
@@ -1364,13 +904,30 @@ definitions:
         type: string
       Name:
         type: string
+  models.GroupsScanlation:
+    title: GroupsScanlation
+    type: object
+    properties:
+      Description:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      ReleaseDelay:
+        type: integer
+        format: int64
+  models.Languages:
+    title: Languages
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
   models.Series:
     title: Series
     type: object
     properties:
-      AltName:
-        type: string
-      Cover:
+      CoverImage:
         type: string
       Description:
         type: string
@@ -1379,6 +936,12 @@ definitions:
         format: int64
       Name:
         type: string
+      Status:
+        $ref: '#/definitions/models.Statuses'
+      TypeDemonym:
+        type: string
+      TypeName:
+        type: string
   models.SeriesChapter:
     title: SeriesChapter
     type: object
@@ -1386,6 +949,35 @@ definitions:
       ChapterId:
         $ref: '#/definitions/models.Chapter'
       Id:
+        type: integer
+        format: int64
+  models.SeriesChapters:
+    title: SeriesChapters
+    type: object
+    properties:
+      ChapterLanguage:
+        $ref: '#/definitions/models.Languages'
+      ChapterNumberAbsolute:
+        type: integer
+        format: int64
+      ChapterNumberVolume:
+        type: integer
+        format: int64
+      ContributorId:
+        $ref: '#/definitions/models.Users'
+      Hash:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      SeriesId:
+        $ref: '#/definitions/models.Series'
+      TimeUploaded:
+        type: string
+        format: string
+      Title:
+        type: string
+      VolumeNumber:
         type: integer
         format: int64
   models.SeriesStatus:
@@ -1406,6 +998,13 @@ definitions:
         format: int64
       Type:
         type: string
+  models.Statuses:
+    title: Statuses
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
   models.Tag:
     title: Tag
     type: object
@@ -1426,7 +1025,7 @@ definitions:
       Id:
         type: integer
         format: int64
-      Password:
+      PasswordHash:
         type: string
       Username:
         type: string
@@ -1443,33 +1042,21 @@ tags:
 - name: reports
   description: |
     SignupController operations for Signup
+- name: statuses
+  description: |
+    StatusesController operations for Statuses
+- name: languages
+  description: |
+    LanguagesController operations for Languages
+- name: users
+  description: |
+    UsersController operations for Users
+- name: groups_scanlation
+  description: |
+    GroupsScanlationController operations for GroupsScanlation
+- name: series_chapters
+  description: |
+    SeriesChaptersController operations for SeriesChapters
 - name: series
   description: |
     SeriesController operations for Series
-- name: groups
-  description: |
-    GroupsController operations for Groups
-- name: chapter_language
-  description: |
-    ChapterLanguageController operations for ChapterLanguage
-- name: series_type
-  description: |
-    SeriesTypeController operations for SeriesType
-- name: chapter_user_contributions
-  description: |
-    ChapterUserContributionsController operations for ChapterUserContributions
-- name: chapter_group
-  description: |
-    ChapterGroupController operations for ChapterGroup
-- name: chapter
-  description: |
-    ChapterController operations for Chapter
-- name: series_chapter
-  description: |
-    SeriesChapterController operations for SeriesChapter
-- name: series_status
-  description: |
-    SeriesStatusController operations for SeriesStatus
-- name: tag
-  description: |
-    TagController operations for Tag

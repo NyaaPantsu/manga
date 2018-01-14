@@ -31,8 +31,7 @@ func (c *ComicController) GetOne() {
 	if err != nil {
 
 	}
-	c.TplName = "series.tpl"
-	c.Layout = "index.tpl"
+	c.TplName = "series.html"
 	c.Data["series"] = v
 	c.Render()
 

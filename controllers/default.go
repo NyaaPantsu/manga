@@ -12,6 +12,6 @@ type MainController struct {
 // @Failure 403
 // @router / [get
 func (c *MainController) Get() {
-	c.TplName = "home.tpl"
+	c.TplName = "home.html"
 	c.Render()
 }

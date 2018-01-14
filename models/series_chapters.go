@@ -5,53 +5,57 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/astaxie/beego/orm"
 )
 
-type Series struct {
-	Id          int       `orm:"column(id);pk"`
-	Name        string    `orm:"column(name)"`
-	Description string    `orm:"column(description)"`
-	CoverImage  string    `orm:"column(cover_image)"`
-	TypeName    string    `orm:"column(type_name)"`
-	TypeDemonym string    `orm:"column(type_demonym)"`
-	Status      *Statuses `orm:"column(status);rel(fk)"`
+type SeriesChapters struct {
+	Id                    int        `orm:"column(id);pk"`
+	SeriesId              *Series    `orm:"column(series_id);rel(fk)"`
+	Title                 string     `orm:"column(title)"`
+	ChapterNumberAbsolute int        `orm:"column(chapter_number_absolute)"`
+	ChapterNumberVolume   int        `orm:"column(chapter_number_volume);null"`
+	VolumeNumber          int        `orm:"column(volume_number);null"`
+	ChapterLanguage       *Languages `orm:"column(chapter_language);rel(fk)"`
+	ContributorId         *Users     `orm:"column(contributor_id);rel(fk)"`
+	TimeUploaded          time.Time  `orm:"column(time_uploaded);type(timestamp without time zone);auto_now_add"`
+	Hash                  string     `orm:"column(hash)"`
 }
 
-func (t *Series) TableName() string {
-	return "series"
+func (t *SeriesChapters) TableName() string {
+	return "series_chapters"
 }
 
 func init() {
-	orm.RegisterModel(new(Series))
+	orm.RegisterModel(new(SeriesChapters))
 }
 
-// AddSeries insert a new Series into database and returns
+// AddSeriesChapters insert a new SeriesChapters into database and returns
 // last inserted Id on success.
-func AddSeries(m *Series) (id int64, err error) {
+func AddSeriesChapters(m *SeriesChapters) (id int64, err error) {
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
 }
 
-// GetSeriesById retrieves Series by Id. Returns error if
+// GetSeriesChaptersById retrieves SeriesChapters by Id. Returns error if
 // Id doesn't exist
-func GetSeriesById(id int) (v *Series, err error) {
+func GetSeriesChaptersById(id int) (v *SeriesChapters, err error) {
 	o := orm.NewOrm()
-	v = &Series{Id: id}
+	v = &SeriesChapters{Id: id}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllSeries retrieves all Series matches certain condition. Returns empty list if
+// GetAllSeriesChapters retrieves all SeriesChapters matches certain condition. Returns empty list if
 // no records exist
-func GetAllSeries(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllSeriesChapters(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Series))
+	qs := o.QueryTable(new(SeriesChapters))
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -101,7 +105,7 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 		}
 	}
 
-	var l []Series
+	var l []SeriesChapters
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -124,11 +128,11 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 	return nil, err
 }
 
-// UpdateSeries updates Series by Id and returns error if
+// UpdateSeriesChapters updates SeriesChapters by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateSeriesById(m *Series) (err error) {
+func UpdateSeriesChaptersById(m *SeriesChapters) (err error) {
 	o := orm.NewOrm()
-	v := Series{Id: m.Id}
+	v := SeriesChapters{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -139,15 +143,15 @@ func UpdateSeriesById(m *Series) (err error) {
 	return
 }
 
-// DeleteSeries deletes Series by Id and returns error if
+// DeleteSeriesChapters deletes SeriesChapters by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteSeries(id int) (err error) {
+func DeleteSeriesChapters(id int) (err error) {
 	o := orm.NewOrm()
-	v := Series{Id: id}
+	v := SeriesChapters{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Series{Id: id}); err == nil {
+		if num, err = o.Delete(&SeriesChapters{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

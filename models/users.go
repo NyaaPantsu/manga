@@ -10,10 +10,10 @@ import (
 )
 
 type Users struct {
-	Id       int    `orm:"column(id);pk"`
-	Username string `orm:"column(username);null"`
-	Email    string `orm:"column(email);null"`
-	Password string `orm:"column(password);null"`
+	Id           int    `orm:"column(id);pk"`
+	Username     string `orm:"column(username)"`
+	Email        string `orm:"column(email);null"`
+	PasswordHash string `orm:"column(password_hash)"`
 }
 
 func (t *Users) TableName() string {
@@ -43,8 +43,8 @@ func GetUsersById(id int) (v *Users, err error) {
 	return nil, err
 }
 
-// GetUserByUsername retrieves Users by Username. Returns error if
-// Username doesn't exist
+// GetUsersByUsername retrieves Users by Id. Returns error if
+// username doesn't exist
 func GetUserByUsername(username string) (v *Users, err error) {
 	o := orm.NewOrm()
 	v = &Users{Username: username}

@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/astaxie/beego"
 
-	"errors"
 	"strings"
 )
 
@@ -25,6 +25,7 @@ type SearchController struct {
 // @Failure 403
 // @router / [get]
 func (c *SearchController) Get() {
+	flash := beego.NewFlash()
 	var fields []string
 	var sortby []string
 	var order []string
@@ -57,8 +58,9 @@ func (c *SearchController) Get() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
-				c.ServeJSON()
+				flash.Error("no results found")
+				flash.Store(&c.Controller)
+				c.Redirect("/search", 302)
 				return
 			}
 			k, v := kv[0], kv[1]
@@ -68,9 +70,13 @@ func (c *SearchController) Get() {
 
 	l, err := models.GetAllSeries(query, fields, sortby, order, offset, limit)
 	if err != nil {
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/search", 302)
+		return
 
 	}
-	c.TplName = "search.tpl"
+	c.TplName = "search.html"
 	c.Data["series"] = l
 	c.Render()
 }

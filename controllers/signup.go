@@ -53,9 +53,9 @@ func (c *SignupController) Post() {
 			return
 		}
 		users := models.Users{
-			Username: u.Username,
-			Email:    u.Email,
-			Password: string(hashedPassword),
+			Username:     u.Username,
+			Email:        u.Email,
+			PasswordHash: string(hashedPassword),
 		}
 		_, err = models.AddUsers(&users)
 		if err != nil {
@@ -65,7 +65,7 @@ func (c *SignupController) Post() {
 		}
 		c.Redirect("/auth/login", 301)
 	}
-	
+
 	flash.Error("Signup invalid!")
 	flash.Store(&c.Controller)
 	c.Redirect("/auth/signup", 302)
@@ -80,10 +80,8 @@ func (c *SignupController) Post() {
 // @Failure 403 body is empty
 // @router / [get]
 func (c *SignupController) Get() {
-	c.TplName = "signup.tpl"
-	c.Layout = "layouts/index.tpl"
+	c.TplName = "signup.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-
 	c.Render()
 
 }

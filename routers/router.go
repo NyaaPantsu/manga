@@ -47,63 +47,39 @@ func init() {
 
 	ns := beego.NewNamespace("/api/v1",
 
+		beego.NSNamespace("/statuses",
+			beego.NSInclude(
+				&controllers.StatusesController{},
+			),
+		),
+
+		beego.NSNamespace("/languages",
+			beego.NSInclude(
+				&controllers.LanguagesController{},
+			),
+		),
+
+		beego.NSNamespace("/users",
+			beego.NSInclude(
+				&controllers.UsersController{},
+			),
+		),
+
+		beego.NSNamespace("/groups_scanlation",
+			beego.NSInclude(
+				&controllers.GroupsScanlationController{},
+			),
+		),
+
+		beego.NSNamespace("/series_chapters",
+			beego.NSInclude(
+				&controllers.SeriesChaptersController{},
+			),
+		),
+
 		beego.NSNamespace("/series",
 			beego.NSInclude(
 				&controllers.SeriesController{},
-			),
-		),
-
-		beego.NSNamespace("/groups",
-			beego.NSInclude(
-				&controllers.GroupsController{},
-			),
-		),
-
-		beego.NSNamespace("/chapter_language",
-			beego.NSInclude(
-				&controllers.ChapterLanguageController{},
-			),
-		),
-
-		beego.NSNamespace("/series_type",
-			beego.NSInclude(
-				&controllers.SeriesTypeController{},
-			),
-		),
-
-		beego.NSNamespace("/chapter_user_contributions",
-			beego.NSInclude(
-				&controllers.ChapterUserContributionsController{},
-			),
-		),
-
-		beego.NSNamespace("/chapter_group",
-			beego.NSInclude(
-				&controllers.ChapterGroupController{},
-			),
-		),
-
-		beego.NSNamespace("/chapter",
-			beego.NSInclude(
-				&controllers.ChapterController{},
-			),
-		),
-
-		beego.NSNamespace("/series_chapter",
-			beego.NSInclude(
-				&controllers.SeriesChapterController{},
-			),
-		),
-
-		beego.NSNamespace("/series_status",
-			beego.NSInclude(
-				&controllers.SeriesStatusController{},
-			),
-		),
-
-		beego.NSNamespace("/tag",
-			beego.NSInclude(
-				&controllers.TagController{},
 			),
 		),
 	)

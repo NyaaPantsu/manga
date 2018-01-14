@@ -10,13 +10,13 @@ import (
 	"github.com/astaxie/beego"
 )
 
-// SeriesController operations for Series
-type SeriesController struct {
+// LanguagesController operations for Languages
+type LanguagesController struct {
 	beego.Controller
 }
 
 // URLMapping ...
-func (c *SeriesController) URLMapping() {
+func (c *LanguagesController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
@@ -26,15 +26,15 @@ func (c *SeriesController) URLMapping() {
 
 // Post ...
 // @Title Post
-// @Description create Series
-// @Param	body		body 	models.Series	true		"body for Series content"
-// @Success 201 {int} models.Series
+// @Description create Languages
+// @Param	body		body 	models.Languages	true		"body for Languages content"
+// @Success 201 {int} models.Languages
 // @Failure 403 body is empty
 // @router / [post]
-func (c *SeriesController) Post() {
-	var v models.Series
+func (c *LanguagesController) Post() {
+	var v models.Languages
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddSeries(&v); err == nil {
+		if _, err := models.AddLanguages(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
 		} else {
@@ -48,15 +48,15 @@ func (c *SeriesController) Post() {
 
 // GetOne ...
 // @Title Get One
-// @Description get Series by id
+// @Description get Languages by id
 // @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Series
+// @Success 200 {object} models.Languages
 // @Failure 403 :id is empty
 // @router /:id [get]
-func (c *SeriesController) GetOne() {
+func (c *LanguagesController) GetOne() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetSeriesById(id)
+	v, err := models.GetLanguagesById(id)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
@@ -67,17 +67,17 @@ func (c *SeriesController) GetOne() {
 
 // GetAll ...
 // @Title Get All
-// @Description get Series
+// @Description get Languages
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Series
+// @Success 200 {object} models.Languages
 // @Failure 403
 // @router / [get]
-func (c *SeriesController) GetAll() {
+func (c *LanguagesController) GetAll() {
 	var fields []string
 	var sortby []string
 	var order []string
@@ -119,7 +119,7 @@ func (c *SeriesController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllSeries(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllLanguages(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
@@ -130,18 +130,18 @@ func (c *SeriesController) GetAll() {
 
 // Put ...
 // @Title Put
-// @Description update the Series
+// @Description update the Languages
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Series	true		"body for Series content"
-// @Success 200 {object} models.Series
+// @Param	body		body 	models.Languages	true		"body for Languages content"
+// @Success 200 {object} models.Languages
 // @Failure 403 :id is not int
 // @router /:id [put]
-func (c *SeriesController) Put() {
+func (c *LanguagesController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v := models.Series{Id: id}
+	v := models.Languages{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateSeriesById(&v); err == nil {
+		if err := models.UpdateLanguagesById(&v); err == nil {
 			c.Data["json"] = "OK"
 		} else {
 			c.Data["json"] = err.Error()
@@ -154,15 +154,15 @@ func (c *SeriesController) Put() {
 
 // Delete ...
 // @Title Delete
-// @Description delete the Series
+// @Description delete the Languages
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty
 // @router /:id [delete]
-func (c *SeriesController) Delete() {
+func (c *LanguagesController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteSeries(id); err == nil {
+	if err := models.DeleteLanguages(id); err == nil {
 		c.Data["json"] = "OK"
 	} else {
 		c.Data["json"] = err.Error()

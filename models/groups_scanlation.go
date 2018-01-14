@@ -9,49 +9,45 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-type Series struct {
-	Id          int       `orm:"column(id);pk"`
-	Name        string    `orm:"column(name)"`
-	Description string    `orm:"column(description)"`
-	CoverImage  string    `orm:"column(cover_image)"`
-	TypeName    string    `orm:"column(type_name)"`
-	TypeDemonym string    `orm:"column(type_demonym)"`
-	Status      *Statuses `orm:"column(status);rel(fk)"`
+type GroupsScanlation struct {
+	Id           int    `orm:"column(name);pk"`
+	Description  string `orm:"column(description)"`
+	ReleaseDelay int    `orm:"column(release_delay);null"`
 }
 
-func (t *Series) TableName() string {
-	return "series"
+func (t *GroupsScanlation) TableName() string {
+	return "groups_scanlation"
 }
 
 func init() {
-	orm.RegisterModel(new(Series))
+	orm.RegisterModel(new(GroupsScanlation))
 }
 
-// AddSeries insert a new Series into database and returns
+// AddGroupsScanlation insert a new GroupsScanlation into database and returns
 // last inserted Id on success.
-func AddSeries(m *Series) (id int64, err error) {
+func AddGroupsScanlation(m *GroupsScanlation) (id int64, err error) {
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
 }
 
-// GetSeriesById retrieves Series by Id. Returns error if
+// GetGroupsScanlationById retrieves GroupsScanlation by Id. Returns error if
 // Id doesn't exist
-func GetSeriesById(id int) (v *Series, err error) {
+func GetGroupsScanlationById(id int) (v *GroupsScanlation, err error) {
 	o := orm.NewOrm()
-	v = &Series{Id: id}
+	v = &GroupsScanlation{Id: id}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllSeries retrieves all Series matches certain condition. Returns empty list if
+// GetAllGroupsScanlation retrieves all GroupsScanlation matches certain condition. Returns empty list if
 // no records exist
-func GetAllSeries(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Series))
+	qs := o.QueryTable(new(GroupsScanlation))
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -101,7 +97,7 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 		}
 	}
 
-	var l []Series
+	var l []GroupsScanlation
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -124,11 +120,11 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 	return nil, err
 }
 
-// UpdateSeries updates Series by Id and returns error if
+// UpdateGroupsScanlation updates GroupsScanlation by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateSeriesById(m *Series) (err error) {
+func UpdateGroupsScanlationById(m *GroupsScanlation) (err error) {
 	o := orm.NewOrm()
-	v := Series{Id: m.Id}
+	v := GroupsScanlation{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -139,15 +135,15 @@ func UpdateSeriesById(m *Series) (err error) {
 	return
 }
 
-// DeleteSeries deletes Series by Id and returns error if
+// DeleteGroupsScanlation deletes GroupsScanlation by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteSeries(id int) (err error) {
+func DeleteGroupsScanlation(id int) (err error) {
 	o := orm.NewOrm()
-	v := Series{Id: id}
+	v := GroupsScanlation{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Series{Id: id}); err == nil {
+		if num, err = o.Delete(&GroupsScanlation{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}
