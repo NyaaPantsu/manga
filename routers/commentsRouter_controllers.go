@@ -9,15 +9,7 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
 		beego.ControllerComments{
-			Method: "Post",
-			Router: `/`,
-			AllowHTTPMethods: []string{"post"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
-		beego.ControllerComments{
-			Method: "Get",
+			Method: "GetAll",
 			Router: `/`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
@@ -26,24 +18,8 @@ func init() {
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
 		beego.ControllerComments{
 			Method: "GetOne",
-			Router: `/:id`,
+			Router: `/:name`,
 			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
-		beego.ControllerComments{
-			Method: "Put",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"put"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
-		beego.ControllerComments{
-			Method: "Delete",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"delete"},
 			MethodParams: param.Make(),
 			Params: nil})
 
@@ -201,7 +177,7 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SearchController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SearchController"],
 		beego.ControllerComments{
-			Method: "Get",
+			Method: "GetAll",
 			Router: `/`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),

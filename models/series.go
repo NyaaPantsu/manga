@@ -43,6 +43,17 @@ func SeriesNameExists(name string) (exists bool) {
 	return
 }
 
+// GetSeriesByName retrieves Series by Name. Returns error if
+// Id doesn't exist
+func GetSeriesByName(name string) (v *Series, err error) {
+	o := orm.NewOrm()
+	v = &Series{Name: name}
+	if err = o.Read(v); err == nil {
+		return v, nil
+	}
+	return nil, err
+}
+
 // GetSeriesById retrieves Series by Id. Returns error if
 // Id doesn't exist
 func GetSeriesById(id int) (v *Series, err error) {

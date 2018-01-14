@@ -3,6 +3,8 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/dchest/uniuri"
+
 	"html/template"
 )
 
@@ -48,7 +50,7 @@ func (c *Series_addController) Post() {
 		c.Redirect("/", 302)
 		return
 	}
-	
+
 	u := SeriesForm{}
 	if err := c.ParseForm(&u); err != nil {
 		flash.Error("Series invalid")
@@ -57,15 +59,18 @@ func (c *Series_addController) Post() {
 		return
 	}
 
+	var coverimg string
 	exists := models.SeriesNameExists(u.Name)
 	if !exists {
 
 		file, header, err := c.GetFile("cover") // where <<this>> is the controller and <<file>> the id of your form field
 		if file != nil {
 			// get the filename
-			fileName := header.Filename
+			filename := header.Filename
+			random := uniuri.New()
 			// save to server
-			err := c.SaveToFile("file", "/disk1/covers"+fileName)
+			coverimg = random + filename
+			err := c.SaveToFile("file", "/disk1/covers"+random+filename)
 			if err != nil {
 
 				flash.Error(err.Error())
@@ -85,7 +90,7 @@ func (c *Series_addController) Post() {
 			Name:        u.Name,
 			Description: u.Description,
 			TypeName:    u.TypeName,
-			CoverImage:  "disk",
+			CoverImage:  coverimg,
 			TypeDemonym: u.TypeDemonym,
 			Status: &models.Statuses{
 				Name: u.Status,

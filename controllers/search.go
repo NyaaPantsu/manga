@@ -12,7 +12,12 @@ type SearchController struct {
 	BaseController
 }
 
-// Get ...
+// URLMapping ...
+func (c *SearchController) URLMapping() {
+	c.Mapping("GetAll", c.GetAll)
+}
+
+// GetAll ...
 // @Title GetAll
 // @Description get Search
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
@@ -24,7 +29,7 @@ type SearchController struct {
 // @Success 200 {object} models.Search
 // @Failure 403
 // @router / [get]
-func (c *SearchController) Get() {
+func (c *SearchController) GetAll() {
 	flash := beego.NewFlash()
 	var fields []string
 	var sortby []string
@@ -57,13 +62,14 @@ func (c *SearchController) Get() {
 	if v := c.GetString("query"); v != "" {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
+			var k, v string
 			if len(kv) != 2 {
-				flash.Error("no results found")
-				flash.Store(&c.Controller)
-				c.Redirect("/search", 302)
-				return
+				k = "name"
+				v = kv[0]
+			} else {
+
+				k, v = kv[0], kv[1]
 			}
-			k, v := kv[0], kv[1]
 			query[k] = v
 		}
 	}
@@ -72,7 +78,6 @@ func (c *SearchController) Get() {
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
-		c.Redirect("/search", 302)
 		return
 
 	}
