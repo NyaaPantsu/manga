@@ -3,6 +3,9 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/microcosm-cc/bluemonday"
+	"gopkg.in/russross/blackfriday.v2"
+
 	"html/template"
 )
 
@@ -53,9 +56,12 @@ func (c *Groups_addController) Post() {
 
 	exists := models.GroupsScanlationNameExists(u.Name)
 	if !exists {
+
+		unsafe := blackfriday.Run([]byte(u.Description))
+		html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 		groups := models.GroupsScanlation{
 			Name:        u.Name,
-			Description: u.Description,
+			Description: string(html),
 		}
 		err := models.AddGroupsScanlation(&groups)
 		if err != nil {

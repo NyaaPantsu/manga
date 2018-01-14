@@ -4,6 +4,8 @@ import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
 	"github.com/dchest/uniuri"
+	"github.com/microcosm-cc/bluemonday"
+	"gopkg.in/russross/blackfriday.v2"
 
 	"html/template"
 )
@@ -86,9 +88,13 @@ func (c *Series_addController) Post() {
 			c.Redirect("/comics/add", 301)
 			return
 		}
+
+		unsafe := blackfriday.Run([]byte(u.Description))
+		html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+
 		series := models.Series{
 			Name:        u.Name,
-			Description: u.Description,
+			Description: string(html),
 			TypeName:    u.TypeName,
 			CoverImage:  coverimg,
 			TypeDemonym: u.TypeDemonym,
