@@ -7,7 +7,7 @@ import (
 
 // Series_addController operations for Series_add
 type Series_addController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...
@@ -18,6 +18,20 @@ func (c *Series_addController) URLMapping() {
 	c.Mapping("Delete", c.Delete)
 }
 
+type SeriesForm struct {
+	Username    string `form:"username,text"`
+	Id          int    `form:"-"`
+	Name        string `form:"name, text"`
+	Description string `form:"description, text"`
+	CoverImage  string `form:"cover, file"`
+	TypeName    string `form:"type-name, text"`
+	TypeDemonym string `form:"type-de, text"`
+	Status      string `form:"status, text"`
+	Tags        string `form:"tags, text"`
+	Authors     string `form:"author, text"`
+	Artist      string `form:"artist, text"`
+}
+
 // Post ...
 // @Title Create
 // @Description create Series_add
@@ -26,6 +40,14 @@ func (c *Series_addController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *Series_addController) Post() {
+	flash := beego.NewFlash()
+	u := SeriesForm{}
+	if err := c.ParseForm(&u); err != nil {
+		flash.Error("Series invalid")
+		flash.Store(&c.Controller)
+		c.Redirect("/comics/add", 302)
+		return
+	}
 
 }
 

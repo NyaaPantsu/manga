@@ -1258,6 +1258,9 @@
         ".Comic": {
             "type": "object"
         },
+        ".Group_add": {
+            "type": "object"
+        },
         ".Login": {
             "type": "object"
         },
@@ -1268,6 +1271,9 @@
             "type": "object"
         },
         ".Search": {
+            "type": "object"
+        },
+        ".Series_add": {
             "type": "object"
         },
         ".Signup": {

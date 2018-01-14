@@ -1,0 +1,39 @@
+<form action="/comics/add" method="POST">
+    <div class="form-group">
+        <label for="SeriesName">Name</label>
+        <input type="text" class="form-control" id="SeriesName" placeholder="name" name="name">
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label class="custom-file">
+            <input type="file" id="file" name="cover" class="custom-file-input">
+            <span class="custom-file-control"></span>
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Example select</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="type-name">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect2">Example multiple select</label>
+        <select multiple class="form-control" id="exampleFormControlSelect2" name="status">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
