@@ -64,7 +64,7 @@ func (c *SearchController) GetAll() {
 			kv := strings.SplitN(cond, ":", 2)
 			var k, v string
 			if len(kv) != 2 {
-				k = "name"
+				k = "name__icontains"
 				v = kv[0]
 			} else {
 

@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"html/template"
 )
 
@@ -27,8 +28,11 @@ func (c *ComicsController) URLMapping() {
 func (c *ComicsController) GetOne() {
 	name := c.Ctx.Input.Param(":name")
 
+	log := logs.GetLogger()
+	log.Println(name)
 	flash := beego.NewFlash()
 	l, err := models.GetSeriesByName(name)
+	log.Println(l.Id)
 	if err != nil {
 		flash.Error("Comic not found")
 		flash.Store(&c.Controller)

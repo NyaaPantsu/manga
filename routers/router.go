@@ -85,4 +85,5 @@ func init() {
 	beego.AddNamespace(ns)
 	beego.AddNamespace(ns1)
 	beego.AddNamespace(ns2)
+	beego.SetStaticPath("/uploads", "upload")
 }

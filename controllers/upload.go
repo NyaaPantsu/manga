@@ -20,12 +20,12 @@ func (c *UploadController) URLMapping() {
 
 type UploadForm struct {
 	Id                    int    `form:"-"`
-	Title                 string `form:"title"`
-	ChapterNumberAbsolute int    `form:"chapternum, int`
-	ChapterNumberVolume   int    ``
-	VolumeNumber          int    `form:"volnum, int"`
-	ChapterLanguage       string `form:"languages, text"`
-	ReleaseDelay          int    `form:"delay"`
+	Title                 string `form:"series, text"`
+	ChapterNumberAbsolute int    `form:"chapternum, number`
+	ChapterNumberVolume   int    `form:"chaptervol, number"`
+	VolumeNumber          int    `form:"volnum, number"`
+	ChapterLanguage       string `form:"languages, number"`
+	ReleaseDelay          int    `form:"delay, number"`
 	Groups1               string `form:"group1, text"`
 	Groups2               string `form:"group2, text"`
 	Groups3               string `form:"group3, text"`
@@ -51,7 +51,7 @@ func (c *UploadController) Post() {
 	if err := c.ParseForm(&u); err != nil {
 		flash.Warning(err.Error())
 		flash.Store(&c.Controller)
-		c.Redirect("/auth/login", 302)
+		c.Redirect("/upload", 302)
 		return
 	}
 	file, header, err := c.GetFile("file") // where <<this>> is the controller and <<file>> the id of your form field

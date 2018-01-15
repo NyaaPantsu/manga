@@ -5,9 +5,17 @@ import (
 )
 
 type SeriesTags struct {
-	SeriesId     *Series `orm:"column(series_id);rel(fk)"`
+	SeriesId     *Series `orm:"column(series_id);rel(fk);pk"`
 	TagName      string  `orm:"column(tag_name)"`
 	TagNamespace string  `orm:"column(tag_namespace)"`
+}
+
+func (t *SeriesTags) TableName() string {
+	return "series_tags"
+}
+
+func init() {
+	orm.RegisterModel(new(SeriesTags))
 }
 
 // AddMultiSeriesTags adds multiple files to chapter ID

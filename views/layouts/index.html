@@ -55,7 +55,9 @@
                     <div class="dropdown-menu" aria-labelledby="acountDropdown">
                         {{if .IsLogin}}
                         <a class="dropdown-item" href="/user/profile">Profile</a>
-                        <a class="dropdown-item" href="/user/follows">Profile</a>
+                        <a class="dropdown-item" href="/user/follows">Follows</a>
+                        <a class="dropdown-item" href="/user/follows/import">Import</a>
+                        <a class="dropdown-item" href="/user/rss">RSS</a>
                         <a class="dropdown-item" href="/auth/logout">logout</a> {{else}}
                         <a class="dropdown-item" href="/auth/signup">Signup</a>
                         <a class="dropdown-item" href="/auth/login">Login</a> {{end}}

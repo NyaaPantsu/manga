@@ -10,7 +10,7 @@ import (
 )
 
 type Series struct {
-	Id          int       `orm:"column(id);pk"`
+	Id          int       `orm:"auto"`
 	Name        string    `orm:"column(name)"`
 	Description string    `orm:"column(description)"`
 	CoverImage  string    `orm:"column(cover_image)"`
@@ -52,13 +52,10 @@ func SeriesNameExists(name string) (exists bool) {
 
 // GetSeriesByName retrieves Series by Name. Returns error if
 // Id doesn't exist
-func GetSeriesByName(name string) (v *Series, err error) {
+func GetSeriesByName(name string) (v Series, err error) {
 	o := orm.NewOrm()
-	v = &Series{Name: name}
-	if err = o.Read(v); err == nil {
-		return v, nil
-	}
-	return nil, err
+	err = o.QueryTable("series").Filter("name", name).One(&v)
+	return
 }
 
 // GetSeriesById retrieves Series by Id. Returns error if

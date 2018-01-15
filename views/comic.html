@@ -1,1 +1,8 @@
-{{.series.Name}} {{.series.Description}} {{.series.CoverImage}} {{.series.TypeName}} {{.series.TypeDemonym}} {{.series.Status}}{{range $key, $val := .chapters}} {{$key}} {{$val}} {{end}}
+<div class="media">
+    <img class="align-self-start mr-3" src="uploads/{{.series.CoverImage}}" alt="Generic placeholder image">
+    <div class="media-body">
+        <h5 class="mt-0">{{.series.Name}}</h5>
+        <p>{{.series.Description}}</p>
+    </div>
+</div>
+{{.series.Name}} {{.series.Description}} {{.series.CoverImage}} {{.series.TypeName}}

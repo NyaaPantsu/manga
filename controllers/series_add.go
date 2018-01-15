@@ -9,6 +9,8 @@ import (
 	"gopkg.in/russross/blackfriday.v2"
 
 	"html/template"
+	"io"
+	"os"
 )
 
 // Series_addController operations for Series_add
@@ -34,9 +36,9 @@ type SeriesForm struct {
 	TypeDemonym string `form:"typede, text"`
 	Status      string `form:"status, text"`
 	Tags        string `form:"tags, text"`
-	Authors     string `form:"author, text"`
-	Artist      string `form:"artist, text"`
-	Mature      bool   `form:"artist, checkbox"`
+	Authors     string `form:"authors, text"`
+	Artist      string `form:"artists, text"`
+	Mature      bool   `form:"mature, checkbox"`
 }
 
 // Post ...
@@ -66,15 +68,12 @@ func (c *Series_addController) Post() {
 	var coverimg string
 	exists := models.SeriesNameExists(u.Name)
 	if !exists {
+		files, err := c.GetFiles("cover")
+		for i := range files {
 
-		file, header, err := c.GetFile("cover") // where <<this>> is the controller and <<file>> the id of your form field
-		if file != nil {
-			// get the filename
-			filename := header.Filename
-			random := uniuri.New()
-			// save to server
-			coverimg = random + filename
-			err := c.SaveToFile("file", "/disk1/covers"+random+filename)
+			//for each fileheader, get a handle to the actual file
+			file, err := files[i].Open()
+			defer file.Close()
 			if err != nil {
 
 				flash.Error(err.Error())
@@ -82,13 +81,27 @@ func (c *Series_addController) Post() {
 				c.Redirect("/comics/add", 301)
 				return
 			}
-		}
-		if err != nil {
+			random := uniuri.New()
+			coverimg = random + files[i].Filename
+			//create destination file making sure the path is writeable.
+			dst, err := os.Create("upload/" + random + files[i].Filename)
+			defer dst.Close()
+			if err != nil {
 
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/comics/add", 301)
-			return
+				flash.Error(err.Error())
+				flash.Store(&c.Controller)
+				c.Redirect("/comics/add", 301)
+				return
+			}
+			//copy the uploaded file to the destination file
+			if _, err := io.Copy(dst, file); err != nil {
+
+				flash.Error(err.Error())
+				flash.Store(&c.Controller)
+				c.Redirect("/comics/add", 301)
+				return
+			}
+
 		}
 
 		unsafe := blackfriday.Run([]byte(u.Description))
@@ -110,15 +123,13 @@ func (c *Series_addController) Post() {
 		tempTags, _ := split.ProcessTags(&series, u.Tags)
 		authors, _ := split.CreateTags(&series, "author", u.Authors)
 		artists, _ := split.CreateTags(&series, "artist", u.Artist)
-		mature := "false"
 		if u.Mature {
-			mature = "true"
+			matureTag, _ := split.CreateTags(&series, "content", "mature")
+			models.AddMultiSeriesTags(matureTag)
 		}
-		matureTag, _ := split.CreateTags(&series, "mature", mature)
 		models.AddMultiSeriesTags(tempTags)
 		models.AddMultiSeriesTags(authors)
 		models.AddMultiSeriesTags(artists)
-		models.AddMultiSeriesTags(matureTag)
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)
