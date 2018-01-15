@@ -51,6 +51,7 @@ func (c *SignupController) Post() {
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)
+			c.Redirect("/auth/signup", 302)
 			return
 		}
 		users := models.Users{
@@ -62,14 +63,20 @@ func (c *SignupController) Post() {
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)
+			c.Redirect("/auth/signup", 302)
 			return
 		}
+
+		flash.Success("successfully signed up")
+		flash.Store(&c.Controller)
 		c.Redirect("/auth/login", 301)
+		return
 	}
 
 	flash.Error("Email or username exists")
 	flash.Store(&c.Controller)
-	c.Redirect("/auth/signup", 302)
+	c.Redirect("/auth/login", 302)
+	return
 
 }
 

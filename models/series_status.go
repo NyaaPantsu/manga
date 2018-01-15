@@ -10,7 +10,7 @@ import (
 )
 
 type SeriesStatus struct {
-	Id     int    `orm:"column(series_id);pk"`
+	Id     int    `orm:"auto"`
 	Status string `orm:"column(status);null"`
 }
 

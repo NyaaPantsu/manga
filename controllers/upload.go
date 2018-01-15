@@ -3,12 +3,12 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/dchest/uniuri"
 
 	"html/template"
 	"io"
 	"os"
-	"time"
 )
 
 // UploadController operations for Upload
@@ -24,7 +24,7 @@ func (c *UploadController) URLMapping() {
 
 type UploadForm struct {
 	Id                    int    `form:"-"`
-	Title                 string `form:"series, text"`
+	Title                 string `form:"title, text"`
 	ChapterNumberAbsolute int    `form:"chapternum, number`
 	ChapterNumberVolume   int    `form:"chaptervol, number"`
 	VolumeNumber          int    `form:"volnum, number"`
@@ -65,7 +65,7 @@ func (c *UploadController) Post() {
 		c.Redirect("/upload", 302)
 		return
 	}
-	var img string
+	//var img string
 	files, err := c.GetFiles("files")
 	for i := range files {
 
@@ -81,7 +81,7 @@ func (c *UploadController) Post() {
 		}
 
 		random := uniuri.New()
-		img = random + files[i].Filename
+		//img = random + files[i].Filename
 		//create destination file making sure the path is writeable.
 		dst, err := os.Create("upload/" + random + files[i].Filename)
 		defer dst.Close()
@@ -106,17 +106,11 @@ func (c *UploadController) Post() {
 		SeriesId:        &series,
 		ChapterLanguage: &models.Languages{Name: u.ChapterLanguage},
 		ContributorId:   c.Userinfo,
-		TimeUploaded:    time.Now(),
+		Hash:            uniuri.New(),
 	}
 	id, err := models.AddSeriesChapters(&chapters)
-	chapters.Id = int(id)
-	f := models.SeriesChaptersFiles{
-		Name:      img,
-		ChapterId: &chapters,
-	}
-
-	_, err = models.AddSeriesChapterFiles(&f)
-
+	log := logs.GetLogger()
+	log.Println(id)
 	if err != nil {
 
 		flash.Error(err.Error())

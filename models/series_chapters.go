@@ -11,7 +11,7 @@ import (
 )
 
 type SeriesChapters struct {
-	Id                    int        `orm:"column(id);pk"`
+	Id                    int        `orm:"auto"`
 	SeriesId              *Series    `orm:"column(series_id);rel(fk)"`
 	Title                 string     `orm:"column(title)"`
 	ChapterNumberAbsolute int        `orm:"column(chapter_number_absolute)"`

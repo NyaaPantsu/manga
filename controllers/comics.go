@@ -44,6 +44,7 @@ func (c *ComicsController) GetOne() {
 	c.TplName = "comic.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Data["series"] = l
+	c.Data["description"] = template.HTML(l.Description)
 	c.Data["chapters"] = chap
 	c.Data["tags"] = tag
 	c.Render()
@@ -59,6 +60,7 @@ func (c *ComicsController) GetAll() {
 	c.TplName = "comics.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	l, _ := models.GetRecentSeriesByChapter(0, 50)
+
 	c.Data["series"] = l
 	c.Render()
 

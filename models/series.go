@@ -63,7 +63,7 @@ func SeriesNameExists(name string) (exists bool) {
 // Id doesn't exist
 func GetSeriesByName(name string) (v Series, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series").Filter("name", name).One(&v)
+	err = o.QueryTable("series").Filter("name", name).RelatedSel().One(&v)
 	return
 }
 

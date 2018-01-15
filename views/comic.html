@@ -1,8 +1,9 @@
-<div class="media">
-    <img class="align-self-start mr-3" src="uploads/{{.series.CoverImage}}" alt="Generic placeholder image">
+<div class="media border">
+    <img class="align-self-start border img-thumbnail" src="/uploads/{{.series.CoverImage}}" alt="Generic placeholder image">
     <div class="media-body">
         <h5 class="mt-0">{{.series.Name}}</h5>
-        <p>{{.series.Description}}</p>
+        <p>{{.description}}</p>
+        <p>{{.tags}}</p>
+        <p>{{.chapters}}</p>
     </div>
 </div>
-{{.series.Name}} {{.series.Description}} {{.series.CoverImage}} {{.series.TypeName}}
