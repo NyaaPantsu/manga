@@ -1,0 +1,100 @@
+{
+	"ImportPath": "github.com/NyaaPantsu/manga",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/astaxie/beego",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/config",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/context",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/context/param",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/grace",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/logs",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/orm",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/session",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/toolbox",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/utils",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/dchest/uniuri",
+			"Rev": "8902c56451e9b58ff940bbe5fec35d5f9c04584a"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-171-g8837942",
+			"Rev": "8837942c3e09574accbc5f150e2c5e057189cace"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "go1.0-cutoff-171-g8837942",
+			"Rev": "8837942c3e09574accbc5f150e2c5e057189cace"
+		},
+		{
+			"ImportPath": "github.com/microcosm-cc/bluemonday",
+			"Rev": "e79763773ab6222ca1d5a7cbd9d62d83c1f77081"
+		},
+		{
+			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",
+			"Rev": "86672fcb3f950f35f2e675df2240550f2a50762f"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/bcrypt",
+			"Rev": "b176d7def5d71bdd214203491f89843ed217f420"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blowfish",
+			"Rev": "b176d7def5d71bdd214203491f89843ed217f420"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html",
+			"Rev": "d866cfc389cec985d6fda2859936a575a55a3ab6"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html/atom",
+			"Rev": "d866cfc389cec985d6fda2859936a575a55a3ab6"
+		},
+		{
+			"ImportPath": "gopkg.in/russross/blackfriday.v2",
+			"Comment": "v2.0.0",
+			"Rev": "cadec560ec52d93835bf2f15bd794700d3a2473b"
+		}
+	]
+}

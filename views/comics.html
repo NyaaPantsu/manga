@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $key, $val := .series}}
+        <tr>
+            <th scope="row" href="/comic/{{$val.Title}}">{{$val.Title}}</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>

@@ -35,7 +35,7 @@ func init() {
 // Id doesn't exist
 func GetSeriesChaptersBySeriesId(id int) (v *[]SeriesChapters, err error) {
 	o := orm.NewOrm()
-	_, err = o.QueryTable("series_chapters").Filter("series_id", id).All(&v)
+	_, err = o.QueryTable("series_chapters").Filter("series_id", id).RelatedSel().All(&v)
 	return
 
 }

@@ -3,8 +3,12 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/dchest/uniuri"
 
 	"html/template"
+	"io"
+	"os"
+	"time"
 )
 
 // UploadController operations for Upload
@@ -24,7 +28,7 @@ type UploadForm struct {
 	ChapterNumberAbsolute int    `form:"chapternum, number`
 	ChapterNumberVolume   int    `form:"chaptervol, number"`
 	VolumeNumber          int    `form:"volnum, number"`
-	ChapterLanguage       string `form:"languages, number"`
+	ChapterLanguage       string `form:"languages, text"`
 	ReleaseDelay          int    `form:"delay, number"`
 	Groups1               string `form:"group1, text"`
 	Groups2               string `form:"group2, text"`
@@ -40,7 +44,7 @@ type UploadForm struct {
 // @router / [post]
 func (c *UploadController) Post() {
 	flash := beego.NewFlash()
-	if c.IsLogin {
+	if !c.IsLogin {
 		flash.Error("Error you must be logged in to upload")
 		flash.Store(&c.Controller)
 		c.Redirect("/auth/login", 302)
@@ -54,31 +58,76 @@ func (c *UploadController) Post() {
 		c.Redirect("/upload", 302)
 		return
 	}
-	file, header, err := c.GetFile("file") // where <<this>> is the controller and <<file>> the id of your form field
+	series, err := models.GetSeriesByName(u.Title)
 	if err != nil {
 		flash.Warning(err.Error())
 		flash.Store(&c.Controller)
+		c.Redirect("/upload", 302)
 		return
 	}
-	if file != nil {
-		// get the filename
-		fileName := header.Filename
-		// save to server
-		err := c.SaveToFile("file", "/disk1/archives"+fileName)
+	var img string
+	files, err := c.GetFiles("files")
+	for i := range files {
+
+		//for each fileheader, get a handle to the actual file
+		file, err := files[i].Open()
+		defer file.Close()
 		if err != nil {
-			flash.Warning(err.Error())
+
+			flash.Error(err.Error())
 			flash.Store(&c.Controller)
+			c.Redirect("/upload", 301)
 			return
 		}
+
+		random := uniuri.New()
+		img = random + files[i].Filename
+		//create destination file making sure the path is writeable.
+		dst, err := os.Create("upload/" + random + files[i].Filename)
+		defer dst.Close()
 		if err != nil {
-			flash.Warning(err.Error())
+
+			flash.Error(err.Error())
 			flash.Store(&c.Controller)
-			c.Redirect("/uploads", 302)
+			c.Redirect("/upload", 301)
 			return
-
 		}
+		//copy the uploaded file to the destination file
+		if _, err := io.Copy(dst, file); err != nil {
 
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			c.Redirect("/upload", 301)
+			return
+		}
 	}
+	chapters := models.SeriesChapters{
+		Title:           u.Title,
+		SeriesId:        &series,
+		ChapterLanguage: &models.Languages{Name: u.ChapterLanguage},
+		ContributorId:   c.Userinfo,
+		TimeUploaded:    time.Now(),
+	}
+	id, err := models.AddSeriesChapters(&chapters)
+	chapters.Id = int(id)
+	f := models.SeriesChaptersFiles{
+		Name:      img,
+		ChapterId: &chapters,
+	}
+
+	_, err = models.AddSeriesChapterFiles(&f)
+
+	if err != nil {
+
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/upload", 301)
+		return
+	}
+	flash.Success("Successfully added series!")
+	flash.Store(&c.Controller)
+	c.Redirect("/upload", 301)
+	return
 
 }
 
@@ -88,6 +137,13 @@ func (c *UploadController) Post() {
 // @Success 200 {object} models.Upload
 // @router / [get]
 func (c *UploadController) Get() {
+	flash := beego.NewFlash()
+	if !c.IsLogin {
+		flash.Error("Error you must be logged in to upload")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/login", 302)
+		return
+	}
 	c.TplName = "upload.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	l, _ := models.GetAllLanguages()

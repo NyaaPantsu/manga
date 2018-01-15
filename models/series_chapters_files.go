@@ -5,8 +5,24 @@ import (
 )
 
 type SeriesChaptersFiles struct {
-	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk)"`
+	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk);pk"`
 	Name      string          `orm:"column(name)"`
+}
+
+func (t *SeriesChaptersFiles) TableName() string {
+	return "series_chapters_files"
+}
+
+func init() {
+	orm.RegisterModel(new(SeriesChaptersFiles))
+}
+
+// AddSeries insert a new Series into database and returns
+// last inserted Id on success.
+func AddSeriesChapterFiles(m *SeriesChaptersFiles) (id int64, err error) {
+	o := orm.NewOrm()
+	id, err = o.Insert(m)
+	return
 }
 
 // AddMultiChapterFiles adds multiple files to chapter ID

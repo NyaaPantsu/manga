@@ -42,6 +42,15 @@ func AddSeries(m *Series) (id int64, err error) {
 	return
 }
 
+//GetRecentSeriesByChapter Gets Series in order of chapter updates
+func GetRecentSeriesByChapter(offset int, limit int) (b []SeriesChapters, err error) {
+
+	o := orm.NewOrm()
+	_, err = o.QueryTable("series_chapters").OrderBy("time_uploaded").Limit(limit, offset).RelatedSel().All(&b)
+
+	return
+}
+
 //  checks to see if username exists
 // returns bool
 func SeriesNameExists(name string) (exists bool) {

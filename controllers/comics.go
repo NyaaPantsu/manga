@@ -56,8 +56,10 @@ func (c *ComicsController) GetOne() {
 // @Failure 403
 // @router / [get]
 func (c *ComicsController) GetAll() {
-	c.TplName = "comic.html"
+	c.TplName = "comics.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	l, _ := models.GetRecentSeriesByChapter(0, 50)
+	c.Data["series"] = l
 	c.Render()
 
 }
