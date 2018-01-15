@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/split"
 	"github.com/astaxie/beego"
 	"github.com/dchest/uniuri"
 	"github.com/microcosm-cc/bluemonday"
@@ -35,6 +36,7 @@ type SeriesForm struct {
 	Tags        string `form:"tags, text"`
 	Authors     string `form:"author, text"`
 	Artist      string `form:"artist, text"`
+	Mature      bool   `form:"artist, checkbox"`
 }
 
 // Post ...
@@ -102,7 +104,21 @@ func (c *Series_addController) Post() {
 				Name: u.Status,
 			},
 		}
-		_, err = models.AddSeries(&series)
+		id, err := models.AddSeries(&series)
+		series.Id = int(id)
+
+		tempTags, _ := split.ProcessTags(&series, u.Tags)
+		authors, _ := split.CreateTags(&series, "author", u.Authors)
+		artists, _ := split.CreateTags(&series, "artist", u.Artist)
+		mature := "false"
+		if u.Mature {
+			mature = "true"
+		}
+		matureTag, _ := split.CreateTags(&series, "mature", mature)
+		models.AddMultiSeriesTags(tempTags)
+		models.AddMultiSeriesTags(authors)
+		models.AddMultiSeriesTags(artists)
+		models.AddMultiSeriesTags(matureTag)
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)

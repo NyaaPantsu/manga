@@ -35,10 +35,13 @@ func (c *ComicsController) GetOne() {
 		c.Redirect("/comics", 302)
 		return
 	}
-
+	chap, err := models.GetSeriesChaptersById(l.Id)
+	tag, err := models.GetAllTagsById(l.Id)
 	c.TplName = "comic.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Data["series"] = l
+	c.Data["chapters"] = chap
+	c.Data["tags"] = tag
 	c.Render()
 
 }

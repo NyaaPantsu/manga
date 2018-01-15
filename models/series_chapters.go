@@ -31,6 +31,15 @@ func init() {
 	orm.RegisterModel(new(SeriesChapters))
 }
 
+// GetSeriesChaptersBySeriesId retrieves SeriesChapters by Id. Returns error if
+// Id doesn't exist
+func GetSeriesChaptersBySeriesId(id int) (v *[]SeriesChapters, err error) {
+	o := orm.NewOrm()
+	_, err = o.QueryTable("series_chapters").Filter("series_id", id).All(&v)
+	return
+
+}
+
 // AddSeriesChapters insert a new SeriesChapters into database and returns
 // last inserted Id on success.
 func AddSeriesChapters(m *SeriesChapters) (id int64, err error) {

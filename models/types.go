@@ -5,8 +5,17 @@ import (
 )
 
 type Types struct {
+	ID            int    `orm:pk`
 	Name          string `orm:"column(name)"`
 	OriginDemonym string `orm:"column(origin_demonym)"`
+}
+
+func (t *Types) TableName() string {
+	return "types"
+}
+
+func init() {
+	orm.RegisterModel(new(Types))
 }
 
 // AddTypes insert a new Types into database and returns

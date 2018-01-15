@@ -586,9 +586,8 @@ definitions:
     title: Languages
     type: object
     properties:
-      Id:
-        type: integer
-        format: int64
+      Name:
+        type: string
   models.Series:
     title: Series
     type: object

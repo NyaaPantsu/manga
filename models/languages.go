@@ -7,7 +7,7 @@ import (
 )
 
 type Languages struct {
-	Id int `orm:"column(name);pk"`
+	Name string `orm:"column(name);pk"`
 }
 
 func (t *Languages) TableName() string {
@@ -29,19 +29,19 @@ func AddLanguages(m *Languages) (id int64, err error) {
 // GetAllLanguages gets all languages and returns an array on success
 func GetAllLanguages() (languages []*Languages, err error) {
 	o := orm.NewOrm()
-	_, err = o.QueryTable("languages").All(&languages)
+	_, err = o.QueryTable("languages").OrderBy("name").All(&languages)
 	return
 }
 
 // DeleteLanguages deletes Languages by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteLanguages(id int) (err error) {
+func DeleteLanguages(name string) (err error) {
 	o := orm.NewOrm()
-	v := Languages{Id: id}
+	v := Languages{Name: name}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Languages{Id: id}); err == nil {
+		if num, err = o.Delete(&Languages{Name: name}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

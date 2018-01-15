@@ -28,7 +28,7 @@ type UploadForm struct {
 	ReleaseDelay          int    `form:"delay"`
 	Groups1               string `form:"group1, text"`
 	Groups2               string `form:"group2, text"`
-	Groups                string `form:"group3, text"`
+	Groups3               string `form:"group3, text"`
 }
 
 // Post ...
@@ -64,12 +64,20 @@ func (c *UploadController) Post() {
 		// get the filename
 		fileName := header.Filename
 		// save to server
-		err := c.SaveToFile("file", "/disk1/"+fileName)
+		err := c.SaveToFile("file", "/disk1/archives"+fileName)
 		if err != nil {
 			flash.Warning(err.Error())
 			flash.Store(&c.Controller)
 			return
 		}
+		if err != nil {
+			flash.Warning(err.Error())
+			flash.Store(&c.Controller)
+			c.Redirect("/uploads", 302)
+			return
+
+		}
+
 	}
 
 }
@@ -80,15 +88,11 @@ func (c *UploadController) Post() {
 // @Success 200 {object} models.Upload
 // @router / [get]
 func (c *UploadController) Get() {
-	c.TplName = "search.html"
+	c.TplName = "upload.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	l, _ := models.GetAllLanguages()
-	s, _ := models.GetAllStatuses()
-	t, _ := models.GetAllTypes()
 	series, _ := models.GetAllSeriesArray()
 	c.Data["languages"] = l
-	c.Data["statuses"] = s
-	c.Data["types"] = t
 	c.Data["series"] = series
 
 	c.Render()

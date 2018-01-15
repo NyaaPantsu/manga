@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/NyaaPantsu/manga/models"
-	"strconv"
 
 	"github.com/astaxie/beego"
 )
@@ -68,8 +67,7 @@ func (c *LanguagesController) GetAll() {
 // @Failure 403 id is empty
 // @router /:id [delete]
 func (c *LanguagesController) Delete() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
+	id := c.Ctx.Input.Param(":id")
 	if err := models.DeleteLanguages(id); err == nil {
 		c.Data["json"] = "OK"
 	} else {
