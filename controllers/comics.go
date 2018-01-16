@@ -31,9 +31,8 @@ func (c *ComicsController) GetOne() {
 	name := c.Ctx.Input.Param(":name")
 
 	log := logs.GetLogger()
-	log.Println(name)
 	flash := beego.NewFlash()
-	l, err := models.GetSeriesByName(name)
+	l, err := models.GetSeriesByName(strings.Join(strings.Split(name, "-"), " "))
 	log.Println(l.Id)
 	if err != nil {
 		flash.Error("Comic not found")
@@ -73,6 +72,11 @@ func (c *ComicsController) GetAll() {
 	var query = make(map[string]string)
 	var limit int64 = 20
 	var offset int64
+	var series bool
+	series, err := c.GetBool("series")
+	if err != nil {
+		series = false
+	}
 
 	// fields: col1,col2,entity.col3
 	if v := c.GetString("fields"); v != "" {
@@ -97,16 +101,19 @@ func (c *ComicsController) GetAll() {
 	if len(order) == 0 {
 		order = append(order, "desc")
 	}
-	if len(sortby) == 0 {
-		sortby = append(sortby, "time_uploaded")
-	}
+
 	// query: k:v,k:v
 	if v := c.GetString("query"); v != "" {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			var k, v string
 			if len(kv) != 2 {
-				k = "name__icontains"
+				if series {
+					k = "name__icontains"
+				} else {
+					k = "title__icontains"
+
+				}
 				v = kv[0]
 			} else {
 
@@ -115,22 +122,37 @@ func (c *ComicsController) GetAll() {
 			query[k] = v
 		}
 	}
+	var l []interface{}
+	if series {
 
-	l, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
+		if len(sortby) == 0 {
+			sortby = append(sortby, "name")
+		}
+		l, err = models.GetAllSeries(query, fields, sortby, order, offset, limit)
+
+		c.TplName = "series.html"
+	} else {
+		if len(sortby) == 0 {
+			sortby = append(sortby, "time_uploaded")
+		}
+		l, err = models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
+
+		c.TplName = "comics.html"
+	}
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
+		c.Redirect("/comics", 302)
 		return
 
 	}
 
-	c.TplName = "comics.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 
 	paginator := pagination.SetPaginator(c.Ctx, int(limit), int64(len(l)))
 
 	c.Data["series"] = l
 	c.Data["paginator"] = paginator
-	c.TplName = "comics.html"
 	c.Render()
+	return
 }

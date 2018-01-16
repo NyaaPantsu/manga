@@ -900,11 +900,11 @@
                     "type": "integer",
                     "format": "int64"
                 },
-                "Name": {
-                    "type": "string"
-                },
                 "Status": {
                     "$ref": "#/definitions/models.Statuses"
+                },
+                "Title": {
+                    "type": "string"
                 },
                 "TypeDemonym": {
                     "type": "string"

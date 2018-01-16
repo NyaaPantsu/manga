@@ -11,7 +11,7 @@ import (
 
 type Series struct {
 	Id          int       `orm:"auto"`
-	Name        string    `orm:"column(name)"`
+	Title       string    `orm:"column(name)"`
 	Description string    `orm:"column(description)"`
 	CoverImage  string    `orm:"column(cover_image)"`
 	TypeName    string    `orm:"column(type_name)"`
@@ -61,7 +61,7 @@ func SeriesNameExists(name string) (exists bool) {
 // Id doesn't exist
 func GetSeriesByName(name string) (v Series, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series").Filter("name", name).RelatedSel().One(&v)
+	err = o.QueryTable("series").Filter("name__icontains", name).RelatedSel().One(&v)
 	return
 }
 
