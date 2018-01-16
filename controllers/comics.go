@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/utils/pagination"
 	"html/template"
+	"strings"
 )
 
 // ComicsController operations for Comics
@@ -51,8 +52,6 @@ func (c *ComicsController) GetOne() {
 	c.Render()
 
 }
-)
-
 
 // GetAll ...
 // @Title GetAll
@@ -66,13 +65,13 @@ func (c *ComicsController) GetOne() {
 // @Success 200 {object} models.Search
 // @Failure 403
 // @router / [get]
-func (c *SearchController) GetAll() {
+func (c *ComicsController) GetAll() {
 	flash := beego.NewFlash()
 	var fields []string
 	var sortby []string
 	var order []string
 	var query = make(map[string]string)
-	var limit int64 = 10
+	var limit int64 = 20
 	var offset int64
 
 	// fields: col1,col2,entity.col3
@@ -95,11 +94,11 @@ func (c *SearchController) GetAll() {
 	if v := c.GetString("order"); v != "" {
 		order = strings.Split(v, ",")
 	}
-	if order == "" {
-		order = "desc"
+	if len(order) == 0 {
+		order = append(order, "desc")
 	}
-	if sortby == "" {
-		sortby = "time_uploaded"
+	if len(sortby) == 0 {
+		sortby = append(sortby, "time_uploaded")
 	}
 	// query: k:v,k:v
 	if v := c.GetString("query"); v != "" {
@@ -128,11 +127,10 @@ func (c *SearchController) GetAll() {
 	c.TplName = "comics.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 
-	paginator := pagination.SetPaginator(c.Ctx, postsPerPage, int64(len(l)))
+	paginator := pagination.SetPaginator(c.Ctx, int(limit), int64(len(l)))
 
 	c.Data["series"] = l
 	c.Data["paginator"] = paginator
 	c.TplName = "comics.html"
 	c.Render()
 }
-

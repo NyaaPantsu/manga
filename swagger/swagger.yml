@@ -551,8 +551,6 @@ paths:
         "403":
           description: ""
 definitions:
-  .ChapterGroup:
-    type: object
   .Comics:
     type: object
   .Groups_add:
@@ -562,6 +560,8 @@ definitions:
   .Logout:
     type: object
   .Reader:
+    type: object
+  .Search:
     type: object
   .Series_add:
     type: object

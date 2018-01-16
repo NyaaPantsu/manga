@@ -143,26 +143,10 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:MainController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:MainController"],
-		beego.ControllerComments{
-			Method: "Get",
-			Router: `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ReaderController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ReaderController"],
 		beego.ControllerComments{
 			Method: "GetOne",
 			Router: `/:hash`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SearchController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SearchController"],
-		beego.ControllerComments{
-			Method: "GetAll",
-			Router: `/`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})

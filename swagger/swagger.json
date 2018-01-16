@@ -834,9 +834,6 @@
         }
     },
     "definitions": {
-        ".ChapterGroup": {
-            "type": "object"
-        },
         ".Comics": {
             "type": "object"
         },
@@ -850,6 +847,9 @@
             "type": "object"
         },
         ".Reader": {
+            "type": "object"
+        },
+        ".Search": {
             "type": "object"
         },
         ".Series_add": {
