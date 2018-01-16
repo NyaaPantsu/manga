@@ -24,7 +24,7 @@ func ResizePng(open string, filepath string) {
 
 	// resize to width 60 using Lanczos resampling
 	// and preserve aspect ratio
-	m := resize.Resize(200, 0, img, resize.Lanczos3)
+	m := resize.Thumbnail(200, 0, img, resize.Lanczos3)
 
 	out, err := os.Create(filepath)
 	if err != nil {
@@ -53,11 +53,10 @@ func ResizeJpg(open string, filepath string) {
 	}
 	file.Close()
 
-	// resize to width 1000 using Lanczos resampling
 	// and preserve aspect ratio
-	m := resize.Resize(200, 0, img, resize.Lanczos3)
+	m := resize.Thumbnail(200, 0, img, resize.Lanczos3)
 
-	out, err := os.Create("test_resized.jpg")
+	out, err := os.Create(filepath)
 	if err != nil {
 		log.Println(err.Error())
 		return

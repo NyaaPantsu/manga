@@ -12,29 +12,30 @@
         <tr>
             <th scope="row"><a href="/comics/{{$val.Title}}">{{$val.Title}}</a></th>
             <td>{{$val.ChapterLanguage.Name}}</td>
-            {{$val}}
             <td>Otto</td>
             <td>{{$val.TimeUploaded}}</td>
         </tr>
         {{end}}
     </tbody>
 </table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
+{{if .paginator.HasPages}}
+<ul class="pagination pagination">
+    {{if .paginator.HasPrev}}
+    <li><a href="{{.paginator.PageLinkFirst}}">&laquo;&laquo;</a></li>
+    <li><a href="{{.paginator.PageLinkPrev}}">&laquo;</a></li>
+    {{else}}
+    <li class="disabled"><a>&laquo;&laquo;</a></li>
+    <li class="disabled"><a>&laquo;</a></li>
+    {{end}} {{range $index, $page := .paginator.Pages}}
+    <li{{if $.paginator.IsActive .}} class="active" {{end}}>
+        <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+        {{end}} {{if .paginator.HasNext}}
+        <li><a href="{{.paginator.PageLinkNext}}">&raquo;</a></li>
+        <li><a href="{{.paginator.PageLinkLast}}">&raquo;&raquo;</a></li>
+        {{else}}
+        <li class="disabled"><a>&raquo;</a></li>
+        <li class="disabled"><a>&raquo&raquo;;</a></li>
+        {{end}}
+</ul>
+{{end}}

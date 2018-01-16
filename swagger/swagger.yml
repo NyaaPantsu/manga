@@ -563,8 +563,6 @@ definitions:
     type: object
   .Reader:
     type: object
-  .Search:
-    type: object
   .Series_add:
     type: object
   .Signup:

@@ -54,6 +54,11 @@
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
 		},
 		{
+			"ImportPath": "github.com/astaxie/beego/utils/pagination",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
 			"ImportPath": "github.com/dchest/uniuri",
 			"Rev": "8902c56451e9b58ff940bbe5fec35d5f9c04584a"
 		},
@@ -70,6 +75,10 @@
 		{
 			"ImportPath": "github.com/microcosm-cc/bluemonday",
 			"Rev": "e79763773ab6222ca1d5a7cbd9d62d83c1f77081"
+		},
+		{
+			"ImportPath": "github.com/nfnt/resize",
+			"Rev": "891127d8d1b52734debe1b3c3d7e747502b6c366"
 		},
 		{
 			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",

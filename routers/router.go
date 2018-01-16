@@ -15,7 +15,6 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
-	beego.Router("/search", &controllers.SearchController{}, "get:GetAll")
 	beego.Router("/upload", &controllers.UploadController{})
 	beego.Router("/comics", &controllers.ComicsController{}, "get:GetAll")
 	beego.Router("/comics/:name", &controllers.ComicsController{}, "get:GetOne")
