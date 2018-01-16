@@ -23,7 +23,7 @@ func init() {
 	beego.Router("/groups", &controllers.Groups_addController{})
 	beego.Router("/groups/add", &controllers.Groups_addController{})
 
-	beego.Router("/reader", &controllers.ReaderController{})
+	beego.Router("/reader/:hash", &controllers.ReaderController{}, "get:GetOne")
 
 	ns1 := beego.NewNamespace("/auth",
 		beego.NSNamespace("/logout",
@@ -85,5 +85,5 @@ func init() {
 	beego.AddNamespace(ns)
 	beego.AddNamespace(ns1)
 	beego.AddNamespace(ns2)
-	beego.SetStaticPath("/uploads", "upload")
+	beego.SetStaticPath("/uploads", "uploads")
 }

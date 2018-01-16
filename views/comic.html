@@ -1,9 +1,30 @@
 <div class="media border">
-    <img class="align-self-start border img-thumbnail" src="/uploads/{{.series.CoverImage}}" alt="Generic placeholder image">
+    <img class="align-self-start border img-thumbnail" src="/uploads/covers/{{.series.CoverImage}}_thumb" alt="Generic placeholder image">
     <div class="media-body">
-        <h5 class="mt-0">{{.series.Name}}</h5>
+        <h5 class="mt-0 ml-3">{{.series.Name}}</h5>
         <p>{{.description}}</p>
-        <p>{{.tags}}</p>
-        <p>{{.chapters}}</p>
+
+        {{range $key, $val := .tags}}
+        <p>{{$val.TagName}}:{{$val.TagNamespace}} </p>
+        {{end}}
     </div>
 </div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $key, $val := .chapters}}
+        <tr>
+            <td>
+                <a href="/reader/{{$val.Hash}}">{{$val.ChapterNumberAbsolute}}</a>
+            </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>

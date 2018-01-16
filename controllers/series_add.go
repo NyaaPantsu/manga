@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/resize"
 	"github.com/NyaaPantsu/manga/utils/split"
 	"github.com/astaxie/beego"
 	"github.com/dchest/uniuri"
@@ -11,6 +12,8 @@ import (
 	"html/template"
 	"io"
 	"os"
+	"path"
+	"strings"
 )
 
 // Series_addController operations for Series_add
@@ -84,7 +87,7 @@ func (c *Series_addController) Post() {
 			random := uniuri.New()
 			coverimg = random + files[i].Filename
 			//create destination file making sure the path is writeable.
-			dst, err := os.Create("upload/" + random + files[i].Filename)
+			dst, err := os.Create("uploads/covers/" + random + files[i].Filename)
 			defer dst.Close()
 			if err != nil {
 
@@ -101,7 +104,13 @@ func (c *Series_addController) Post() {
 				c.Redirect("/comics/add", 301)
 				return
 			}
+			pat := "uploads/covers/" + random + files[i].Filename
+			if strings.ToLower(path.Ext(files[i].Filename)) == ".png" {
+				resize.ResizePng(pat, pat+"_thumb")
+			} else if strings.ToLower(path.Ext(files[i].Filename)) == ".jpg" {
+				resize.ResizeJpg(pat, pat+"_thumb")
 
+			}
 		}
 
 		unsafe := blackfriday.Run([]byte(u.Description))

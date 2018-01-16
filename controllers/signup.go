@@ -20,9 +20,10 @@ func (c *SignupController) URLMapping() {
 }
 
 type Signup struct {
-	Username string `form:"username,text"`
-	Email    string `form:"email,email"`
-	Password string `form:"password,password"`
+	Username  string `form:"username,text"; `
+	Email     string `form:"email,email" valid:"Email";`
+	Password  string `form:"password,password"`
+	Password2 string `form:"password2, password`
 }
 
 // Post ...

@@ -5,30 +5,31 @@
         <select class="form-control" id="series" name="title">
         {{range $key, $val := .series}} <option>{{$val.Name}}</option>{{end}}
       </select>
-        <div class="form-group">
-            <label for="languages">Language</label>
-            <select class="form-control" id="languages" name="languages">
+    </div>
+    <div class="form-group">
+        <label for="languages">Language</label>
+        <select class="form-control" id="languages" name="languages">
         {{range $key, $val := .languages}} <option>{{$val.Name}}</option>{{end}}
             </select>
-        </div>
-        <div class="form-group">
-            <label for="chapternum">Absolute chapter num</label>
-            <input type="number" class="form-control" id="chapternum" name="chapternum">
-        </div>
+    </div>
+    <div class="form-group">
+        <label for="chapternum">Absolute chapter num</label>
+        <input type="number" class="form-control" id="chapternum" name="chapternum">
+    </div>
 
-        <div class="form-group">
-            <label for="volnum">Volume Number</label>
-            <input type="number" class="form-control" id="volnum" name="volnum">
-        </div>
-        <div class="form-group">
-            <label for="chaptervol">Volume chapter num</label>
-            <input type="number" class="form-control" id="chaptervol" name="chaptervol">
-        </div>
+    <div class="form-group">
+        <label for="volnum">Volume Number</label>
+        <input type="number" class="form-control" id="volnum" name="volnum">
+    </div>
+    <div class="form-group">
+        <label for="chaptervol">Volume chapter num</label>
+        <input type="number" class="form-control" id="chaptervol" name="chaptervol">
+    </div>
 
-        <div class="form-group">
-            <label for="exampleFormControlFile1">Example file input</label>
-            <input type="file" class="form-control-file" id="cover" name="files">
-        </div>
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input type="file" class="form-control-file" id="cover" name="files">
+    </div>
 
-        <button type=" submit " class="btn btn-primary ">Submit</button>
+    <button type=" submit " class="btn btn-primary ">Submit</button>
 </form>

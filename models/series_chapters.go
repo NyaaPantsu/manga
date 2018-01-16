@@ -33,11 +33,19 @@ func init() {
 
 // GetSeriesChaptersBySeriesId retrieves SeriesChapters by Id. Returns error if
 // Id doesn't exist
-func GetSeriesChaptersBySeriesId(id int) (v *[]SeriesChapters, err error) {
+func GetSeriesChaptersBySeriesId(id int) (v []SeriesChapters, err error) {
 	o := orm.NewOrm()
 	_, err = o.QueryTable("series_chapters").Filter("series_id", id).RelatedSel().All(&v)
 	return
 
+}
+
+// GetSeriesChaptersByHash retrieves SeriesChapters by Id. Returns error if
+// Id doesn't exist
+func GetSeriesChaptersByHash(hash string) (v SeriesChapters, err error) {
+	o := orm.NewOrm()
+	err = o.QueryTable("series_chapters").Filter("hash", hash).One(&v)
+	return
 }
 
 // AddSeriesChapters insert a new SeriesChapters into database and returns

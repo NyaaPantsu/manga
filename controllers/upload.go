@@ -3,13 +3,13 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	"github.com/dchest/uniuri"
 
 	"github.com/NyaaPantsu/manga/utils/zip"
 	"html/template"
 	"io"
 	"os"
+	"time"
 )
 
 // UploadController operations for Upload
@@ -45,7 +45,6 @@ type UploadForm struct {
 // @router / [post]
 func (c *UploadController) Post() {
 	flash := beego.NewFlash()
-	log := logs.GetLogger()
 	if !c.IsLogin {
 		flash.Error("Error you must be logged in to upload")
 		flash.Store(&c.Controller)
@@ -69,17 +68,29 @@ func (c *UploadController) Post() {
 	}
 
 	random := uniuri.New()
-	chapters := models.SeriesChapters{
-		Title:           u.Title,
-		SeriesId:        &series,
-		ChapterLanguage: &models.Languages{Name: u.ChapterLanguage},
-		ContributorId:   c.Userinfo,
-		Hash:            random,
+	chapter := models.SeriesChapters{
+		Title:                 u.Title,
+		SeriesId:              &series,
+		ChapterLanguage:       &models.Languages{Name: u.ChapterLanguage},
+		ContributorId:         c.Userinfo,
+		Hash:                  random,
+		VolumeNumber:          u.VolumeNumber,
+		ChapterNumberVolume:   u.ChapterNumberVolume,
+		ChapterNumberAbsolute: u.ChapterNumberAbsolute,
+		TimeUploaded:          time.Now(),
 	}
-	id, err := models.AddSeriesChapters(&chapters)
-	log.Println(id)
+	id, err := models.AddSeriesChapters(&chapter)
+
 	if err != nil {
 
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/upload", 301)
+		return
+	}
+
+	chapters, err := models.GetSeriesChaptersById(int(id))
+	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 		c.Redirect("/upload", 301)
@@ -103,7 +114,7 @@ func (c *UploadController) Post() {
 
 		//img = random + files[i].Filename
 		//create destination file making sure the path is writeable.
-		dst, err := os.Create("upload/" + random + files[i].Filename)
+		dst, err := os.Create("uploads/" + random + files[i].Filename)
 
 		defer dst.Close()
 		if err != nil {
@@ -122,7 +133,7 @@ func (c *UploadController) Post() {
 			return
 		}
 
-		err = os.Mkdir("upload/"+random, os.ModePerm)
+		err = os.Mkdir("uploads/"+random, os.ModePerm)
 		if err != nil {
 
 			flash.Error(err.Error())
@@ -131,7 +142,7 @@ func (c *UploadController) Post() {
 			return
 		}
 
-		images, err := zip.Unzip("upload/"+random+files[i].Filename, "upload/"+random)
+		images, err := zip.Unzip("uploads/"+random+files[i].Filename, "uploads/"+random)
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)
@@ -141,7 +152,7 @@ func (c *UploadController) Post() {
 		var temp []models.SeriesChaptersFiles
 		for _, cond := range images {
 			temp2 := models.SeriesChaptersFiles{
-				ChapterId: &chapters,
+				ChapterId: chapters,
 				Name:      cond,
 			}
 			temp = append(temp, temp2)

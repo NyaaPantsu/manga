@@ -5,8 +5,7 @@ import (
 )
 
 type SeriesChaptersFiles struct {
-	Id 			int `orm:"auto"`
-	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk)"`
+	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk); pk"`
 	Name      string          `orm:"column(name)"`
 }
 
@@ -35,7 +34,7 @@ func AddMultiChapterFiles(files []SeriesChaptersFiles) (count int64, err error) 
 }
 
 // GetAllChapterFilesById gets all files by id
-func GetAllChapterFilesById(id int) (v []*SeriesChaptersFiles, err error) {
+func GetAllChapterFilesById(id int) (v []SeriesChaptersFiles, err error) {
 	o := orm.NewOrm()
 	_, err = o.QueryTable("series_chapters_files").Filter("chapter_id", id).All(&v)
 	return
