@@ -1,0 +1,23 @@
+version: '3'  
+services:  
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: manga
+      POSTGRES_USER: manga 
+      POSTGRES_PASSWORD: manga 
+    ports:
+      - 5432:5432
+  app:
+    build: .
+    dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+  redis:
+    image: redis
