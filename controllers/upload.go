@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/dchest/uniuri"
 
+	"github.com/NyaaPantsu/manga/utils/zip"
 	"html/template"
 	"io"
 	"os"
@@ -44,6 +45,7 @@ type UploadForm struct {
 // @router / [post]
 func (c *UploadController) Post() {
 	flash := beego.NewFlash()
+	log := logs.GetLogger()
 	if !c.IsLogin {
 		flash.Error("Error you must be logged in to upload")
 		flash.Store(&c.Controller)
@@ -65,6 +67,25 @@ func (c *UploadController) Post() {
 		c.Redirect("/upload", 302)
 		return
 	}
+
+	random := uniuri.New()
+	chapters := models.SeriesChapters{
+		Title:           u.Title,
+		SeriesId:        &series,
+		ChapterLanguage: &models.Languages{Name: u.ChapterLanguage},
+		ContributorId:   c.Userinfo,
+		Hash:            random,
+	}
+	id, err := models.AddSeriesChapters(&chapters)
+	log.Println(id)
+	if err != nil {
+
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/upload", 301)
+		return
+	}
+
 	//var img string
 	files, err := c.GetFiles("files")
 	for i := range files {
@@ -80,10 +101,10 @@ func (c *UploadController) Post() {
 			return
 		}
 
-		random := uniuri.New()
 		//img = random + files[i].Filename
 		//create destination file making sure the path is writeable.
 		dst, err := os.Create("upload/" + random + files[i].Filename)
+
 		defer dst.Close()
 		if err != nil {
 
@@ -100,23 +121,40 @@ func (c *UploadController) Post() {
 			c.Redirect("/upload", 301)
 			return
 		}
-	}
-	chapters := models.SeriesChapters{
-		Title:           u.Title,
-		SeriesId:        &series,
-		ChapterLanguage: &models.Languages{Name: u.ChapterLanguage},
-		ContributorId:   c.Userinfo,
-		Hash:            uniuri.New(),
-	}
-	id, err := models.AddSeriesChapters(&chapters)
-	log := logs.GetLogger()
-	log.Println(id)
-	if err != nil {
 
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/upload", 301)
-		return
+		err = os.Mkdir("upload/"+random, os.ModePerm)
+		if err != nil {
+
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			c.Redirect("/upload", 301)
+			return
+		}
+
+		images, err := zip.Unzip("upload/"+random+files[i].Filename, "upload/"+random)
+		if err != nil {
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			c.Redirect("/upload", 301)
+			return
+		}
+		var temp []models.SeriesChaptersFiles
+		for _, cond := range images {
+			temp2 := models.SeriesChaptersFiles{
+				ChapterId: &chapters,
+				Name:      cond,
+			}
+			temp = append(temp, temp2)
+
+		}
+		_, err = models.AddMultiChapterFiles(temp)
+		if err != nil {
+			flash.Error(err.Error())
+			flash.Store(&c.Controller)
+			c.Redirect("/upload", 301)
+			return
+		}
+
 	}
 	flash.Success("Successfully added series!")
 	flash.Store(&c.Controller)
