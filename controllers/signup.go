@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/validation"
 	"golang.org/x/crypto/bcrypt"
 
 	"html/template"
@@ -21,10 +20,10 @@ func (c *SignupController) URLMapping() {
 }
 
 type Signup struct {
-	Username  string `form:"username,text" valid:"Required"`
-	Email     string `form:"email,email" valid:"Email;Required";`
-	Password  string `form:"password,password" valid:"Reqiured"`
-	Password2 string `form:"password2, password" valid:"Required"`
+	Username  string `form:"username,text""`
+	Email     string `form:"email,email"`
+	Password  string `form:"password,password"`
+	Password2 string `form:"password2, password"`
 }
 
 // Post ...
@@ -37,7 +36,6 @@ type Signup struct {
 func (c *SignupController) Post() {
 	flash := beego.NewFlash()
 
-	valid := validation.Validation{}
 	u := Signup{}
 	if err := c.ParseForm(&u); err != nil {
 		flash.Error("Signup invalid!")
@@ -45,20 +43,7 @@ func (c *SignupController) Post() {
 		c.Redirect("/auth/signup", 302)
 		return
 	}
-	b, err := valid.Valid(&u)
-	if err != nil {
-		flash.Error("Signup invalid!")
-		flash.Store(&c.Controller)
-		c.Redirect("/auth/signup", 302)
-		return
-	}
-	if !b {
-		flash.Error("Signup invalid!")
-		flash.Store(&c.Controller)
-		c.Redirect("/auth/signup", 302)
-		return
 
-	}
 	username := models.UsernameExists(u.Username)
 	email := models.EmailExists(u.Email)
 	if u.Password != u.Password2 {
