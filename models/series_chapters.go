@@ -69,7 +69,7 @@ func GetSeriesChaptersById(id int) (v *SeriesChapters, err error) {
 
 // GetAllSeriesChapters retrieves all SeriesChapters matches certain condition. Returns empty list if
 // no records exist
-func GetAllSeriesChapters(query map[string]string, fields []string, sortby []string, order []string,
+func rGetAllSeriesChapters(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(SeriesChapters))

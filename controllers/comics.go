@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/utils/pagination"
 	"html/template"
+	"strconv"
 	"strings"
 )
 
@@ -23,19 +24,27 @@ func (c *ComicsController) URLMapping() {
 // GetOne ...
 // @Title GetOne
 // @Description get Comics by name
-// @Param	name		path 	string	true		"The key for staticblock"
+// @Param	id		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.Series
 // @Failure 403 :name is empty
-// @router /:name [get]
+// @router /:id/:name [get]
 func (c *ComicsController) GetOne() {
-	name := c.Ctx.Input.Param(":name")
+	flash := beego.NewFlash()
+
+	id := c.Ctx.Input.Param(":id")
 
 	log := logs.GetLogger()
-	flash := beego.NewFlash()
-	l, err := models.GetSeriesByName(strings.Join(strings.Split(name, "-"), " "))
-	log.Println(l.Id)
+	i1, err := strconv.Atoi(id)
+	log.Println(i1)
 	if err != nil {
-		flash.Error("Comic not found")
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/comics", 302)
+		return
+	}
+	l, err := models.GetSeriesById(i1)
+	if err != nil {
+		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 		c.Redirect("/comics", 302)
 		return

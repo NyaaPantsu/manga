@@ -17,7 +17,7 @@ func init() {
 	beego.Router("/", &controllers.ComicsController{}, "get:GetAll")
 	beego.Router("/upload", &controllers.UploadController{})
 	beego.Router("/comics", &controllers.ComicsController{}, "get:GetAll")
-	beego.Router("/comics/:name", &controllers.ComicsController{}, "get:GetOne")
+	beego.Router("/comics/:id/:name", &controllers.ComicsController{}, "get:GetOne")
 	beego.Router("/comics/add", &controllers.Series_addController{})
 	beego.Router("/groups", &controllers.Groups_addController{}, "get:GetAll")
 	beego.Router("/groups/:name", &controllers.Groups_addController{}, "get:GetOne")

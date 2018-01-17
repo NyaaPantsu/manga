@@ -18,7 +18,7 @@ func init() {
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
 		beego.ControllerComments{
 			Method: "GetOne",
-			Router: `/:name`,
+			Router: `/:id/:name`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})

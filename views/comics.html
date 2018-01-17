@@ -10,7 +10,7 @@
     <tbody>
         {{range $key, $val := .series}}
         <tr>
-            <th scope="row"><a href="/comics/{{$val.Title}}">{{$val.Title}}</a></th>
+            <th scope="row"><a href="/comics/{{$val.SeriesId.Id}}/{{$val.Title}}">{{$val.Title}}</a></th>
             <td>{{$val.ChapterLanguage.Name}}</td>
             <td>Otto</td>
             <td>{{$val.TimeUploaded}}</td>
