@@ -612,11 +612,11 @@ definitions:
       ChapterLanguage:
         $ref: '#/definitions/models.Languages'
       ChapterNumberAbsolute:
-        type: integer
-        format: int64
+        type: number
+        format: double
       ChapterNumberVolume:
-        type: integer
-        format: int64
+        type: number
+        format: double
       ContributorId:
         $ref: '#/definitions/models.Users'
       Hash:
@@ -632,8 +632,8 @@ definitions:
       Title:
         type: string
       VolumeNumber:
-        type: integer
-        format: int64
+        type: number
+        format: double
   models.SeriesStatus:
     title: SeriesStatus
     type: object
