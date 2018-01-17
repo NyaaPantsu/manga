@@ -108,7 +108,6 @@ func (c *SignupController) Post() {
 	flash.Store(&c.Controller)
 	c.Redirect("/auth/login", 301)
 	return
-	n
 
 }
 
