@@ -11,7 +11,7 @@ import (
 
 type Series struct {
 	Id          int       `orm:"auto"`
-	Title       string    `orm:"column(name)"`
+	Name        string    `orm:"column(name)"`
 	Description string    `orm:"column(description)"`
 	CoverImage  string    `orm:"column(cover_image)"`
 	TypeName    string    `orm:"column(type_name)"`
