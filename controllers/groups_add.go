@@ -37,9 +37,9 @@ type GroupsForm struct {
 
 // Post ...
 // @Title Create
-// @Description create Groups_add
-// @Param	body		body 	models.Groups_add	true		"body for Groups_add content"
-// @Success 201 {object} models.Groups_add
+// @Description create Groups
+// @Param	body		body 	models.GroupsScanlation	true		"body for Groups_add content"
+// @Success 201 {object} models.GroupsScanlation
 // @Failure 403 body is empty
 // @router / [post]
 func (c *Groups_addController) Post() {
@@ -111,8 +111,8 @@ func (c *Groups_addController) Post() {
 
 // Get ...
 // @Title Get
-// @Description get Groups_add
-// @Success 200 {object} models.Groups_add
+// @Description get Groups
+// @Success 200 {object} models.GroupsScanlation
 // @Failure 403
 // @router /add [get]
 func (c *Groups_addController) Get() {
@@ -131,9 +131,9 @@ func (c *Groups_addController) Get() {
 
 // GetOne ...
 // @Title GetOne
-// @Description get Comics by name
+// @Description get Groups by name
 // @Param	name		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Comics
+// @Success 200 {object} models.GroupsScanlation
 // @Failure 403 :name is empty
 // @router /:name [get]
 func (c *Groups_addController) GetOne() {
@@ -163,7 +163,7 @@ func (c *Groups_addController) GetOne() {
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Search
+// @Success 200 {object} models.GroupsScanlation
 // @Failure 403
 // @router / [get]
 func (c *Groups_addController) GetAll() {
@@ -242,10 +242,10 @@ func (c *Groups_addController) GetAll() {
 
 // Put ...
 // @Title Put
-// @Description update the Groups_add
+// @Description update the Groups
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Groups_add	true		"body for Groups_add content"
-// @Success 200 {object} models.Groups_add
+// @Param	body		body 	models.GroupsScanlation	true		"body for Groups content"
+// @Success 200 {object} models.GroupsScanlation
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *Groups_addController) Put() {
@@ -254,7 +254,7 @@ func (c *Groups_addController) Put() {
 
 // Delete ...
 // @Title Delete
-// @Description delete the Groups_add
+// @Description delete the Groups
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty

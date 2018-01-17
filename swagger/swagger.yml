@@ -185,7 +185,7 @@ paths:
         "200":
           description: ""
           schema:
-            $ref: '#/definitions/.Login'
+            $ref: '#/definitions/models.Users'
         "403":
           description: ""
     post:
@@ -199,12 +199,12 @@ paths:
         description: body for Login content
         required: true
         schema:
-          $ref: '#/definitions/.Login'
+          $ref: '#/definitions/models.Users'
       responses:
         "201":
           description: ""
           schema:
-            $ref: '#/definitions/.Login'
+            $ref: '#/definitions/models.Users'
         "403":
           description: body is empty
   /logout/:
@@ -219,12 +219,12 @@ paths:
         description: body for Logout content
         required: true
         schema:
-          $ref: '#/definitions/.Logout'
+          $ref: '#/definitions/models.Users'
       responses:
         "201":
           description: ""
           schema:
-            $ref: '#/definitions/.Logout'
+            $ref: '#/definitions/models.Users'
         "403":
           description: body is empty
   /reports/:
@@ -239,12 +239,12 @@ paths:
         description: body for Signup content
         required: true
         schema:
-          $ref: '#/definitions/.Signup'
+          $ref: '#/definitions/models.Users'
       responses:
         "201":
           description: ""
           schema:
-            $ref: '#/definitions/.Signup'
+            $ref: '#/definitions/models.Users'
         "403":
           description: body is empty
     post:
@@ -258,12 +258,12 @@ paths:
         description: body for Signup content
         required: true
         schema:
-          $ref: '#/definitions/.Signup'
+          $ref: '#/definitions/models.Users'
       responses:
         "201":
           description: ""
           schema:
-            $ref: '#/definitions/.Signup'
+            $ref: '#/definitions/models.Users'
         "403":
           description: body is empty
   /series/:
@@ -508,12 +508,12 @@ paths:
         description: body for Signup content
         required: true
         schema:
-          $ref: '#/definitions/.Signup'
+          $ref: '#/definitions/models.Users'
       responses:
         "201":
           description: ""
           schema:
-            $ref: '#/definitions/.Signup'
+            $ref: '#/definitions/models.Users'
         "403":
           description: body is empty
     post:
@@ -527,12 +527,12 @@ paths:
         description: body for Signup content
         required: true
         schema:
-          $ref: '#/definitions/.Signup'
+          $ref: '#/definitions/models.Users'
       responses:
         "201":
           description: ""
           schema:
-            $ref: '#/definitions/.Signup'
+            $ref: '#/definitions/models.Users'
         "403":
           description: body is empty
   /statuses/:
@@ -551,21 +551,7 @@ paths:
         "403":
           description: ""
 definitions:
-  .Comics:
-    type: object
-  .Groups_add:
-    type: object
-  .Login:
-    type: object
-  .Logout:
-    type: object
   .Reader:
-    type: object
-  .Search:
-    type: object
-  .Series_add:
-    type: object
-  .Signup:
     type: object
   .Upload:
     type: object

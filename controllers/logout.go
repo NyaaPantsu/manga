@@ -17,8 +17,8 @@ func (c *LogoutController) URLMapping() {
 // Get ...
 // @Title Logout
 // @Description Logout
-// @Param	body		body 	models.Logout	true		"body for Logout content"
-// @Success 201 {object} models.Logout
+// @Param	body		body 	models.Users	true		"body for Logout content"
+// @Success 201 {object} models.Users
 // @Failure 403 body is empty
 // @router / [get]
 func (c *LogoutController) Get() {

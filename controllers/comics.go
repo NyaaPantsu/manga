@@ -24,7 +24,7 @@ func (c *ComicsController) URLMapping() {
 // @Title GetOne
 // @Description get Comics by name
 // @Param	name		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Comics
+// @Success 200 {object} models.Series
 // @Failure 403 :name is empty
 // @router /:name [get]
 func (c *ComicsController) GetOne() {
@@ -61,7 +61,7 @@ func (c *ComicsController) GetOne() {
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Search
+// @Success 200 {object} models.Series
 // @Failure 403
 // @router / [get]
 func (c *ComicsController) GetAll() {

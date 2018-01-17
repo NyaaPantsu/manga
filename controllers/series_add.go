@@ -47,8 +47,8 @@ type SeriesForm struct {
 // Post ...
 // @Title Create
 // @Description create Series_add
-// @Param	body		body 	models.Series_add	true		"body for Series_add content"
-// @Success 201 {object} models.Series_add
+// @Param	body		body 	models.Series	true		"body for Series_add content"
+// @Success 201 {object} models.Series
 // @Failure 403 body is empty
 // @router / [post]
 func (c *Series_addController) Post() {
@@ -160,8 +160,8 @@ func (c *Series_addController) Post() {
 
 // Get ...
 // @Title Get
-// @Description get Series_add
-// @Success 200 {object} models.Series_add
+// @Description get Series
+// @Success 200 {object} models.Series
 // @Failure 403
 // @router / [get]
 func (c *Series_addController) Get() {
@@ -182,8 +182,8 @@ func (c *Series_addController) Get() {
 // @Title Put
 // @Description update the Series_add
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Series_add	true		"body for Series_add content"
-// @Success 200 {object} models.Series_add
+// @Param	body		body 	models.Series	true		"body for Series_add content"
+// @Success 200 {object} models.Series
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *Series_addController) Put() {
@@ -192,7 +192,7 @@ func (c *Series_addController) Put() {
 
 // Delete ...
 // @Title Delete
-// @Description delete the Series_add
+// @Description delete the Series
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty

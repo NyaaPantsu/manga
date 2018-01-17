@@ -5,6 +5,8 @@ import (
 	"github.com/astaxie/beego"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/astaxie/beego/validation"
+
 	"html/template"
 )
 
@@ -14,10 +16,10 @@ type LoginController struct {
 }
 
 type Login struct {
-	Username string `form:"username,text"`
+	Username string `form:"username,text" valid:"Required"`
 	Email    string `form:"email,email"`
 	Remember bool   `form:remember, checkbox"`
-	Password string `form:"password,password"`
+	Password string `form:"password,password" valid:"Required"`
 }
 
 // URLMapping ...
@@ -29,8 +31,8 @@ func (c *LoginController) URLMapping() {
 // Post ...
 // @Title Create
 // @Description create Login
-// @Param	body		body 	models.Login	true		"body for Login content"
-// @Success 201 {object} models.Login
+// @Param	body		body 	models.Users	true		"body for Login content"
+// @Success 201 {object} models.Users
 // @Failure 403 body is empty
 // @router / [post]
 func (c *LoginController) Post() {
@@ -49,6 +51,22 @@ func (c *LoginController) Post() {
 		c.Redirect("/auth/login", 302)
 		return
 	}
+
+	valid := validation.Validation{}
+	b, err := valid.Valid(&u)
+	if err != nil {
+		flash.Error("Signup invalid!")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
+		return
+	}
+	if !b {
+		flash.Error("Signup invalid!")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
+		return
+	}
+
 	user, err := models.GetUserByUsername(u.Username)
 	if err != nil {
 		flash.Warning(err.Error())
@@ -80,7 +98,7 @@ func (c *LoginController) Post() {
 // Get ...
 // @Title GetAll
 // @Description get Login
-// @Success 200 {object} models.Login
+// @Success 200 {object} models.Users
 // @Failure 403
 // @router / [get]
 func (c *LoginController) Get() {
