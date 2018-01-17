@@ -24,16 +24,16 @@ func (c *UploadController) URLMapping() {
 }
 
 type UploadForm struct {
-	Id                    int    `form:"-"`
-	Title                 string `form:"title, text"`
-	ChapterNumberAbsolute int    `form:"chapternum, number`
-	ChapterNumberVolume   int    `form:"chaptervol, number"`
-	VolumeNumber          int    `form:"volnum, number"`
-	ChapterLanguage       string `form:"languages, text"`
-	ReleaseDelay          int    `form:"delay, number"`
-	Groups1               string `form:"group1, text"`
-	Groups2               string `form:"group2, text"`
-	Groups3               string `form:"group3, text"`
+	Id                    int     `form:"-"`
+	Title                 string  `form:"title, text"`
+	ChapterNumberAbsolute float64 `form:"chapternum, number`
+	ChapterNumberVolume   float64 `form:"chaptervol, number"`
+	VolumeNumber          float64 `form:"volnum, number"`
+	ChapterLanguage       string  `form:"languages, text"`
+	ReleaseDelay          int     `form:"delay, number"`
+	Groups1               string  `form:"group1, text"`
+	Groups2               string  `form:"group2, text"`
+	Groups3               string  `form:"group3, text"`
 }
 
 // Post ...
