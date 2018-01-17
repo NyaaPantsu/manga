@@ -61,40 +61,54 @@ func (c *SignupController) Post() {
 	}
 	username := models.UsernameExists(u.Username)
 	email := models.EmailExists(u.Email)
-	if u.Password == u.Password2 && !email && !username {
-		password := []byte(u.Password)
-
-		// Hashing the password with the default cost of 10
-		hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
-		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/auth/signup", 302)
-			return
-		}
-		users := models.Users{
-			Username:     u.Username,
-			Email:        u.Email,
-			PasswordHash: string(hashedPassword),
-		}
-		_, err = models.AddUsers(&users)
-		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/auth/signup", 302)
-			return
-		}
-
-		flash.Success("successfully signed up")
+	if u.Password != u.Password2 {
+		flash.Error("Passwords must match")
 		flash.Store(&c.Controller)
-		c.Redirect("/auth/login", 301)
+		c.Redirect("/auth/signup", 302)
+		return
+	}
+	if email {
+		flash.Error("Email or usernme in use")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
+		return
+
+	}
+	if username {
+		flash.Error("Email or usernme in use")
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
+		return
+
+	}
+	password := []byte(u.Password)
+
+	// Hashing the password with the default cost of 10
+	hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
+	if err != nil {
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
+		return
+	}
+	users := models.Users{
+		Username:     u.Username,
+		Email:        u.Email,
+		PasswordHash: string(hashedPassword),
+	}
+	_, err = models.AddUsers(&users)
+	if err != nil {
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/auth/signup", 302)
 		return
 	}
 
-	flash.Error("Email or username exists")
+	flash.Success("successfully signed up")
 	flash.Store(&c.Controller)
-	c.Redirect("/auth/login", 302)
+	c.Redirect("/auth/login", 301)
 	return
+	n
 
 }
 
