@@ -10,7 +10,10 @@
     <tbody>
         {{range $key, $val := .series}}
         <tr>
-            <th scope="row"><a href="/comics/{{$val.SeriesId.Id}}/{{$val.Title}}">{{$val.SeriesId.Name}}</a></th>
+            <th scope="row"><a href="/comics/{{$val.SeriesId.Id}}/{{$val.SeriesId.Name}}">{{$val.SeriesId.Name}}</a></th>
+        </tr>
+        <tr>
+            <td><a href="/reader/{{$val.Hash}}">{{$val.Title}}</a></td>
             <td>{{$val.ChapterLanguage.Name}}</td>
             <td>Otto</td>
             <td>{{dateformat $val.TimeUploaded "2006-01-02 15:04"}}</td>
