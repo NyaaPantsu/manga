@@ -63,12 +63,13 @@ func GetUsersById(id int) (v *Users, err error) {
 // GetUsersByUsername retrieves Users by Id. Returns error if
 // username doesn't exist
 func GetUserByUsername(username string) (v *Users, err error) {
+	var temp Users
 	o := orm.NewOrm()
-	v = &Users{Username: username}
-	if err = o.Read(v); err == nil {
-		return v, nil
+	err = o.QueryTable("users").Filter("username", username).One(&temp)
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+	return &temp, nil
 }
 
 // GetAllUsers retrieves all Users matches certain condition. Returns empty list if
