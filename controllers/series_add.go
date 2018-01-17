@@ -117,7 +117,7 @@ func (c *Series_addController) Post() {
 		html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 
 		series := models.Series{
-			Title:       u.Name,
+			Name:        u.Name,
 			Description: string(html),
 			TypeName:    u.TypeName,
 			CoverImage:  coverimg,
