@@ -26,7 +26,7 @@ func (c *UploadController) URLMapping() {
 type UploadForm struct {
 	Id                    int     `form:"-"`
 	Title                 string  `form:"title, text"`
-	ChapterNumberAbsolute float64 `form:"chapternum, number`
+	ChapterNumberAbsolute string `form:"chapternum, te`
 	ChapterNumberVolume   float64 `form:"chaptervol, number"`
 	VolumeNumber          float64 `form:"volnum, number"`
 	ChapterLanguage       string  `form:"languages, text"`

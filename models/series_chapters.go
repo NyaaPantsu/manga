@@ -14,7 +14,7 @@ type SeriesChapters struct {
 	Id                    int        `orm:"auto"`
 	SeriesId              *Series    `orm:"column(series_id);rel(fk)"`
 	Title                 string     `orm:"column(title)"`
-	ChapterNumberAbsolute float64    `orm:"column(chapter_number_absolute)"`
+	ChapterNumberAbsolute string    `orm:"column(chapter_number_absolute)"`
 	ChapterNumberVolume   float64    `orm:"column(chapter_number_volume);null"`
 	VolumeNumber          float64    `orm:"column(volume_number);null"`
 	ChapterLanguage       *Languages `orm:"column(chapter_language);rel(fk)"`

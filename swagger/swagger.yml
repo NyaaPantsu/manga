@@ -553,6 +553,8 @@ paths:
 definitions:
   .Reader:
     type: object
+  .Rss:
+    type: object
   .Upload:
     type: object
   models.GroupsScanlation:
@@ -598,8 +600,7 @@ definitions:
       ChapterLanguage:
         $ref: '#/definitions/models.Languages'
       ChapterNumberAbsolute:
-        type: number
-        format: double
+        type: string
       ChapterNumberVolume:
         type: number
         format: double

@@ -21,9 +21,9 @@ func init() {
 	beego.Router("/comics/add", &controllers.Series_addController{})
 	beego.Router("/groups", &controllers.Groups_addController{}, "get:GetAll")
 	beego.Router("/groups/:name", &controllers.Groups_addController{}, "get:GetOne")
-	beego.Router("/groups/add", &controllers.Groups_addController{}, "get:Get")
-  beego.Router("/rss/latest", &controllers.RssController{}, "get:GetNew")
-  beego.Router("/rss/followed", &controllers.RssController{}, "get:GetFollowed")
+	beego.Router("/groups/add", &controllers.Groups_addController{}, "get:Get;post:Post")
+	beego.Router("/rss/latest", &controllers.RssController{}, "get:GetNew")
+	beego.Router("/rss/followed", &controllers.RssController{}, "get:GetFollowed")
 
 	beego.Router("/reader/:hash", &controllers.ReaderController{}, "get:GetOne")
 

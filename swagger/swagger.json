@@ -837,6 +837,9 @@
         ".Reader": {
             "type": "object"
         },
+        ".Rss": {
+            "type": "object"
+        },
         ".Upload": {
             "type": "object"
         },
@@ -901,8 +904,7 @@
                     "$ref": "#/definitions/models.Languages"
                 },
                 "ChapterNumberAbsolute": {
-                    "type": "number",
-                    "format": "double"
+                    "type": "string"
                 },
                 "ChapterNumberVolume": {
                     "type": "number",
