@@ -6,6 +6,8 @@ import (
 	"github.com/astaxie/beego"
 
 	"github.com/astaxie/beego/utils/pagination"
+
+	"net/url"
 )
 
 // ReaderController operations for Reader
@@ -70,6 +72,12 @@ func (c *ReaderController) GetOne() {
 	sortby = append(sortby, "title")
 	k, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, l.Id)
 
+	following := false
+	uid := c.GetSession("userinfo")
+	if uid != nil {
+		following = models.Following(uid.(int), l.SeriesId.Id)
+	}
+
 	count, _ := models.GetSeriesChaptersFilesCount(l.Id)
 
 	paginator := pagination.SetPaginator(c.Ctx, int(limit), count-1)
@@ -78,5 +86,8 @@ func (c *ReaderController) GetOne() {
 	c.TplName = "reader.html"
 	c.Data["files"] = v
 	c.Data["chapters"] = k
+	c.Data["series_id"] = l.SeriesId.Id
+	c.Data["current_page"] = url.QueryEscape(c.Ctx.Input.URL())
+	c.Data["following"] = following
 	c.Render()
 }

@@ -24,6 +24,7 @@ func init() {
 	beego.Router("/groups/add", &controllers.Groups_addController{}, "get:Get;post:Post")
 	beego.Router("/rss/latest", &controllers.RssController{}, "get:GetNew")
 	beego.Router("/rss/followed", &controllers.RssController{}, "get:GetFollowed")
+	beego.Router("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow")
 
 	beego.Router("/reader/:hash", &controllers.ReaderController{}, "get:GetOne")
 
