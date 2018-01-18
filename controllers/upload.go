@@ -142,7 +142,13 @@ func (c *UploadController) Post() {
 			return
 		}
 
-		images, err := zip.Unzip("uploads/"+random+files[i].Filename, "uploads/"+random)
+		fpath := "uploads/"+random+files[i].Filename
+		var images []string
+		if zip.IsRar(fpath) {
+			images, err = zip.Unrar(fpath, "uploads/"+random)
+		} else {
+			images, err = zip.Unzip(fpath, "uploads/"+random)
+		}
 		if err != nil {
 			flash.Error(err.Error())
 			flash.Store(&c.Controller)
