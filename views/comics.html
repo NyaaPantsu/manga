@@ -15,7 +15,7 @@
         <tr>
             <td><a href="/reader/{{$val.Hash}}">{{$val.Title}}</a></td>
             <td>{{$val.ChapterLanguage.Name}}</td>
-            <td>Otto</td>
+            <td>{{$val.ContributorId.Username}}</td>
             <td>{{dateformat $val.TimeUploaded "2006-01-02 15:04"}}</td>
         </tr>
         {{end}}

@@ -834,9 +834,6 @@
         }
     },
     "definitions": {
-        ".Reader": {
-            "type": "object"
-        },
         ".Rss": {
             "type": "object"
         },

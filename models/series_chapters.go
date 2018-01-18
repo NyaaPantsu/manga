@@ -14,7 +14,7 @@ type SeriesChapters struct {
 	Id                    int        `orm:"auto"`
 	SeriesId              *Series    `orm:"column(series_id);rel(fk)"`
 	Title                 string     `orm:"column(title)"`
-	ChapterNumberAbsolute string    `orm:"column(chapter_number_absolute)"`
+	ChapterNumberAbsolute string     `orm:"column(chapter_number_absolute)"`
 	ChapterNumberVolume   float64    `orm:"column(chapter_number_volume);null"`
 	VolumeNumber          float64    `orm:"column(volume_number);null"`
 	ChapterLanguage       *Languages `orm:"column(chapter_language);rel(fk)"`
@@ -44,7 +44,7 @@ func GetSeriesChaptersBySeriesId(id int) (v []SeriesChapters, err error) {
 // Id doesn't exist
 func GetSeriesChaptersByHash(hash string) (v SeriesChapters, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series_chapters").Filter("hash", hash).One(&v)
+	err = o.QueryTable("series_chapters").Filter("hash", hash).RelatedSel().One(&v)
 	return
 }
 
@@ -70,7 +70,7 @@ func GetSeriesChaptersById(id int) (v *SeriesChapters, err error) {
 // GetAllSeriesChapters retrieves all SeriesChapters matches certain condition. Returns empty list if
 // no records exist
 func GetAllSeriesChapters(query map[string]string, fields []string, sortby []string, order []string,
-	offset int64, limit int64) (ml []interface{}, err error) {
+	offset int64, limit int64, id int) (ml []interface{}, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(SeriesChapters))
 	// query k=v
@@ -79,8 +79,10 @@ func GetAllSeriesChapters(query map[string]string, fields []string, sortby []str
 		k = strings.Replace(k, ".", "__", -1)
 		if strings.Contains(k, "isnull") {
 			qs = qs.Filter(k, (v == "true" || v == "1"))
+		} else if id == 0 {
+
 		} else {
-			qs = qs.Filter(k, v)
+			qs = qs.Filter(k, v).Filter("series_id", id)
 		}
 	}
 	// order by:
@@ -124,7 +126,7 @@ func GetAllSeriesChapters(query map[string]string, fields []string, sortby []str
 
 	var l []SeriesChapters
 	qs = qs.OrderBy(sortFields...)
-	if _, err = qs.Limit(limit, offset).RelatedSel().All(&l, fields...); err == nil {
+	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
 			for _, v := range l {
 				ml = append(ml, v)

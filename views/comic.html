@@ -1,32 +1,103 @@
-<div class="media border">
-    <div class="mw-25">
+<div class="row">
+    <div class="col-md-3 pull-md-9">
         <img class="align-self-start border" src="/uploads/covers/{{.series.CoverImage}}" alt="Generic placeholder image">
     </div>
-    <div class="media-body">
-        <h5 class="mt-0 ml-3">{{.series.Name}}</h5>
-        <p>{{.description}}</p>
-
-        {{range $key, $val := .tags}}
-        <p>{{$val.TagName}}:{{$val.TagNamespace}} </p>
-        {{end}}
+    <div class="col-md-9 push-md-3">
+        <div class="row">
+            <div class="col-md-3 pull-md-9">
+                <p>Name</p>
+            </div>
+            <div class="col-md-9 pull-md-3">
+                {{.series.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{.description}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 pull-md-9">
+                <p>Alt Names</p>
+            </div>
+            <div class="col-md-9 pull-md-3">
+                {{.series.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 pull-md-9">
+                <p>Authors</p>
+            </div>
+            <div class="col-md-9 pull-md-3">
+                {{.series.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 pull-md-9">
+                <p>Artists</p>
+            </div>
+            <div class="col-md-9 pull-md-3">
+                {{.series.Name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 pull-md-9">
+                <p>Tags</p>
+            </div>
+            <div class="col-md-9 pull-md-3">
+                {{.series.Name}}
+            </div>
+        </div>
     </div>
 </div>
-<table class="table table-hover">
+<table class="table">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th>Link</th>
+            <th>Name & vol</th>
+            <th>Language</th>
+            <th>Contributor</th>
         </tr>
     </thead>
     <tbody>
-        {{range $key, $val := .chapters}}
+
+        {{range $key, $val := .series}}
         <tr>
             <td>
-                <a href="/reader/{{$val.Hash}}">{{$val.ChapterNumberAbsolute}}</a>
+                <a href="/reader/{{$val.Hash}}">read</a>
             </td>
+            <td>
+            </td>
+            <td>
+                {{$val.Languages.Name}}
+            </td>
+            <td>
+                <a href="/download/{{$val.Hash}}">download</a>
+            </td>
+
         </tr>
         {{end}}
+
     </tbody>
 </table>
+{{if .paginator.HasPags}}
+<ul class="pagination pagination">
+    {{if .paginator.HasPrev}}
+    <li><a href="{{.paginator.PageLinkFirst}}">&laquo;&laquo;</a></li>
+    <li><a href="{{.paginator.PageLinkPrev}}">&laquo;</a></li>
+    {{else}}
+    <li class="disabled"><a>&laquo;&laquo;</a></li>
+    <li class="disabled"><a>&laquo;</a></li>
+    {{end}} {{range $index, $page := .paginator.Pages}}
+    <li{{if $.paginator.IsActive .}} class="active" {{end}}>
+        <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
+        </li>
+        {{end}} {{if .paginator.HasNext}}
+        <li><a href="{{.paginator.PageLinkNext}}">&raquo;</a></li>
+        <li><a href="{{.paginator.PageLinkLast}}">&raquo;&raquo;</a></li>
+        {{else}}
+        <li class="disabled"><a>&raquo;</a></li>
+        <li class="disabled"><a>&raquo&raquo;;</a></li>
+        {{end}}
+</ul>
+{{end}}

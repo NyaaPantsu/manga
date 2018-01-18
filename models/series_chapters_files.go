@@ -34,8 +34,8 @@ func AddMultiChapterFiles(files []SeriesChaptersFiles) (count int64, err error) 
 }
 
 // GetAllChapterFilesById gets all files by id
-func GetAllChapterFilesById(id int) (v []SeriesChaptersFiles, err error) {
+func GetAllChapterFilesById(id int, limit int64, offset int64) (v []SeriesChaptersFiles, err error) {
 	o := orm.NewOrm()
-	_, err = o.QueryTable("series_chapters_files").Filter("chapter_id", id).All(&v)
+	_, err = o.QueryTable("series_chapters_files").Filter("chapter_id", id).Limit(limit, offset).OrderBy("name").All(&v)
 	return
 }

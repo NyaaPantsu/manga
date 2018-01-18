@@ -551,8 +551,6 @@ paths:
         "403":
           description: ""
 definitions:
-  .Reader:
-    type: object
   .Rss:
     type: object
   .Upload:

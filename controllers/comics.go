@@ -52,6 +52,9 @@ func (c *ComicsController) GetOne() {
 	chap, err := models.GetSeriesChaptersBySeriesId(l.Id)
 	tag, err := models.GetAllTagsById(l.Id)
 	c.TplName = "comic.html"
+	paginator := pagination.SetPaginator(c.Ctx, 20, int64(len(chap)))
+
+	c.Data["paginator"] = paginator
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Data["series"] = l
 	c.Data["description"] = template.HTML(l.Description)
@@ -144,7 +147,7 @@ func (c *ComicsController) GetAll() {
 		if len(sortby) == 0 {
 			sortby = append(sortby, "time_uploaded")
 		}
-		l, err = models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
+		l, err = models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, 0)
 
 		c.TplName = "comics.html"
 	}

@@ -119,7 +119,7 @@ func (c *SeriesChaptersController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, 0)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
