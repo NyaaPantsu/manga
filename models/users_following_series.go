@@ -15,5 +15,5 @@ func GetRecentFollowedSeriesByChapter(user_id int, offset int, limit int) (b []S
 	var series orm.ParamsList
 	_, err = o.QueryTable("users_following_series").Filter("user_id", user_id).ValuesFlat(&series, "series_id")
 	_, err = o.QueryTable("series_chapters").Filter("series_chapters__series_id__in", series...).OrderBy("time_uploaded").Limit(limit, offset).RelatedSel().All(&b)
-  return
+	return
 }

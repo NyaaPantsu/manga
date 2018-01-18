@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 )
 
-// Returns 1 if the file named src has RAR magic bytes 
-func IsRar(src string) (bool) {
+// Returns 1 if the file named src has RAR magic bytes
+func IsRar(src string) bool {
 	f, err := os.Open(src)
 	if err != nil {
 		return false
