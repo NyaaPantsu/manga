@@ -12,8 +12,6 @@ import (
 	"html/template"
 	"io"
 	"os"
-	"path"
-	"strings"
 )
 
 // Series_addController operations for Series_add
@@ -104,12 +102,16 @@ func (c *Series_addController) Post() {
 				return
 			}
 			pat := "uploads/covers/" + random + files[i].Filename
-			if strings.ToLower(path.Ext(files[i].Filename)) == ".png" {
-				resize.ResizePng(pat, pat+"_thumb")
-			} else if strings.ToLower(path.Ext(files[i].Filename)) == ".jpg" {
-				resize.ResizeJpg(pat, pat+"_thumb")
+			err = resize.ResizeImage(pat, pat+"_thumb")
+			if err != nil {
 
+				flash.Error(err.Error())
+				flash.Store(&c.Controller)
+				c.Redirect("/comics/add", 301)
+				return
 			}
+			
+
 		}
 
 		unsafe := blackfriday.Run([]byte(u.Description))
