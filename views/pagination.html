@@ -8,7 +8,7 @@
                 <span class="sr-only">&lt;&lt;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="{{.paginator.PageLinkPrev}}">&lt;</a></li>
+        <li class="page-item"><a class="page-link" id="prevLink" href="{{.paginator.PageLinkPrev}}">&lt;</a></li>
         {{else}}
         <li class="page-item disabled">
             <a class="page-link" aria-label="first">
@@ -23,7 +23,7 @@
             <a class="page-link" href="{{$.paginator.PageLink $page}}">{{$page}}</a>
             </li>
             {{end}} {{if .paginator.HasNext}}
-            <li class="page-item"><a class="page-link" href="{{.paginator.PageLinkNext}}">&gt;</a></li>
+            <li class="page-item"><a class="page-link" id="nextLink" href="{{.paginator.PageLinkNext}}">&gt;</a></li>
             <li class="page-item"><a class="page-link" href="{{.paginator.PageLinkLast}}">&gt;&gt;</a></li>
             {{else}}
             <li class="page-item disabled"><a class="page-link">&gt;</a></li>

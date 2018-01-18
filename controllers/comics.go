@@ -82,9 +82,9 @@ func (c *ComicsController) GetAll() {
 	var limit int64 = 20
 	var offset int64
 	var series bool
-	series, err := c.GetBool("series")
+	mature, err := c.GetBool("mature")
 	if err != nil {
-		series = false
+		mature = false
 	}
 
 	// fields: col1,col2,entity.col3
@@ -118,7 +118,7 @@ func (c *ComicsController) GetAll() {
 			var k, v string
 			if len(kv) != 2 {
 				if series {
-					k = "name__icontains"
+					k = "series__name__icontains"
 				} else {
 					k = "title__icontains"
 
@@ -129,25 +129,19 @@ func (c *ComicsController) GetAll() {
 				k, v = kv[0], kv[1]
 			}
 			query[k] = v
+
 		}
+	}
+	if mature {
+		query["series_tags_tag_name"] = "mature"
 	}
 	var l []interface{}
-	if series {
-
-		if len(sortby) == 0 {
-			sortby = append(sortby, "name")
-		}
-		l, err = models.GetAllSeries(query, fields, sortby, order, offset, limit)
-
-		c.TplName = "series.html"
-	} else {
-		if len(sortby) == 0 {
-			sortby = append(sortby, "time_uploaded")
-		}
-		l, err = models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, 0)
-
-		c.TplName = "comics.html"
+	if len(sortby) == 0 {
+		sortby = append(sortby, "time_uploaded")
 	}
+	l, err = models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, 0)
+
+	c.TplName = "comics.html"
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)

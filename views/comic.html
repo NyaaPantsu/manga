@@ -24,12 +24,19 @@
                 {{.series.Name}}
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-3 pull-md-9">
-                <p>Authors</p>
+                <p>Tags</p>
             </div>
             <div class="col-md-9 pull-md-3">
-                {{.series.Name}}
+                <div class="row">
+                    {{range $key, $val := .tags}}
+                    <div class="col">
+                        {{$val.TagName}}:{{$val.TagNamespace}}
+                    </div>
+                    {{end}}
+                </div>
             </div>
         </div>
     </div>
