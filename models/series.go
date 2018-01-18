@@ -10,13 +10,15 @@ import (
 )
 
 type Series struct {
-	Id          int       `orm:"auto"`
-	Name        string    `orm:"column(name)"`
-	Description string    `orm:"column(description)"`
-	CoverImage  string    `orm:"column(cover_image)"`
-	TypeName    string    `orm:"column(type_name)"`
-	TypeDemonym string    `orm:"column(type_demonym)"`
-	Status      *Statuses `orm:"column(status);rel(fk)"`
+	Id            int              `orm:"auto"`
+	Name          string           `orm:"column(name)"`
+	Description   string           `orm:"column(description)"`
+	CoverImage    string           `orm:"column(cover_image)"`
+	TypeName      string           `orm:"column(type_name)"`
+	TypeDemonym   string           `orm:"column(type_demonym)"`
+	Status        *Statuses        `orm:"column(status);rel(fk)"`
+	SeriesTags    []*SeriesTags    `orm:"reverse(many)"`
+	SeriesAliases []*SeriesAliases `orm:"reverse(many)"`
 }
 
 func (t *Series) TableName() string {

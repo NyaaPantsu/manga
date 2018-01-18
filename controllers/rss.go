@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"time"
 	"fmt"
+	"time"
 
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
@@ -41,19 +41,20 @@ func (c *RssController) GetNew() {
 	}
 
 	now := time.Now()
-	feed := &feeds.Feed {
-		Title: "New chapters",
-		Link: &feeds.Link{Href: "https://manga.sh"},
+	feed := &feeds.Feed{
+		Title:       "New chapters",
+		Link:        &feeds.Link{Href: "https://manga.sh"},
 		Description: "Recently updated manga",
-		Created: now,
+		Created:     now,
 	}
 	feed.Items = make([]*feeds.Item, 50)
 	for index, element := range recents {
 		feed.Items[index] = &feeds.Item{
 			Title: fmt.Sprintf("%s - Chapter %d", element.SeriesId.Name, element.ChapterNumberAbsolute),
-			Link: &feeds.Link{Href: fmt.Sprint("https://manga.sh/reader/", element.Hash)},
+			Link:  &feeds.Link{Href: fmt.Sprint("https://manga.sh/reader/", element.Hash)},
 		}
 	}
+
 	switch c.GetString("format") {
 	case "atom":
 		atom, err := feed.ToAtom()
@@ -120,17 +121,17 @@ func (c *RssController) GetFollowed() {
 	}
 
 	now := time.Now()
-	feed := &feeds.Feed {
-		Title: "New chapters",
-		Link: &feeds.Link{Href: "https://manga.sh"},
+	feed := &feeds.Feed{
+		Title:       "New chapters",
+		Link:        &feeds.Link{Href: "https://manga.sh"},
 		Description: "Recently updated followed manga",
-		Created: now,
+		Created:     now,
 	}
 	feed.Items = make([]*feeds.Item, 50)
 	for index, element := range recents {
 		feed.Items[index] = &feeds.Item{
 			Title: fmt.Sprintf("%s - Chapter %d", element.SeriesId.Name, element.ChapterNumberAbsolute),
-			Link: &feeds.Link{Href: fmt.Sprint("https://manga.sh/reader/", element.Hash)},
+			Link:  &feeds.Link{Href: fmt.Sprint("https://manga.sh/reader/", element.Hash)},
 		}
 	}
 	switch c.GetString("format") {

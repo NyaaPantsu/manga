@@ -81,7 +81,6 @@ func (c *ComicsController) GetAll() {
 	var query = make(map[string]string)
 	var limit int64 = 20
 	var offset int64
-	var series bool
 	mature, err := c.GetBool("mature")
 	if err != nil {
 		mature = false
@@ -117,12 +116,9 @@ func (c *ComicsController) GetAll() {
 			kv := strings.SplitN(cond, ":", 2)
 			var k, v string
 			if len(kv) != 2 {
-				if series {
-					k = "series__name__icontains"
-				} else {
-					k = "title__icontains"
 
-				}
+				k = "series__title__icontains"
+
 				v = kv[0]
 			} else {
 

@@ -5,8 +5,17 @@ import (
 )
 
 type SeriesAliases struct {
+	Id       int     `orm:"auto"`
 	SeriesId *Series `orm:"column(series_id);rel(fk)"`
 	Name     string  `orm:"column(name)"`
+}
+
+func (t *SeriesAliases) TableName() string {
+	return "series_aliases"
+}
+
+func init() {
+	orm.RegisterModel(new(SeriesAliases))
 }
 
 // AddSeriesAlias insert a new Series into database and returns

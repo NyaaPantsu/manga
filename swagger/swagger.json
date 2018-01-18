@@ -882,6 +882,18 @@
                 "Name": {
                     "type": "string"
                 },
+                "SeriesAliases": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SeriesAliases"
+                    }
+                },
+                "SeriesTags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SeriesTags"
+                    }
+                },
                 "Status": {
                     "$ref": "#/definitions/models.Statuses"
                 },
@@ -890,6 +902,22 @@
                 },
                 "TypeName": {
                     "type": "string"
+                }
+            }
+        },
+        "models.SeriesAliases": {
+            "title": "SeriesAliases",
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "SeriesId": {
+                    "$ref": "#/definitions/models.Series"
                 }
             }
         },
@@ -942,6 +970,21 @@
                     "format": "int64"
                 },
                 "Status": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SeriesTags": {
+            "title": "SeriesTags",
+            "type": "object",
+            "properties": {
+                "SeriesId": {
+                    "$ref": "#/definitions/models.Series"
+                },
+                "TagName": {
+                    "type": "string"
+                },
+                "TagNamespace": {
                     "type": "string"
                 }
             }
