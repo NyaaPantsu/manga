@@ -274,7 +274,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Login"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -295,7 +295,7 @@
                         "description": "body for Login content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/.Login"
+                            "$ref": "#/definitions/models.Users"
                         }
                     }
                 ],
@@ -303,7 +303,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Login"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -326,7 +326,7 @@
                         "description": "body for Logout content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/.Logout"
+                            "$ref": "#/definitions/models.Users"
                         }
                     }
                 ],
@@ -334,7 +334,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Logout"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -357,7 +357,7 @@
                         "description": "body for Signup content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     }
                 ],
@@ -365,7 +365,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -386,7 +386,7 @@
                         "description": "body for Signup content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     }
                 ],
@@ -394,7 +394,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -763,7 +763,7 @@
                         "description": "body for Signup content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     }
                 ],
@@ -771,7 +771,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -792,7 +792,7 @@
                         "description": "body for Signup content",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     }
                 ],
@@ -800,7 +800,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/.Signup"
+                            "$ref": "#/definitions/models.Users"
                         }
                     },
                     "403": {
@@ -834,28 +834,7 @@
         }
     },
     "definitions": {
-        ".Comics": {
-            "type": "object"
-        },
-        ".Groups_add": {
-            "type": "object"
-        },
-        ".Login": {
-            "type": "object"
-        },
-        ".Logout": {
-            "type": "object"
-        },
         ".Reader": {
-            "type": "object"
-        },
-        ".Search": {
-            "type": "object"
-        },
-        ".Series_add": {
-            "type": "object"
-        },
-        ".Signup": {
             "type": "object"
         },
         ".Upload": {
@@ -922,12 +901,12 @@
                     "$ref": "#/definitions/models.Languages"
                 },
                 "ChapterNumberAbsolute": {
-                    "type": "integer",
-                    "format": "int64"
+                    "type": "number",
+                    "format": "double"
                 },
                 "ChapterNumberVolume": {
-                    "type": "integer",
-                    "format": "int64"
+                    "type": "number",
+                    "format": "double"
                 },
                 "ContributorId": {
                     "$ref": "#/definitions/models.Users"
@@ -950,8 +929,8 @@
                     "type": "string"
                 },
                 "VolumeNumber": {
-                    "type": "integer",
-                    "format": "int64"
+                    "type": "number",
+                    "format": "double"
                 }
             }
         },

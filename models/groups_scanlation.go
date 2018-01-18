@@ -33,7 +33,7 @@ func GroupsScanlationNameExists(name string) (exists bool) {
 
 // AddGroupsScanlation insert a new GroupsScanlation into database and returns
 // last inserted Name on success.
-func AddGroupsScanlation(m *GroupsScanlation) ( err error) {
+func AddGroupsScanlation(m *GroupsScanlation) (err error) {
 	o := orm.NewOrm()
 	_, err = o.Insert(m)
 	return
@@ -42,12 +42,14 @@ func AddGroupsScanlation(m *GroupsScanlation) ( err error) {
 // GetGroupsScanlationByName retrieves GroupsScanlation by Name. Returns error if
 // Name doesn't exist
 func GetGroupsScanlationByName(name string) (v *GroupsScanlation, err error) {
+
+	var temp GroupsScanlation
 	o := orm.NewOrm()
-	v = &GroupsScanlation{Name: name}
-	if err = o.Read(v); err == nil {
-		return v, nil
+	err = o.QueryTable("groups_scanlation").Filter("name", name).One(&temp)
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+	return &temp, nil
 }
 
 // GetAllGroupsScanlation retrieves all GroupsScanlation matches certain condition. Returns empty list if

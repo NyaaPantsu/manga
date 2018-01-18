@@ -61,19 +61,21 @@ func SeriesNameExists(name string) (exists bool) {
 // Id doesn't exist
 func GetSeriesByName(name string) (v Series, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series").Filter("name", name).RelatedSel().One(&v)
+	err = o.QueryTable("series").Filter("name__icontains", name).RelatedSel().One(&v)
 	return
 }
 
 // GetSeriesById retrieves Series by Id. Returns error if
 // Id doesn't exist
 func GetSeriesById(id int) (v *Series, err error) {
+	var temp Series
+
 	o := orm.NewOrm()
-	v = &Series{Id: id}
-	if err = o.Read(v); err == nil {
-		return v, nil
+	err = o.QueryTable("series").Filter("id", id).One(&temp)
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+	return &temp, nil
 }
 
 // GetAllSeries retrieves all Series matches certain condition. Returns empty list if

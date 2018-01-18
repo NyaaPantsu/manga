@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/utils/pagination"
 	"html/template"
+	"strconv"
 	"strings"
 )
 
@@ -23,20 +24,27 @@ func (c *ComicsController) URLMapping() {
 // GetOne ...
 // @Title GetOne
 // @Description get Comics by name
-// @Param	name		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Comics
+// @Param	id		path 	string	true		"The key for staticblock"
+// @Success 200 {object} models.Series
 // @Failure 403 :name is empty
-// @router /:name [get]
+// @router /:id/:name [get]
 func (c *ComicsController) GetOne() {
-	name := c.Ctx.Input.Param(":name")
+	flash := beego.NewFlash()
+
+	id := c.Ctx.Input.Param(":id")
 
 	log := logs.GetLogger()
-	log.Println(name)
-	flash := beego.NewFlash()
-	l, err := models.GetSeriesByName(name)
-	log.Println(l.Id)
+	i1, err := strconv.Atoi(id)
+	log.Println(i1)
 	if err != nil {
-		flash.Error("Comic not found")
+		flash.Error(err.Error())
+		flash.Store(&c.Controller)
+		c.Redirect("/comics", 302)
+		return
+	}
+	l, err := models.GetSeriesById(i1)
+	if err != nil {
+		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 		c.Redirect("/comics", 302)
 		return
@@ -62,7 +70,7 @@ func (c *ComicsController) GetOne() {
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Search
+// @Success 200 {object} models.Series
 // @Failure 403
 // @router / [get]
 func (c *ComicsController) GetAll() {
@@ -73,6 +81,11 @@ func (c *ComicsController) GetAll() {
 	var query = make(map[string]string)
 	var limit int64 = 20
 	var offset int64
+	var series bool
+	series, err := c.GetBool("series")
+	if err != nil {
+		series = false
+	}
 
 	// fields: col1,col2,entity.col3
 	if v := c.GetString("fields"); v != "" {
@@ -97,16 +110,19 @@ func (c *ComicsController) GetAll() {
 	if len(order) == 0 {
 		order = append(order, "desc")
 	}
-	if len(sortby) == 0 {
-		sortby = append(sortby, "time_uploaded")
-	}
+
 	// query: k:v,k:v
 	if v := c.GetString("query"); v != "" {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			var k, v string
 			if len(kv) != 2 {
-				k = "name__icontains"
+				if series {
+					k = "name__icontains"
+				} else {
+					k = "title__icontains"
+
+				}
 				v = kv[0]
 			} else {
 
@@ -115,22 +131,37 @@ func (c *ComicsController) GetAll() {
 			query[k] = v
 		}
 	}
+	var l []interface{}
+	if series {
 
-	l, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
+		if len(sortby) == 0 {
+			sortby = append(sortby, "name")
+		}
+		l, err = models.GetAllSeries(query, fields, sortby, order, offset, limit)
+
+		c.TplName = "series.html"
+	} else {
+		if len(sortby) == 0 {
+			sortby = append(sortby, "time_uploaded")
+		}
+		l, err = models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
+
+		c.TplName = "comics.html"
+	}
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
+		c.Redirect("/comics", 302)
 		return
 
 	}
 
-	c.TplName = "comics.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 
 	paginator := pagination.SetPaginator(c.Ctx, int(limit), int64(len(l)))
 
 	c.Data["series"] = l
 	c.Data["paginator"] = paginator
-	c.TplName = "comics.html"
 	c.Render()
+	return
 }
