@@ -59,8 +59,17 @@
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
 		},
 		{
+			"ImportPath": "github.com/astaxie/beego/validation",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
 			"ImportPath": "github.com/dchest/uniuri",
 			"Rev": "8902c56451e9b58ff940bbe5fec35d5f9c04584a"
+		},
+		{
+			"ImportPath": "github.com/gorilla/feeds",
+			"Rev": "fa8f5548eedbe306d748925237a48d70ae4150de"
 		},
 		{
 			"ImportPath": "github.com/lib/pq",
@@ -79,6 +88,10 @@
 		{
 			"ImportPath": "github.com/nfnt/resize",
 			"Rev": "891127d8d1b52734debe1b3c3d7e747502b6c366"
+		},
+		{
+			"ImportPath": "github.com/nwaples/rardecode",
+			"Rev": "e06696f847aeda6f39a8f0b7cdff193b7690aef6"
 		},
 		{
 			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",
