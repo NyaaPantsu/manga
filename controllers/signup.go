@@ -53,14 +53,14 @@ func (c *SignupController) Post() {
 		return
 	}
 	if email {
-		flash.Error("Email or usernme in use")
+		flash.Error("Email or username in use")
 		flash.Store(&c.Controller)
 		c.Redirect("/auth/signup", 302)
 		return
 
 	}
 	if username {
-		flash.Error("Email or usernme in use")
+		flash.Error("Email or username in use")
 		flash.Store(&c.Controller)
 		c.Redirect("/auth/signup", 302)
 		return
