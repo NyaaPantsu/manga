@@ -1,10 +1,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
         </tr>
     </thead>
     <tbody>
@@ -12,7 +10,8 @@
 
         {{range $key, $val := .groups}}
         <tr>
-            <td>{{$val}}</td>
+            <td><a href="/groups/{{$val.Name}}">{{$val.Name}}</a></td>
+            <td>{{$val.Description}}</td>
         </tr>
         {{end}}
     </tbody>

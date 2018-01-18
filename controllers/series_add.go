@@ -30,7 +30,6 @@ func (c *Series_addController) URLMapping() {
 }
 
 type SeriesForm struct {
-	Username    string `form:"username,text"`
 	Id          int    `form:"-"`
 	Name        string `form:"name, text"`
 	Description string `form:"description, text"`
@@ -62,7 +61,7 @@ func (c *Series_addController) Post() {
 
 	u := SeriesForm{}
 	if err := c.ParseForm(&u); err != nil {
-		flash.Error("Series invalid")
+		flash.Error(err.Error())
 		flash.Store(&c.Controller)
 		c.Redirect("/comics/add", 302)
 		return
