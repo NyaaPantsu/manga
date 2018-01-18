@@ -114,6 +114,21 @@
 			"Rev": "d866cfc389cec985d6fda2859936a575a55a3ab6"
 		},
 		{
+			"ImportPath": "gopkg.in/h2non/filetype.v1",
+			"Comment": "v1.0.5",
+			"Rev": "cc14fdc9ca0e4c2bafad7458f6ff79fd3947cfbb"
+		},
+		{
+			"ImportPath": "gopkg.in/h2non/filetype.v1/matchers",
+			"Comment": "v1.0.5",
+			"Rev": "cc14fdc9ca0e4c2bafad7458f6ff79fd3947cfbb"
+		},
+		{
+			"ImportPath": "gopkg.in/h2non/filetype.v1/types",
+			"Comment": "v1.0.5",
+			"Rev": "cc14fdc9ca0e4c2bafad7458f6ff79fd3947cfbb"
+		},
+		{
 			"ImportPath": "gopkg.in/russross/blackfriday.v2",
 			"Comment": "v2.0.0",
 			"Rev": "cadec560ec52d93835bf2f15bd794700d3a2473b"
