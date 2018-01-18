@@ -65,16 +65,6 @@ func (c *RssController) GetNew() {
 		}
 		c.Ctx.Output.Header("Content-Type", "application/atom+xml")
 		c.Ctx.Output.Body([]byte(atom))
-	case "rss":
-		rss, err := feed.ToRss()
-		if err != nil {
-			flash.Error("RSS generation failed")
-			flash.Store(&c.Controller)
-			c.Redirect("/", 302)
-			return
-		}
-		c.Ctx.Output.Header("Content-Type", "application/rss+xml")
-		c.Ctx.Output.Body([]byte(rss))
 	case "json":
 		json, err := feed.ToJSON()
 		if err != nil {
@@ -85,6 +75,16 @@ func (c *RssController) GetNew() {
 		}
 		c.Ctx.Output.Header("Content-Type", "application/json")
 		c.Ctx.Output.Body([]byte(json))
+	default:
+		rss, err := feed.ToRss()
+		if err != nil {
+			flash.Error("RSS generation failed")
+			flash.Store(&c.Controller)
+			c.Redirect("/", 302)
+			return
+		}
+		c.Ctx.Output.Header("Content-Type", "application/rss+xml")
+		c.Ctx.Output.Body([]byte(rss))
 	}
 	return
 }
@@ -144,16 +144,6 @@ func (c *RssController) GetFollowed() {
 		}
 		c.Ctx.Output.Header("Content-Type", "application/atom+xml")
 		c.Ctx.Output.Body([]byte(atom))
-	case "rss":
-		rss, err := feed.ToRss()
-		if err != nil {
-			flash.Error("RSS generation failed")
-			flash.Store(&c.Controller)
-			c.Redirect("/", 302)
-			return
-		}
-		c.Ctx.Output.Header("Content-Type", "application/rss+xml")
-		c.Ctx.Output.Body([]byte(rss))
 	case "json":
 		json, err := feed.ToJSON()
 		if err != nil {
@@ -164,6 +154,16 @@ func (c *RssController) GetFollowed() {
 		}
 		c.Ctx.Output.Header("Content-Type", "application/json")
 		c.Ctx.Output.Body([]byte(json))
+	default:
+		rss, err := feed.ToRss()
+		if err != nil {
+			flash.Error("RSS generation failed")
+			flash.Store(&c.Controller)
+			c.Redirect("/", 302)
+			return
+		}
+		c.Ctx.Output.Header("Content-Type", "application/rss+xml")
+		c.Ctx.Output.Body([]byte(rss))
 	}
 	return
 }
