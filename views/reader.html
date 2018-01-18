@@ -1,3 +1,49 @@
-{{template "pagination.html" .}} {{range $key, $val := .files}}
+<div class="row">
+    <div class="col">
+        <a href=""></a>
+    </div>
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dropdown button
+                    </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dropdown button
+                    </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {{range $key, $val := .chapters}}
+                <a class="dropdown-item" href="#">{{$val}}</a> {{end}}
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pages
+                    </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                {{if gt .paginator.PageNums 1}} {{range $index, $page := until .paginator.PageNums}}
+                <a class="dropdown-item" href="{{$.paginator.PageLink $page}}">{{$page}}</a> {{end}} {{end}}
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a class="btn btn-secondary">Follow</a>
+            <a class="btn btn-secondary">Save</a>
+            <a href="?" class="btn btn-secondary">Long-strip</a>
+            <a href="?limit=1" class="btn btn-secondary">single page</a>
+        </div>
+    </div>
+</div>
+{{range $key, $val := .files}}
 
 <img src="/{{$val.Name}}" class="img-fluid border" alt="Responsive image"> {{end}} {{template "pagination.html" .}}

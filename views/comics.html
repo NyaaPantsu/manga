@@ -1,24 +1,36 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Series</th>
-            <th scope="col">Language</th>
-            <th scope="col">Group</th>
-            <th scope="col">Date</th>
+            <th>Series</th>
+            <th>Link</th>
+            <th>Group</th>
+            <th>Language</th>
         </tr>
     </thead>
     <tbody>
+
         {{range $key, $val := .series}}
+
+
         <tr>
-            <th scope="row"><a href="/comics/{{$val.SeriesId.Id}}/{{htmlquote $val.SeriesId.Name}}">{{$val.SeriesId.Name}}</a></th>
-        </tr>
-        <tr>
-            <td><a href="/reader/{{$val.Hash}}">{{$val.Title}}</a></td>
-            <td>{{$val.ChapterLanguage.Name}}</td>
-            <td>{{$val.ContributorId.Username}}</td>
-            <td>{{dateformat $val.TimeUploaded "2006-01-02 15:04"}}</td>
+            <td>
+                <a href="/comic/{{$val.SeriesId.Id}}/{{$val.SeriesId.Name}}">{{$val.SeriesId.Name}}</a>
+            </td>
+            <td>
+                <a href="/reader/{{$val.Hash}}?limit=1">
+                {{$val.VolumeNumber}} {{$val.ChapterNumberVolume}} {{$val.Title}} {{$val.ChapterNumberAbsolute}}
+                </a>
+            </td>
+            <td>
+                {{$val.ContributorId.Username}}
+            </td>
+            <td>
+                {{$val.ChapterLanguage.Name}}
+            </td>
+
         </tr>
         {{end}}
+
     </tbody>
 </table>
 {{template "pagination.html" .}}
