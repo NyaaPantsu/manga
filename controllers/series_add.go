@@ -40,7 +40,7 @@ type SeriesForm struct {
 	Tags        string `form:"tags, text"`
 	Authors     string `form:"authors, text"`
 	Artist      string `form:"artists, text"`
-	Mature      bool   `form:"mature, checkbox"`
+	Mature      int    `form:"mature, checkbox"`
 }
 
 // Post ...
@@ -131,7 +131,7 @@ func (c *Series_addController) Post() {
 		tempTags, _ := split.ProcessTags(&series, u.Tags)
 		authors, _ := split.CreateTags(&series, "author", u.Authors)
 		artists, _ := split.CreateTags(&series, "artist", u.Artist)
-		if u.Mature {
+		if u.Mature == 1 {
 			matureTag, _ := split.CreateTags(&series, "content", "mature")
 			models.AddMultiSeriesTags(matureTag)
 		}
