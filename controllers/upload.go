@@ -142,12 +142,19 @@ func (c *UploadController) Post() {
 			return
 		}
 
-		fpath := "uploads/"+random+files[i].Filename
+		fpath := "uploads/" + random + files[i].Filename
 		var images []string
 		if zip.IsRar(fpath) {
 			images, err = zip.Unrar(fpath, "uploads/"+random)
 		} else {
 			images, err = zip.Unzip(fpath, "uploads/"+random)
+		}
+		if len(images) == 0 {
+			flash.Error("Error no images in archive")
+			flash.Store(&c.Controller)
+			c.Redirect("/upload", 301)
+			return
+
 		}
 		if err != nil {
 			flash.Error(err.Error())
