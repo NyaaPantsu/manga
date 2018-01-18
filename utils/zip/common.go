@@ -8,7 +8,7 @@ import (
 )
 
 // Make File
-func MakeFile(fpath string, rc io.Reader, mode os.FileMode) (error) {
+func MakeFile(fpath string, rc io.Reader, mode os.FileMode) error {
 	err := os.MkdirAll(filepath.Dir(fpath), os.ModePerm)
 	if err != nil {
 		log.Fatal(err)

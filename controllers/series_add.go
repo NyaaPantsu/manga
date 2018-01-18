@@ -110,7 +110,6 @@ func (c *Series_addController) Post() {
 				c.Redirect("/comics/add", 301)
 				return
 			}
-			
 
 		}
 
