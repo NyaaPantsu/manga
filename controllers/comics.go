@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/utils/pagination"
 	"html/template"
 	"strconv"
@@ -33,9 +32,7 @@ func (c *ComicsController) GetOne() {
 
 	id := c.Ctx.Input.Param(":id")
 
-	log := logs.GetLogger()
 	i1, err := strconv.Atoi(id)
-	log.Println(i1)
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)

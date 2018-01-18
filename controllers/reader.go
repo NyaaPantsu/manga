@@ -43,7 +43,7 @@ func (c *ReaderController) GetOne() {
 		limit = v
 	}
 	// offset: 0 (default is 0)
-	if v, err := c.GetInt64("offset"); err == nil {
+	if v, err := c.GetInt64("p"); err == nil {
 		offset = v
 	}
 
@@ -70,7 +70,9 @@ func (c *ReaderController) GetOne() {
 	sortby = append(sortby, "title")
 	k, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, l.Id)
 
-	paginator := pagination.SetPaginator(c.Ctx, int(limit), int64(len(v)))
+	count, _ := models.GetSeriesChaptersFilesCount(l.Id)
+
+	paginator := pagination.SetPaginator(c.Ctx, int(limit), count-1)
 
 	c.Data["paginator"] = paginator
 	c.TplName = "reader.html"

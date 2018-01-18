@@ -32,44 +32,31 @@
                 {{.series.Name}}
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3 pull-md-9">
-                <p>Artists</p>
-            </div>
-            <div class="col-md-9 pull-md-3">
-                {{.series.Name}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 pull-md-9">
-                <p>Tags</p>
-            </div>
-            <div class="col-md-9 pull-md-3">
-                {{.series.Name}}
-            </div>
-        </div>
     </div>
 </div>
 <table class="table">
     <thead>
         <tr>
             <th>Link</th>
-            <th>Name & vol</th>
+            <th>Group</th>
             <th>Language</th>
-            <th>Contributor</th>
+            <th>Download</th>
         </tr>
     </thead>
     <tbody>
 
-        {{range $key, $val := .series}}
+        {{range $key, $val := .chapters}}
         <tr>
             <td>
-                <a href="/reader/{{$val.Hash}}">read</a>
+                <a href="/reader/{{$val.Hash}}?limit=1">
+                {{$val.VolumeNumber}} {{$val.ChapterNumberVolume}} {{$val.Title}} {{$val.ChapterNumberAbsolute}}
+                </a>
             </td>
             <td>
+                {{$val.ContributorId.Username}}
             </td>
             <td>
-                {{$val.Languages.Name}}
+                {{$val.ChapterLanguage.Name}}
             </td>
             <td>
                 <a href="/download/{{$val.Hash}}">download</a>
@@ -80,24 +67,3 @@
 
     </tbody>
 </table>
-{{if .paginator.HasPags}}
-<ul class="pagination pagination">
-    {{if .paginator.HasPrev}}
-    <li><a href="{{.paginator.PageLinkFirst}}">&laquo;&laquo;</a></li>
-    <li><a href="{{.paginator.PageLinkPrev}}">&laquo;</a></li>
-    {{else}}
-    <li class="disabled"><a>&laquo;&laquo;</a></li>
-    <li class="disabled"><a>&laquo;</a></li>
-    {{end}} {{range $index, $page := .paginator.Pages}}
-    <li{{if $.paginator.IsActive .}} class="active" {{end}}>
-        <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
-        </li>
-        {{end}} {{if .paginator.HasNext}}
-        <li><a href="{{.paginator.PageLinkNext}}">&raquo;</a></li>
-        <li><a href="{{.paginator.PageLinkLast}}">&raquo;&raquo;</a></li>
-        {{else}}
-        <li class="disabled"><a>&raquo;</a></li>
-        <li class="disabled"><a>&raquo&raquo;;</a></li>
-        {{end}}
-</ul>
-{{end}}

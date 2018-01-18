@@ -10,7 +10,7 @@
     <tbody>
         {{range $key, $val := .series}}
         <tr>
-            <th scope="row"><a href="/comics/{{$val.SeriesId.Id}}/{{$val.SeriesId.Name}}">{{$val.SeriesId.Name}}</a></th>
+            <th scope="row"><a href="/comics/{{$val.SeriesId.Id}}/{{htmlquote $val.SeriesId.Name}}">{{$val.SeriesId.Name}}</a></th>
         </tr>
         <tr>
             <td><a href="/reader/{{$val.Hash}}">{{$val.Title}}</a></td>
@@ -21,24 +21,4 @@
         {{end}}
     </tbody>
 </table>
-{{if .paginator.HasPages}}
-<ul class="pagination pagination">
-    {{if .paginator.HasPrev}}
-    <li><a href="{{.paginator.PageLinkFirst}}">&laquo;&laquo;</a></li>
-    <li><a href="{{.paginator.PageLinkPrev}}">&laquo;</a></li>
-    {{else}}
-    <li class="disabled"><a>&laquo;&laquo;</a></li>
-    <li class="disabled"><a>&laquo;</a></li>
-    {{end}} {{range $index, $page := .paginator.Pages}}
-    <li{{if $.paginator.IsActive .}} class="active" {{end}}>
-        <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
-        </li>
-        {{end}} {{if .paginator.HasNext}}
-        <li><a href="{{.paginator.PageLinkNext}}">&raquo;</a></li>
-        <li><a href="{{.paginator.PageLinkLast}}">&raquo;&raquo;</a></li>
-        {{else}}
-        <li class="disabled"><a>&raquo;</a></li>
-        <li class="disabled"><a>&raquo&raquo;;</a></li>
-        {{end}}
-</ul>
-{{end}}
+{{template "pagination.html" .}}
