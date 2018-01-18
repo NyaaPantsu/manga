@@ -585,12 +585,31 @@ definitions:
         format: int64
       Name:
         type: string
+      SeriesAliases:
+        type: array
+        items:
+          $ref: '#/definitions/models.SeriesAliases'
+      SeriesTags:
+        type: array
+        items:
+          $ref: '#/definitions/models.SeriesTags'
       Status:
         $ref: '#/definitions/models.Statuses'
       TypeDemonym:
         type: string
       TypeName:
         type: string
+  models.SeriesAliases:
+    title: SeriesAliases
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
+      Name:
+        type: string
+      SeriesId:
+        $ref: '#/definitions/models.Series'
   models.SeriesChapters:
     title: SeriesChapters
     type: object
@@ -627,6 +646,16 @@ definitions:
         type: integer
         format: int64
       Status:
+        type: string
+  models.SeriesTags:
+    title: SeriesTags
+    type: object
+    properties:
+      SeriesId:
+        $ref: '#/definitions/models.Series'
+      TagName:
+        type: string
+      TagNamespace:
         type: string
   models.Statuses:
     title: Statuses

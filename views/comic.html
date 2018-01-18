@@ -5,10 +5,10 @@
     <div class="col-md-9 push-md-3">
         <div class="row">
             <div class="col-md-3 pull-md-9">
-                <p>Name</p>
+                {{.series.Name}}
             </div>
             <div class="col-md-9 pull-md-3">
-                {{.series.Name}}
+                <a href="/follow" class="btn btn-secondary">follow</a>
             </div>
         </div>
         <div class="row">
@@ -31,9 +31,9 @@
             </div>
             <div class="col-md-9 pull-md-3">
                 <div class="row">
-                    {{range $key, $val := .tags}}
+                    {{range $key, $val := .Series.SeriesTags}}
                     <div class="col">
-                        {{$val.TagName}}:{{$val.TagNamespace}}
+                        {{$val.TagNamespace}}:{{$val.TagName}}</a>
                     </div>
                     {{end}}
                 </div>
