@@ -48,7 +48,7 @@
         {{range $key, $val := .chapters}}
         <tr>
             <td>
-                <a href="/reader/{{$val.Hash}}?limit=1">
+                <a href="/reader/{{$val.Hash}}?limit=1&p=1">
                 {{$val.VolumeNumber}} {{$val.ChapterNumberVolume}} {{$val.Title}} {{$val.ChapterNumberAbsolute}}
                 </a>
             </td>
