@@ -19,6 +19,7 @@ type Series struct {
 	Status        *Statuses        `orm:"column(status);rel(fk)"`
 	SeriesTags    []*SeriesTags    `orm:"reverse(many)"`
 	SeriesAliases []*SeriesAliases `orm:"reverse(many)"`
+	SeriesRatings []*SeriesRatings `orm:"reverse(many)"`
 }
 
 func (t *Series) TableName() string {
@@ -73,7 +74,7 @@ func GetSeriesById(id int) (v *Series, err error) {
 	var temp Series
 
 	o := orm.NewOrm()
-	err = o.QueryTable("series").Filter("id", id).One(&temp)
+	err = o.QueryTable("series").Filter("id", id).RelatedSel().One(&temp)
 	if err != nil {
 		return nil, err
 	}

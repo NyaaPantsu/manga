@@ -589,6 +589,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/models.SeriesAliases'
+      SeriesRatings:
+        type: array
+        items:
+          $ref: '#/definitions/models.SeriesRatings'
       SeriesTags:
         type: array
         items:
@@ -628,6 +632,10 @@ definitions:
       Id:
         type: integer
         format: int64
+      SeriesChaptersGroups:
+        type: array
+        items:
+          $ref: '#/definitions/models.SeriesChaptersGroups'
       SeriesId:
         $ref: '#/definitions/models.Series'
       TimeUploaded:
@@ -638,6 +646,31 @@ definitions:
       VolumeNumber:
         type: number
         format: double
+  models.SeriesChaptersGroups:
+    title: SeriesChaptersGroups
+    type: object
+    properties:
+      ChapterId:
+        $ref: '#/definitions/models.SeriesChapters'
+      GroupName:
+        type: string
+      Id:
+        type: integer
+        format: int64
+  models.SeriesRatings:
+    title: SeriesRatings
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
+      Rating:
+        type: integer
+        format: int64
+      SeriesId:
+        $ref: '#/definitions/models.Series'
+      UserId:
+        $ref: '#/definitions/models.Users'
   models.SeriesStatus:
     title: SeriesStatus
     type: object
@@ -676,6 +709,36 @@ definitions:
         type: string
       Username:
         type: string
+      UsersFollowingSeries:
+        type: array
+        items:
+          $ref: '#/definitions/models.UsersFollowingSeries'
+      UsersGroups:
+        type: array
+        items:
+          $ref: '#/definitions/models.UsersGroups'
+  models.UsersFollowingSeries:
+    title: UsersFollowingSeries
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
+      SeriesId:
+        $ref: '#/definitions/models.Series'
+      UserId:
+        $ref: '#/definitions/models.Users'
+  models.UsersGroups:
+    title: UsersGroups
+    type: object
+    properties:
+      GroupName:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      UserId:
+        $ref: '#/definitions/models.Users'
 tags:
 - name: logout
   description: |

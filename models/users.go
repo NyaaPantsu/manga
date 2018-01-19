@@ -10,10 +10,12 @@ import (
 )
 
 type Users struct {
-	Id           int    `orm:"auto"`
-	Username     string `orm:"column(username)"`
-	Email        string `orm:"column(email);null"`
-	PasswordHash string `orm:"column(password_hash)"`
+	Id                   int                     `orm:"auto"`
+	Username             string                  `orm:"column(username)"`
+	Email                string                  `orm:"column(email);null"`
+	PasswordHash         string                  `orm:"column(password_hash)"`
+	UsersFollowingSeries []*UsersFollowingSeries `orm:"reverse(many)"`
+	UsersGroups          []*UsersGroups          `orm:"reverse(many)"`
 }
 
 func (t *Users) TableName() string {
