@@ -8,7 +8,7 @@
                 {{.series.Name}}
             </div>
             <div class="col-md-9 pull-md-3">
-                <a href="/follow" class="btn btn-secondary">follow</a>
+                <a href="/follow/{{.series.Id}}" class="btn btn-secondary">{{if .following}}Unfollow{{else}}Follow{{end}}</a> 
             </div>
         </div>
         <div class="row">
