@@ -37,7 +37,7 @@
     </div>
     <div class="col">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <a class="btn btn-secondary">Follow</a>
+            <a href="/follow/{{.series_id}}?r={{.current_page}}" class="btn btn-secondary">{{if .following}}Unfollow{{else}}Follow{{end}}</a>
             <a class="btn btn-secondary">Save</a>
             <a href="?" class="btn btn-secondary">Long-strip</a>
             <a href="?limit=1&p=1" class="btn btn-secondary">single page</a>

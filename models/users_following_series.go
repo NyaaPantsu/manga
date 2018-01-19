@@ -26,3 +26,27 @@ func GetRecentFollowedSeriesByChapter(user_id int, offset int, limit int) (b []S
 	_, err = o.QueryTable("series_chapters").Filter("series_chapters__series_id__in", series...).OrderBy("time_uploaded").Limit(limit, offset).RelatedSel().All(&b)
 	return
 }
+
+func Following(user_id, series_id int) (b bool) {
+	var u UsersFollowingSeries
+	o := orm.NewOrm()
+	err := o.Raw("SELECT * FROM users_following_series WHERE user_id=? AND series_id=?", user_id, series_id).QueryRow(&u)
+	if err != nil {
+		b = false
+	} else {
+		b = true
+	}
+	return
+}
+
+func Follow(user_id, series_id int) (err error) {
+	o := orm.NewOrm()
+	_, err = o.Raw("INSERT INTO users_following_series VALUES (?, ?)", user_id, series_id).Exec()
+	return
+}
+
+func Unfollow(user_id, series_id int) (err error) {
+	o := orm.NewOrm()
+	_, err = o.Raw("DELETE FROM users_following_series WHERE user_id=? AND series_id=?", user_id, series_id).Exec()
+	return
+}
