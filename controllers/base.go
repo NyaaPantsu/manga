@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/juusechec/jwt-beego"
+	"strings"
 )
 
 // BaseController operations for Base
@@ -21,10 +22,15 @@ type NestFinisher interface {
 func (c *BaseController) Prepare() {
 
 	//	tokenString := c.Ctx.Input.Query("tokenString")
-	tokenString := c.Ctx.Request.Header.Get("Authorization")
+	header := strings.Split(c.Ctx.Input.Header("Authorization"), " ")
+	if len(header) != 2 || header[0] != "Bearer" {
+		c.Ctx.Output.SetStatus(401)
+		c.Data["json"] = "Permission Denied"
+		c.ServeJSON()
+	}
 
 	et := jwtbeego.EasyToken{}
-	valid, _, _ := et.ValidateToken(tokenString)
+	valid, _, _ := et.ValidateToken(header[1])
 	if !valid {
 		c.Ctx.Output.SetStatus(401)
 		c.Data["json"] = "Permission Denied"

@@ -22,7 +22,6 @@ func init() {
 	}))
 
 	beego.Router("/", &controllers.ComicsController{}, "get:GetAll")
-	beego.Router("/upload", &controllers.UploadController{})
 	beego.Router("/comics", &controllers.ComicsController{}, "get:GetAll")
 	beego.Router("/comics/:id/:name", &controllers.ComicsController{}, "get:GetOne")
 	beego.Router("/comics/add", &controllers.Series_addController{})
