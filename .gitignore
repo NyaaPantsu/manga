@@ -14,7 +14,8 @@
 .glide/
 manga
 *.tmp
-uploads/
+uploads/*
+node_modules/*
 
 # emacs files
 *~
