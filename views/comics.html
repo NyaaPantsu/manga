@@ -1,6 +1,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>cover</th>
             <th>Series</th>
             <th>Link</th>
             <th>Group</th>
@@ -14,6 +15,9 @@
 
         <tr>
             <td>
+                <img src="/uploads/cover/{{$val.SeriesId.CoverImage}}" alt="cover image">
+            </td>
+            <td>
                 <a href="/comics/{{$val.SeriesId.Id}}/{{$val.SeriesId.Name}}">{{$val.SeriesId.Name}}</a>
             </td>
             <td>
@@ -25,7 +29,7 @@
                 {{$val.ContributorId.Username}}
             </td>
             <td>
-                <span class="flag-icon flag-icon-{{$val.ChapterLanguage.Code}} flag-icon-squared"></span> {{$val.ChapterLanguage.Name}}
+                <a href=""><span class="flag-icon flag-icon-{{$val.ChapterLanguage.Code}} flag-icon-squared"></span> {{$val.ChapterLanguage.Name}}</a>
             </td>
 
         </tr>

@@ -190,7 +190,8 @@ COMMENT ON COLUMN groups_scanlation_urls.url IS 'The actual URL associated with 
 --
 
 CREATE TABLE languages (
-    name text NOT NULL
+    name text NOT NULL,
+    code text
 );
 
 
@@ -324,7 +325,7 @@ CREATE TABLE series_chapters (
     id bigint NOT NULL,
     series_id bigint NOT NULL,
     title text NOT NULL,
-    chapter_number_absolute numeric(10,2) NOT NULL,
+    chapter_number_absolute text NOT NULL,
     chapter_number_volume numeric(10,2),
     volume_number numeric(10,2),
     chapter_language text NOT NULL,
@@ -1288,20 +1289,6 @@ CREATE INDEX idx_series_chapters_volume_number ON series_chapters USING btree (v
 --
 
 COMMENT ON INDEX idx_series_chapters_volume_number IS 'Indexes the volume number of a series.Justification is to sort by volume numbers.';
-
-
---
--- Name: idx_series_description; Type: INDEX; Schema: public; Owner: manga
---
-
-CREATE INDEX idx_series_description ON series USING btree (description);
-
-
---
--- Name: INDEX idx_series_description; Type: COMMENT; Schema: public; Owner: manga
---
-
-COMMENT ON INDEX idx_series_description IS 'Index indexing the description of the series.';
 
 
 --
