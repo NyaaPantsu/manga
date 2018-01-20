@@ -561,15 +561,32 @@ definitions:
     properties:
       Description:
         type: string
+      GroupsScanlationUrls:
+        type: array
+        items:
+          $ref: '#/definitions/models.GroupsScanlationUrls'
       Name:
         type: string
       ReleaseDelay:
         type: integer
         format: int64
+  models.GroupsScanlationUrls:
+    title: GroupsScanlationUrls
+    type: object
+    properties:
+      GroupName:
+        $ref: '#/definitions/models.GroupsScanlation'
+      Id:
+        type: integer
+        format: int64
+      Url:
+        type: string
   models.Languages:
     title: Languages
     type: object
     properties:
+      Code:
+        type: string
       Name:
         type: string
   models.Series:
@@ -632,6 +649,10 @@ definitions:
       Id:
         type: integer
         format: int64
+      SeriesChaptersFiles:
+        type: array
+        items:
+          $ref: '#/definitions/models.SeriesChaptersFiles'
       SeriesChaptersGroups:
         type: array
         items:
@@ -646,6 +667,14 @@ definitions:
       VolumeNumber:
         type: number
         format: double
+  models.SeriesChaptersFiles:
+    title: SeriesChaptersFiles
+    type: object
+    properties:
+      ChapterId:
+        $ref: '#/definitions/models.SeriesChapters'
+      Name:
+        type: string
   models.SeriesChaptersGroups:
     title: SeriesChaptersGroups
     type: object

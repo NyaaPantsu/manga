@@ -8,6 +8,7 @@ import (
 
 type Languages struct {
 	Name string `orm:"column(name);pk"`
+	Code string `orm:"column(code)"`
 }
 
 func (t *Languages) TableName() string {

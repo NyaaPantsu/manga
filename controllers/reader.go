@@ -86,6 +86,7 @@ func (c *ReaderController) GetOne() {
 	c.TplName = "reader.html"
 	c.Data["files"] = v
 	c.Data["chapters"] = k
+	c.Data["series"] = l
 	c.Data["series_id"] = l.SeriesId.Id
 	c.Data["current_page"] = url.QueryEscape(c.Ctx.Input.URL())
 	c.Data["following"] = following

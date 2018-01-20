@@ -1,12 +1,13 @@
 <div class="row">
     <div class="col">
-        <a href=""></a>
+        <a href="/comics/{{.series.SeriesId.Id}}/{{.series.SeriesId.Name}}">{{.series.SeriesId.Name}}</a>
     </div>
     <div class="col">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Dropdown button
+                Versions    
                     </button>
+
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Something else here</a>
             </div>
@@ -15,7 +16,7 @@
     <div class="col">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Dropdown button
+                Chapters
                     </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {{range $key, $val := .chapters}}
@@ -38,7 +39,6 @@
     <div class="col">
         <div class="btn-group" role="group" aria-label="Basic example">
             <a href="/follow/{{.series_id}}?r={{.current_page}}" class="btn btn-secondary">{{if .following}}Unfollow{{else}}Follow{{end}}</a>
-            <a class="btn btn-secondary">Save</a>
             <a href="?" class="btn btn-secondary">Long-strip</a>
             <a href="?limit=1&p=1" class="btn btn-secondary">single page</a>
         </div>

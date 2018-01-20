@@ -71,7 +71,7 @@ func (c *Groups_addController) Post() {
 		urls := []models.GroupsScanlationUrls{}
 		for _, cond := range strings.Split(u.Urls, ",") {
 			temp := models.GroupsScanlationUrls{
-				GroupName: groups.Name,
+				GroupName: &groups,
 				Url:       cond,
 			}
 			urls = append(urls, temp)

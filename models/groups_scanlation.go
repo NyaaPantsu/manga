@@ -10,9 +10,10 @@ import (
 )
 
 type GroupsScanlation struct {
-	Name         string `orm:"column(name);pk"`
-	Description  string `orm:"column(description)"`
-	ReleaseDelay int    `orm:"column(release_delay);null"`
+	Name                 string                  `orm:"column(name);pk"`
+	Description          string                  `orm:"column(description)"`
+	ReleaseDelay         int                     `orm:"column(release_delay);null"`
+	GroupsScanlationUrls []*GroupsScanlationUrls `orm:"reverse(many)"`
 }
 
 func (t *GroupsScanlation) TableName() string {

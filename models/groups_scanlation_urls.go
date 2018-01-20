@@ -5,8 +5,17 @@ import (
 )
 
 type GroupsScanlationUrls struct {
-	GroupName string `orm:"column(group_name)"`
-	Url       string `orm:"column(url)"`
+	Id        int               `orm:"auto"`
+	GroupName *GroupsScanlation `orm:"column(group_name);rel(fk)"`
+	Url       string            `orm:"column(url)"`
+}
+
+func (t *GroupsScanlationUrls) TableName() string {
+	return "groups_scanlation_urls"
+}
+
+func init() {
+	orm.RegisterModel(new(GroupsScanlationUrls))
 }
 
 // AddMultiGroupUrl adds multiple urls to group name

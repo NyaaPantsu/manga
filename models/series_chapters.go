@@ -22,6 +22,7 @@ type SeriesChapters struct {
 	TimeUploaded          time.Time               `orm:"column(time_uploaded);type(timestamp without time zone);auto_now_add"`
 	Hash                  string                  `orm:"column(hash)"`
 	SeriesChaptersGroups  []*SeriesChaptersGroups `orm:"reverse(many)"`
+	SeriesChaptersFiles   []*SeriesChaptersFiles  `orm:"reverse(many)"`
 }
 
 func (t *SeriesChapters) TableName() string {
