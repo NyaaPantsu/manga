@@ -1,16 +1,13 @@
 package controllers
 
 import (
-	"github.com/NyaaPantsu/manga/models"
 	"github.com/astaxie/beego"
+	"github.com/juusechec/jwt-beego"
 )
 
 // BaseController operations for Base
 type BaseController struct {
 	beego.Controller
-
-	Userinfo *models.Users
-	IsLogin  bool
 }
 type NestPreparer interface {
 	NestPrepare()
@@ -22,30 +19,17 @@ type NestFinisher interface {
 
 func (c *BaseController) Prepare() {
 
-	c.IsLogin = c.GetSession("userinfo") != nil
-	if c.IsLogin {
-		c.Userinfo = c.GetLogin()
-	}
+	//	tokenString := c.Ctx.Input.Query("tokenString")
+	tokenString := c.Ctx.Request.Header.Get("Authorization")
 
-	c.Data["IsLogin"] = c.IsLogin
-	c.Data["Userinfo"] = c.Userinfo
-	c.Layout = "layouts/index.html"
-	flash := beego.ReadFromRequest(&c.Controller)
-	if n, ok := flash.Data["notice"]; ok {
-		// Display settings successful
-		c.Data["Notice"] = flash.Data["notice"]
-	} else if n, ok = flash.Data["error"]; ok {
-		// Display error messages
-		c.Data["Error"] = n
-	} else if n, ok = flash.Data["warning"]; ok {
-		c.Data["Warning"] = flash.Data["warning"]
-
-	} else if n, ok = flash.Data["success"]; ok {
-		c.Data["Success"] = flash.Data["success"]
+	et := jwtbeego.EasyToken{}
+	valid, _, _ := et.ValidateToken(tokenString)
+	if !valid {
+		c.Ctx.Output.SetStatus(401)
+		c.Data["json"] = "Permission Denied"
+		c.ServeJSON()
 	}
-	if app, ok := c.AppController.(NestPreparer); ok {
-		app.NestPrepare()
-	}
+	return
 
 }
 
@@ -53,17 +37,4 @@ func (c *BaseController) Finish() {
 	if app, ok := c.AppController.(NestFinisher); ok {
 		app.NestFinish()
 	}
-}
-
-func (c *BaseController) GetLogin() *models.Users {
-	u, _ := models.GetUsersById(c.GetSession("userinfo").(int))
-	return u
-}
-
-func (c *BaseController) DelLogin() {
-	c.DelSession("userinfo")
-}
-
-func (c *BaseController) SetLogin(user *models.Users) {
-	c.SetSession("userinfo", user.Id)
 }

@@ -105,13 +105,6 @@ func (c *RssController) GetNew() {
 func (c *RssController) GetFollowed() {
 	flash := beego.NewFlash()
 
-	if !c.IsLogin {
-		flash.Error("You must be logged in to view followed series")
-		flash.Store(&c.Controller)
-		c.Redirect("/auth/login", 302)
-		return
-	}
-
 	recents, err := models.GetRecentFollowedSeriesByChapter(c.GetSession("userinfo").(int), 0, 50)
 	if err != nil {
 		flash.Error("Followed comics not found")

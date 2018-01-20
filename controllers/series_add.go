@@ -9,7 +9,6 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 	"gopkg.in/russross/blackfriday.v2"
 
-	"html/template"
 	"io"
 	"os"
 )
@@ -22,7 +21,6 @@ type Series_addController struct {
 // URLMapping ...
 func (c *Series_addController) URLMapping() {
 	c.Mapping("Post", c.Post)
-	c.Mapping("Get", c.Get)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
 }
@@ -50,12 +48,6 @@ type SeriesForm struct {
 // @router / [post]
 func (c *Series_addController) Post() {
 	flash := beego.NewFlash()
-	if !c.IsLogin {
-		flash.Error("Error you need to be logged in")
-		flash.Store(&c.Controller)
-		c.Redirect("/", 302)
-		return
-	}
 
 	u := SeriesForm{}
 	if err := c.ParseForm(&u); err != nil {
@@ -156,25 +148,6 @@ func (c *Series_addController) Post() {
 	flash.Store(&c.Controller)
 	c.Redirect("/comics/add", 302)
 	return
-}
-
-// Get ...
-// @Title Get
-// @Description get Series
-// @Success 200 {object} models.Series
-// @Failure 403
-// @router / [get]
-func (c *Series_addController) Get() {
-	flash := beego.NewFlash()
-	if !c.IsLogin {
-		flash.Error("Error you need to be logged in")
-		flash.Store(&c.Controller)
-		c.Redirect("/", 302)
-		return
-	}
-	c.TplName = "series_add.html"
-	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.Render()
 
 }
 

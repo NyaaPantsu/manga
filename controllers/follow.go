@@ -25,13 +25,6 @@ func (c *FollowController) ToggleFollow() {
 		}
 	}
 
-	if !c.IsLogin {
-		flash.Error("You must log in to follow your favorite series!")
-		flash.Store(&c.Controller)
-		c.Redirect(r, 302)
-		return
-	}
-
 	uid = c.GetSession("userinfo").(int)
 	sid, err = strconv.Atoi(c.Ctx.Input.Param(":id"))
 	if err != nil {

@@ -13,7 +13,7 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "basePath": "/auth",
+    "basePath": "/mod",
     "paths": {
         "/groups_scanlation/": {
             "get": {
@@ -263,146 +263,6 @@
                 }
             }
         },
-        "/login/": {
-            "get": {
-                "tags": [
-                    "login"
-                ],
-                "description": "get Login",
-                "operationId": "LoginController.GetAll",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": ""
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "login"
-                ],
-                "description": "create Login",
-                "operationId": "LoginController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Login content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            }
-        },
-        "/logout/": {
-            "get": {
-                "tags": [
-                    "logout"
-                ],
-                "description": "Logout",
-                "operationId": "LogoutController.Logout",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Logout content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            }
-        },
-        "/reports/": {
-            "get": {
-                "tags": [
-                    "reports"
-                ],
-                "description": "create Signup",
-                "operationId": "SignupController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Signup content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "reports"
-                ],
-                "description": "create Signup",
-                "operationId": "SignupController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Signup content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            }
-        },
         "/series/": {
             "get": {
                 "tags": [
@@ -457,32 +317,6 @@
                     },
                     "403": {
                         "description": ""
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "series"
-                ],
-                "description": "create Series",
-                "operationId": "SeriesController.Post",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Series content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Series"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "{int} models.Series"
-                    },
-                    "403": {
-                        "description": "body is empty"
                     }
                 }
             }
@@ -579,7 +413,7 @@
         "/series_chapters/": {
             "get": {
                 "tags": [
-                    "series_chapters"
+                    "users"
                 ],
                 "description": "get SeriesChapters",
                 "operationId": "SeriesChaptersController.Get All",
@@ -635,7 +469,7 @@
             },
             "post": {
                 "tags": [
-                    "series_chapters"
+                    "users"
                 ],
                 "description": "create SeriesChapters",
                 "operationId": "SeriesChaptersController.Post",
@@ -663,7 +497,7 @@
         "/series_chapters/{id}": {
             "get": {
                 "tags": [
-                    "series_chapters"
+                    "users"
                 ],
                 "description": "get SeriesChapters by id",
                 "operationId": "SeriesChaptersController.Get One",
@@ -690,7 +524,7 @@
             },
             "put": {
                 "tags": [
-                    "series_chapters"
+                    "users"
                 ],
                 "description": "update the SeriesChapters",
                 "operationId": "SeriesChaptersController.Put",
@@ -726,7 +560,7 @@
             },
             "delete": {
                 "tags": [
-                    "series_chapters"
+                    "users"
                 ],
                 "description": "delete the SeriesChapters",
                 "operationId": "SeriesChaptersController.Delete",
@@ -745,66 +579,6 @@
                     },
                     "403": {
                         "description": "id is empty"
-                    }
-                }
-            }
-        },
-        "/signup/": {
-            "get": {
-                "tags": [
-                    "reports"
-                ],
-                "description": "create Signup",
-                "operationId": "SignupController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Signup content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "reports"
-                ],
-                "description": "create Signup",
-                "operationId": "SignupController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for Signup content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/models.Users"
-                        }
-                    },
-                    "403": {
-                        "description": "body is empty"
                     }
                 }
             }
@@ -828,6 +602,179 @@
                     },
                     "403": {
                         "description": ""
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "description": "get SeriesChapters",
+                "operationId": "SeriesChaptersController.Get All",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.SeriesChapters"
+                        }
+                    },
+                    "403": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "description": "create SeriesChapters",
+                "operationId": "SeriesChaptersController.Post",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for SeriesChapters content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SeriesChapters"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{int} models.SeriesChapters"
+                    },
+                    "403": {
+                        "description": "body is empty"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "description": "get SeriesChapters by id",
+                "operationId": "SeriesChaptersController.Get One",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The key for staticblock",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.SeriesChapters"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is empty"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "description": "update the SeriesChapters",
+                "operationId": "SeriesChaptersController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for SeriesChapters content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SeriesChapters"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.SeriesChapters"
+                        }
+                    },
+                    "403": {
+                        "description": ":id is not int"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "description": "delete the SeriesChapters",
+                "operationId": "SeriesChaptersController.Delete",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} delete success!"
+                    },
+                    "403": {
+                        "description": "id is empty"
                     }
                 }
             }
@@ -886,6 +833,18 @@
                     "type": "string"
                 },
                 "Name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Login": {
+            "title": "Login",
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -1155,18 +1114,6 @@
     },
     "tags": [
         {
-            "name": "logout",
-            "description": "LogoutController operations for Logout\n"
-        },
-        {
-            "name": "login",
-            "description": "LoginController operations for Login\n"
-        },
-        {
-            "name": "signup",
-            "description": "SignupController operations for Signup\n"
-        },
-        {
             "name": "reports",
             "description": "SignupController operations for Signup\n"
         },
@@ -1184,6 +1131,10 @@
         },
         {
             "name": "series_chapters",
+            "description": "SeriesChaptersController operations for SeriesChapters\n"
+        },
+        {
+            "name": "users",
             "description": "SeriesChaptersController operations for SeriesChapters\n"
         },
         {

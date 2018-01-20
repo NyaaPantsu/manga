@@ -45,13 +45,6 @@ type UploadForm struct {
 // @router / [post]
 func (c *UploadController) Post() {
 	flash := beego.NewFlash()
-	if !c.IsLogin {
-		flash.Error("Error you must be logged in to upload")
-		flash.Store(&c.Controller)
-		c.Redirect("/auth/login", 302)
-		return
-	}
-
 	u := UploadForm{}
 	if err := c.ParseForm(&u); err != nil {
 		flash.Warning(err.Error())
@@ -72,7 +65,6 @@ func (c *UploadController) Post() {
 		Title:                 u.Title,
 		SeriesId:              &series,
 		ChapterLanguage:       &models.Languages{Name: u.ChapterLanguage},
-		ContributorId:         c.Userinfo,
 		Hash:                  random,
 		VolumeNumber:          u.VolumeNumber,
 		ChapterNumberVolume:   u.ChapterNumberVolume,
@@ -193,14 +185,6 @@ func (c *UploadController) Post() {
 // @Success 200 {object} models.Upload
 // @router / [get]
 func (c *UploadController) Get() {
-	flash := beego.NewFlash()
-	if !c.IsLogin {
-		flash.Error("Error you must be logged in to upload")
-		flash.Store(&c.Controller)
-		c.Redirect("/auth/login", 302)
-		return
-	}
-	c.TplName = "upload.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	l, _ := models.GetAllLanguages()
 	series, _ := models.GetAllSeriesArray()

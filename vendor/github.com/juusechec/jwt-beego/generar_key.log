@@ -1,0 +1,4 @@
+#http://security.stackexchange.com/questions/40566/create-rsa-public-private-key-pair-having-numbers-generated-already
+openssl genrsa -out rsakey.pem 2048
+openssl rsa -in rsakey.pem -pubout > rsakey.pem.pub
+

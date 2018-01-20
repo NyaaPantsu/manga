@@ -45,12 +45,7 @@ type GroupsForm struct {
 func (c *Groups_addController) Post() {
 
 	flash := beego.NewFlash()
-	if !c.IsLogin {
-		flash.Error("Error you need to be logged in")
-		flash.Store(&c.Controller)
-		c.Redirect("/", 302)
-		return
-	}
+
 	u := GroupsForm{}
 	if err := c.ParseForm(&u); err != nil {
 		flash.Error("Groups invalid")
@@ -86,7 +81,6 @@ func (c *Groups_addController) Post() {
 		}
 		usergroups := models.UsersGroups{
 			GroupName: u.Name,
-			UserId:    c.GetLogin(),
 		}
 		err = models.AddUserGroups(&usergroups)
 		if err != nil {
@@ -116,13 +110,6 @@ func (c *Groups_addController) Post() {
 // @Failure 403
 // @router /add [get]
 func (c *Groups_addController) Get() {
-	flash := beego.NewFlash()
-	if !c.IsLogin {
-		flash.Error("Error you need to be logged in")
-		flash.Store(&c.Controller)
-		c.Redirect("/", 302)
-		return
-	}
 	c.TplName = "groups_add.html"
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.Render()

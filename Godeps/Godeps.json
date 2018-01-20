@@ -39,6 +39,11 @@
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
 		},
 		{
+			"ImportPath": "github.com/astaxie/beego/plugins/cors",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
 			"ImportPath": "github.com/astaxie/beego/session",
 			"Comment": "v1.9.2-2-gf166888",
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
@@ -59,17 +64,21 @@
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
 		},
 		{
-			"ImportPath": "github.com/astaxie/beego/validation",
-			"Comment": "v1.9.2-2-gf166888",
-			"Rev": "f16688817aa428d10361394015b40d096b680542"
-		},
-		{
 			"ImportPath": "github.com/dchest/uniuri",
 			"Rev": "8902c56451e9b58ff940bbe5fec35d5f9c04584a"
 		},
 		{
+			"ImportPath": "github.com/dgrijalva/jwt-go",
+			"Comment": "v3.0.0-20-ga539ee1",
+			"Rev": "a539ee1a749a2b895533f979515ac7e6e0f5b650"
+		},
+		{
 			"ImportPath": "github.com/gorilla/feeds",
 			"Rev": "fa8f5548eedbe306d748925237a48d70ae4150de"
+		},
+		{
+			"ImportPath": "github.com/juusechec/jwt-beego",
+			"Rev": "80e6424c53a4a1e092bb2da9fdd8135e96218a43"
 		},
 		{
 			"ImportPath": "github.com/lib/pq",

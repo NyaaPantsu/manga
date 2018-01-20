@@ -9,11 +9,18 @@ package routers
 
 import (
 	"github.com/NyaaPantsu/manga/controllers"
-
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/plugins/cors"
 )
 
 func init() {
+	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
+		AllowAllOrigins: true,
+		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:    []string{"Origin", "Authorization", "Access-Control-Allow-Origin"},
+		ExposeHeaders:   []string{"Content-Length", "Access-Control-Allow-Origin"},
+	}))
+
 	beego.Router("/", &controllers.ComicsController{}, "get:GetAll")
 	beego.Router("/upload", &controllers.UploadController{})
 	beego.Router("/comics", &controllers.ComicsController{}, "get:GetAll")
@@ -28,23 +35,6 @@ func init() {
 
 	beego.Router("/reader/:hash", &controllers.ReaderController{}, "get:GetOne")
 
-	ns1 := beego.NewNamespace("/auth",
-		beego.NSNamespace("/logout",
-			beego.NSInclude(
-				&controllers.LogoutController{},
-			),
-		),
-		beego.NSNamespace("/login",
-			beego.NSInclude(
-				&controllers.LoginController{},
-			),
-		),
-		beego.NSNamespace("/signup",
-			beego.NSInclude(
-				&controllers.SignupController{},
-			),
-		),
-	)
 	ns2 := beego.NewNamespace("/mod",
 		beego.NSNamespace("/reports",
 			beego.NSInclude(
@@ -78,15 +68,31 @@ func init() {
 				&controllers.SeriesChaptersController{},
 			),
 		),
+		beego.NSNamespace("/users",
+			beego.NSInclude(
+				&controllers.SeriesChaptersController{},
+			),
+		),
 
 		beego.NSNamespace("/series",
 			beego.NSInclude(
 				&controllers.SeriesController{},
 			),
 		),
+		beego.NSNamespace("/auth",
+			beego.NSRouter("/logout",
+				&controllers.LogoutController{},
+			),
+			beego.NSRouter("/login",
+				&controllers.LoginController{},
+				"post:Post",
+			),
+			beego.NSRouter("/register",
+				&controllers.SignupController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
-	beego.AddNamespace(ns1)
 	beego.AddNamespace(ns2)
 	beego.SetStaticPath("/uploads", "uploads")
 }

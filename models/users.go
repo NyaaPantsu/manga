@@ -9,6 +9,10 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+type Login struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
 type Users struct {
 	Id                   int                     `orm:"auto"`
 	Username             string                  `orm:"column(username)"`

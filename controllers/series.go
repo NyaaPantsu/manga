@@ -24,28 +24,6 @@ func (c *SeriesController) URLMapping() {
 	c.Mapping("Delete", c.Delete)
 }
 
-// Post ...
-// @Title Post
-// @Description create Series
-// @Param	body		body 	models.Series	true		"body for Series content"
-// @Success 201 {int} models.Series
-// @Failure 403 body is empty
-// @router / [post]
-func (c *SeriesController) Post() {
-	var v models.Series
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddSeries(&v); err == nil {
-			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
-		} else {
-			c.Data["json"] = err.Error()
-		}
-	} else {
-		c.Data["json"] = err.Error()
-	}
-	c.ServeJSON()
-}
-
 // GetOne ...
 // @Title Get One
 // @Description get Series by id
