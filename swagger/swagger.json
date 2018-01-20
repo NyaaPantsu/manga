@@ -1039,6 +1039,21 @@
                 }
             }
         },
+        "models.Signup": {
+            "title": "Signup",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Statuses": {
             "title": "Statuses",
             "type": "object",

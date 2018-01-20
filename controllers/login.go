@@ -49,11 +49,9 @@ func (c *LoginController) Post() {
 
 		err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), password)
 		if err != nil {
-
 			c.Data["json"] = "{'error': '" + err.Error() + "'}"
 			c.ServeJSON()
 			return
-
 		}
 		et := jwtbeego.EasyToken{
 			Username: user.Username,

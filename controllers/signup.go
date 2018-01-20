@@ -6,14 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"encoding/json"
-	"errors"
 )
-
-type Signup struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
 
 // SignupController operations for Signup
 type SignupController struct {
@@ -28,17 +21,17 @@ func (c *SignupController) URLMapping() {
 // Post ...
 // @Title Post
 // @Description create Users
-// @Param	body		body 	models.Users	true		"body for Users content"
-// @Success 201 {int} models.Users
-// @Failure 403 body is empty
+// @Param	body		body 	models.Signup	true		"body for Users content"
+// @Success 201 {string} models.Users
+// @Failure 403 {string}
 // @router / [post]
 func (c *UsersController) Post() {
-	var v Signup
+	var v models.Signup
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		username := models.UsernameExists(v.Username)
 		email := models.EmailExists(v.Email)
 		if email || username {
-			c.Data["json"] = errors.New("Username or email in use")
+			c.Data["json"] = "{'error':'Username or email in use'}"
 			c.ServeJSON()
 			return
 		}
@@ -48,7 +41,8 @@ func (c *UsersController) Post() {
 		// Hashing the password with the default cost of 10
 		hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 		if err != nil {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 
 		}
@@ -63,10 +57,10 @@ func (c *UsersController) Post() {
 			v.Password = ""
 			c.Data["json"] = v
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = "{'error': '" + err.Error() + "'}"
 	}
 	c.ServeJSON()
 }

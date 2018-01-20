@@ -13,6 +13,12 @@ type Login struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+type Signup struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type Users struct {
 	Id                   int                     `orm:"auto"`
 	Username             string                  `orm:"column(username)"`
