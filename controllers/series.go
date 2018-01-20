@@ -97,6 +97,7 @@ func (c *SeriesController) GetAll() {
 	}
 
 	l, err := models.GetAllSeries(query, fields, sortby, order, offset, limit)
+
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {

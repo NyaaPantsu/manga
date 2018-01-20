@@ -47,6 +47,7 @@ func GetGroupsScanlationByName(name string) (v *GroupsScanlation, err error) {
 	var temp GroupsScanlation
 	o := orm.NewOrm()
 	err = o.QueryTable("groups_scanlation").Filter("name", name).RelatedSel().One(&temp)
+	o.LoadRelated(&temp, "GroupsScanlationUrls")
 	if err != nil {
 		return nil, err
 	}
@@ -113,6 +114,7 @@ func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []s
 	if _, err = qs.Limit(limit, offset).RelatedSel().All(&l, fields...); err == nil {
 		if len(fields) == 0 {
 			for _, v := range l {
+				o.LoadRelated(&v, "GroupsScanlationUrls")
 				ml = append(ml, v)
 			}
 		} else {

@@ -81,10 +81,8 @@ func GetAllSeriesChapters(query map[string]string, fields []string, sortby []str
 		k = strings.Replace(k, ".", "__", -1)
 		if strings.Contains(k, "isnull") {
 			qs = qs.Filter(k, (v == "true" || v == "1"))
-		} else if id == 0 {
-
 		} else {
-			qs = qs.Filter(k, v).Filter("series_id", id)
+			qs = qs.Filter(k, v)
 		}
 	}
 	// order by:
@@ -130,7 +128,12 @@ func GetAllSeriesChapters(query map[string]string, fields []string, sortby []str
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).RelatedSel().All(&l, fields...); err == nil {
 		if len(fields) == 0 {
+
 			for _, v := range l {
+				o.LoadRelated(&v, "SeriesChaptersFiles")
+				o.LoadRelated(&v, "SeriesChaptersGroups")
+				v.ContributorId.PasswordHash = ""
+				v.ContributorId.Email = ""
 				ml = append(ml, v)
 			}
 		} else {

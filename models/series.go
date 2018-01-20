@@ -27,7 +27,7 @@ func (t *Series) TableName() string {
 }
 
 func init() {
-	orm.RegisterModel(new(Series))
+	orm.RegisterModel(new(Series), new(SeriesTags))
 }
 
 // GetAllSeries gets all languages and returns an array on success
@@ -139,8 +139,12 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 	var l []Series
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).RelatedSel().All(&l, fields...); err == nil {
+
 		if len(fields) == 0 {
 			for _, v := range l {
+				o.LoadRelated(&v, "SeriesTags")
+				o.LoadRelated(&v, "SeriesAliases")
+				o.LoadRelated(&v, "SeriesRatings")
 				ml = append(ml, v)
 			}
 		} else {
@@ -154,6 +158,7 @@ func GetAllSeries(query map[string]string, fields []string, sortby []string, ord
 				ml = append(ml, m)
 			}
 		}
+
 		return ml, nil
 	}
 	return nil, err
