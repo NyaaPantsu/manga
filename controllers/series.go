@@ -17,7 +17,6 @@ type SeriesController struct {
 
 // URLMapping ...
 func (c *SeriesController) URLMapping() {
-	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)

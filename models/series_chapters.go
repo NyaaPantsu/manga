@@ -46,7 +46,7 @@ func GetSeriesChaptersBySeriesId(id int) (v []SeriesChapters, err error) {
 // Id doesn't exist
 func GetSeriesChaptersByHash(hash string) (v SeriesChapters, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series_chapters").Filter("hash", hash).RelatedSel().One(&v)
+	err = o.QueryTable("series_chapters").Filter("hash", hash).OrderBy("series_chapters_files__name").RelatedSel().One(&v)
 	return
 }
 

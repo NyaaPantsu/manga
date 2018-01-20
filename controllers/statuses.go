@@ -1,12 +1,13 @@
 package controllers
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/NyaaPantsu/manga/models"
 )
 
 // StatusesController operations for Statuses
 type StatusesController struct {
-	BaseController
+	beego.Controller
 }
 
 // URLMapping ...

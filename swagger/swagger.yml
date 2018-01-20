@@ -519,6 +519,8 @@ paths:
         "403":
           description: id is empty
 definitions:
+  .Import:
+    type: object
   .Rss:
     type: object
   .Upload:

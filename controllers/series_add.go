@@ -21,8 +21,6 @@ type Series_addController struct {
 // URLMapping ...
 func (c *Series_addController) URLMapping() {
 	c.Mapping("Post", c.Post)
-	c.Mapping("Put", c.Put)
-	c.Mapping("Delete", c.Delete)
 }
 
 type SeriesForm struct {
@@ -148,28 +146,5 @@ func (c *Series_addController) Post() {
 	flash.Store(&c.Controller)
 	c.Redirect("/comics/add", 302)
 	return
-
-}
-
-// Put ...
-// @Title Put
-// @Description update the Series_add
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Series	true		"body for Series_add content"
-// @Success 200 {object} models.Series
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *Series_addController) Put() {
-
-}
-
-// Delete ...
-// @Title Delete
-// @Description delete the Series
-// @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
-// @router /:id [delete]
-func (c *Series_addController) Delete() {
 
 }

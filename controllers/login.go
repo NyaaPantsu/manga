@@ -58,7 +58,7 @@ func (c *LoginController) Post() {
 			Expires:  time.Now().Unix() + 3600,
 		}
 		tokenString, _ := et.GetToken()
-		c.Data["json"] = "{'tokenString': '" + tokenString + "'}"
+		c.Data["json"] = "{'tokenString': '" + tokenString + "', 'username':'"+user.Username+"'}"
 		c.ServeJSON()
 		return
 

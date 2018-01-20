@@ -781,6 +781,9 @@
         }
     },
     "definitions": {
+        ".Import": {
+            "type": "object"
+        },
         ".Rss": {
             "type": "object"
         },

@@ -27,17 +27,27 @@ func (c *UsersController) URLMapping() {
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *UsersController) Put() {
+	username := c.Claims()
+	user, _ := models.GetUserByUsername(username)
+
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
+	if user.Id != id {
+		c.Data["json"] = "{'error':'cannot edit another user'}"
+		c.ServeJSON()
+		return
+	}
+
 	v := models.Users{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if err := models.UpdateUsersById(&v); err == nil {
-			c.Data["json"] = "OK"
+			c.Data["json"] = "{'success':'OK'}"
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = "{'error':'" + err.Error() + "'}"
 		}
 	} else {
-		c.Data["json"] = err.Error()
+
+		c.Data["json"] = "{'error':'" + err.Error() + "'}"
 	}
 	c.ServeJSON()
 }
@@ -50,12 +60,20 @@ func (c *UsersController) Put() {
 // @Failure 403 id is empty
 // @router /:id [delete]
 func (c *UsersController) Delete() {
+	username := c.Claims()
+	user, _ := models.GetUserByUsername(username)
+
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
+	if user.Id != id {
+		c.Data["json"] = "{'error':'cannot delete another user'}"
+		c.ServeJSON()
+		return
+	}
 	if err := models.DeleteUsers(id); err == nil {
-		c.Data["json"] = "OK"
+		c.Data["json"] = "{'success':'OK'}"
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = "{'error':'" + err.Error() + "'}"
 	}
 	c.ServeJSON()
 }

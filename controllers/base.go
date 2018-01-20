@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/juusechec/jwt-beego"
 )
 
@@ -37,4 +38,27 @@ func (c *BaseController) Finish() {
 	if app, ok := c.AppController.(NestFinisher); ok {
 		app.NestFinish()
 	}
+}
+func (c *BaseController) Claims() (user string) {
+
+	var verifyKey interface{}
+	tokenString := c.Ctx.Request.Header.Get("Authorization")
+	if tokenString != "" {
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return verifyKey, nil
+		})
+		if err != nil {
+			return ""
+		}
+
+		if token == nil {
+			return ""
+		}
+
+		if token.Valid {
+			claims, _ := token.Claims.(jwt.MapClaims)
+			user = claims["username"].(string)
+		}
+	}
+	return
 }
