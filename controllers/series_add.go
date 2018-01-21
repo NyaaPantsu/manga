@@ -4,7 +4,6 @@ import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/NyaaPantsu/manga/utils/resize"
 	"github.com/NyaaPantsu/manga/utils/split"
-	"github.com/astaxie/beego"
 	"github.com/dchest/uniuri"
 	"github.com/microcosm-cc/bluemonday"
 	"gopkg.in/russross/blackfriday.v2"

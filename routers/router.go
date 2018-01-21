@@ -21,16 +21,9 @@ func init() {
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin"},
 		AllowCredentials: true,
 	}))
-	beego.Router("/", &controllers.ComicsController{}, "get:GetAll")
-	beego.Router("/comics", &controllers.ComicsController{}, "get:GetAll")
-	beego.Router("/comics/:id/:name", &controllers.ComicsController{}, "get:GetOne")
-	beego.Router("/comics/add", &controllers.Series_addController{})
-	beego.Router("/groups", &controllers.Groups_addController{}, "get:GetAll")
-	beego.Router("/groups/:name", &controllers.Groups_addController{}, "get:GetOne")
-	beego.Router("/groups/add", &controllers.Groups_addController{}, "get:Get;post:Post")
+
 	beego.Router("/rss/latest", &controllers.RssController{}, "get:GetNew")
 	beego.Router("/rss/followed", &controllers.RssController{}, "get:GetFollowed")
-	beego.Router("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow")
 
 	ns2 := beego.NewNamespace("/mod",
 		beego.NSNamespace("/reports",
@@ -88,6 +81,10 @@ func init() {
 			),
 		),
 		beego.NSRouter("/reader/:hash", &controllers.ReaderController{}, "get:GetOne"),
+		beego.NSRouter("/comics/add", &controllers.Series_addController{}),
+		beego.NSRouter("/groups/add", &controllers.Groups_addController{}, "get:Get;post:Post"),
+		beego.NSRouter("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow"),
+		beego.NSRouter("/follows", &controllers.ImportController{}),
 	)
 	beego.AddNamespace(ns)
 	beego.AddNamespace(ns2)

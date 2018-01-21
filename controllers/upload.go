@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego"
 	"github.com/dchest/uniuri"
 
 	"github.com/NyaaPantsu/manga/utils/zip"

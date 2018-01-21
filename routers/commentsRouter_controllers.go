@@ -71,38 +71,6 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"],
-		beego.ControllerComments{
-			Method: "GetAll",
-			Router: `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"],
-		beego.ControllerComments{
-			Method: "Put",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"put"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"],
-		beego.ControllerComments{
-			Method: "Delete",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"delete"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"],
-		beego.ControllerComments{
-			Method: "GetOne",
-			Router: `/:name`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ImportController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ImportController"],
 		beego.ControllerComments{
 			Method: "Post",
@@ -340,14 +308,6 @@ func init() {
 			Method: "Post",
 			Router: `/`,
 			AllowHTTPMethods: []string{"post"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:UploadController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:UploadController"],
-		beego.ControllerComments{
-			Method: "Get",
-			Router: `/`,
-			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})
 

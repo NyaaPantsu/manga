@@ -5,10 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/microcosm-cc/bluemonday"
 
-	"github.com/astaxie/beego/utils/pagination"
 	"gopkg.in/russross/blackfriday.v2"
-
-	"html/template"
 	"strings"
 )
 
@@ -21,8 +18,7 @@ type Groups_addController struct {
 func (c *Groups_addController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("Get", c.Get)
-	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("GetOne", c.GetOne)
+
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
 }
