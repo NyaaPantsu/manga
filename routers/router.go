@@ -15,12 +15,12 @@ import (
 
 func init() {
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		AllowAllOrigins: true,
-		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:    []string{"Origin", "Authorization", "Access-Control-Allow-Origin"},
-		ExposeHeaders:   []string{"Content-Length", "Access-Control-Allow-Origin"},
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "DELETE", "PUT", "PATCH"},
+		AllowHeaders:     []string{"Origin", "content-type", "Access-Control-Allow-Origin"},
+		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin"},
+		AllowCredentials: true,
 	}))
-
 	beego.Router("/", &controllers.ComicsController{}, "get:GetAll")
 	beego.Router("/comics", &controllers.ComicsController{}, "get:GetAll")
 	beego.Router("/comics/:id/:name", &controllers.ComicsController{}, "get:GetOne")

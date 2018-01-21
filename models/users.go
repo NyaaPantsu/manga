@@ -78,8 +78,6 @@ func GetUserByUsername(username string) (v *Users, err error) {
 	var temp Users
 	o := orm.NewOrm()
 	err = o.QueryTable("users").Filter("username", username).One(&temp)
-	o.LoadRelated(&temp, "UsersFollowingSeries")
-	o.LoadRelated(&temp, "UsersGroups")
 	if err != nil {
 		return nil, err
 	}
