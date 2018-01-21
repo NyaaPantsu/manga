@@ -32,8 +32,6 @@ func init() {
 	beego.Router("/rss/followed", &controllers.RssController{}, "get:GetFollowed")
 	beego.Router("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow")
 
-	beego.Router("/reader/:hash", &controllers.ReaderController{}, "get:GetOne")
-
 	ns2 := beego.NewNamespace("/mod",
 		beego.NSNamespace("/reports",
 			beego.NSInclude(
@@ -43,7 +41,6 @@ func init() {
 	)
 
 	ns := beego.NewNamespace("/api/v1",
-
 		beego.NSNamespace("/statuses",
 			beego.NSInclude(
 				&controllers.StatusesController{},
@@ -90,6 +87,7 @@ func init() {
 				&controllers.SignupController{},
 			),
 		),
+		beego.NSRouter("/reader/:hash", &controllers.ReaderController{}, "get:GetOne"),
 	)
 	beego.AddNamespace(ns)
 	beego.AddNamespace(ns2)

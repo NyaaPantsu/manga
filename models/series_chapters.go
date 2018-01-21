@@ -35,10 +35,16 @@ func init() {
 
 // GetSeriesChaptersBySeriesId retrieves SeriesChapters by Id. Returns error if
 // Id doesn't exist
-func GetSeriesChaptersBySeriesId(id int) (v []SeriesChapters, err error) {
+func GetSeriesChaptersBySeriesId(id int) (v SeriesChapters, err error) {
+	var l SeriesChapters
 	o := orm.NewOrm()
-	_, err = o.QueryTable("series_chapters").Filter("series_id", id).RelatedSel().All(&v)
-	return
+	err = o.QueryTable("series_chapters").Filter("series_id", id).RelatedSel().One(&l)
+
+	o.LoadRelated(&l, "SeriesChaptersFiles")
+	o.LoadRelated(&l, "SeriesChaptersGroups")
+	l.ContributorId.PasswordHash = ""
+	l.ContributorId.Email = ""
+	return l, nil
 
 }
 
@@ -46,7 +52,7 @@ func GetSeriesChaptersBySeriesId(id int) (v []SeriesChapters, err error) {
 // Id doesn't exist
 func GetSeriesChaptersByHash(hash string) (v SeriesChapters, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series_chapters").Filter("hash", hash).OrderBy("series_chapters_files__name").RelatedSel().One(&v)
+	err = o.QueryTable("series_chapters").Filter("hash", hash).OrderBy("SeriesChaptersFiles__Name").RelatedSel().One(&v)
 	return
 }
 
@@ -64,8 +70,15 @@ func GetSeriesChaptersById(id int) (v *SeriesChapters, err error) {
 	o := orm.NewOrm()
 	v = &SeriesChapters{Id: id}
 	if err = o.Read(v); err == nil {
+		o.LoadRelated(v, "SeriesChaptersFiles")
+		o.LoadRelated(v, "SeriesChaptersGroups")
+		o.LoadRelated(v, "SeriesId")
+		o.LoadRelated(v, "ContributorId")
+		v.ContributorId.PasswordHash = ""
+		v.ContributorId.Email = ""
 		return v, nil
 	}
+
 	return nil, err
 }
 

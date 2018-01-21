@@ -2,17 +2,12 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-
 	"github.com/astaxie/beego"
-
-	"github.com/astaxie/beego/utils/pagination"
-
-	"net/url"
 )
 
 // ReaderController operations for Reader
 type ReaderController struct {
-	BaseController
+	beego.Controller
 }
 
 // URLMapping ...
@@ -33,10 +28,7 @@ func (c *ReaderController) URLMapping() {
 // @Failure 403
 // @router /:hash [get]
 func (c *ReaderController) GetOne() {
-	var fields []string
-	var sortby []string
-	var order []string
-	var query = make(map[string]string)
+
 	var limit int64 = 50
 	var offset int64
 
@@ -52,43 +44,18 @@ func (c *ReaderController) GetOne() {
 	hash := c.Ctx.Input.Param(":hash")
 	l, err := models.GetSeriesChaptersByHash(hash)
 
-	flash := beego.NewFlash()
-
 	if err != nil {
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/", 302)
+
 		return
 	}
 	v, err := models.GetAllChapterFilesById(l.Id, limit, offset)
 	if err != nil {
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/", 302)
+
 		return
 	}
-	query["chapter_language"] = l.ChapterLanguage.Name
-	order = append(order, "desc")
-	sortby = append(sortby, "title")
-	k, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, l.Id)
 
-	following := false
-	uid := c.GetSession("userinfo")
-	if uid != nil {
-		following = models.Following(uid.(int), l.SeriesId.Id)
-	}
+	c.Data["json"] = v
 
-	count, _ := models.GetSeriesChaptersFilesCount(l.Id)
-
-	paginator := pagination.SetPaginator(c.Ctx, int(limit), count-1)
-
-	c.Data["paginator"] = paginator
-	c.Data["files"] = v
-	c.Data["chapters"] = k
-	c.Data["series"] = l
-	c.Data["series_id"] = l.SeriesId.Id
-	c.Data["current_page"] = url.QueryEscape(c.Ctx.Input.URL())
-	c.Data["following"] = following
 	c.ServeJSON()
 	return
 }

@@ -49,7 +49,7 @@ func (c *ComicsController) GetOne() {
 	chap, err := models.GetSeriesChaptersBySeriesId(l.Id)
 	tag, err := models.GetAllTagsById(l.Id)
 	c.TplName = "comic.html"
-	paginator := pagination.SetPaginator(c.Ctx, 20, int64(len(chap)))
+	paginator := pagination.SetPaginator(c.Ctx, 20, int64(7))
 
 	c.Data["paginator"] = paginator
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
