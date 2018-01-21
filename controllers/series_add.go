@@ -45,13 +45,11 @@ type SeriesForm struct {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *Series_addController) Post() {
-	flash := beego.NewFlash()
 
 	u := SeriesForm{}
 	if err := c.ParseForm(&u); err != nil {
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/comics/add", 302)
+		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.ServeJSON()
 		return
 	}
 
@@ -65,10 +63,8 @@ func (c *Series_addController) Post() {
 			file, err := files[i].Open()
 			defer file.Close()
 			if err != nil {
-
-				flash.Error(err.Error())
-				flash.Store(&c.Controller)
-				c.Redirect("/comics/add", 301)
+				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.ServeJSON()
 				return
 			}
 			random := uniuri.New()
@@ -77,27 +73,21 @@ func (c *Series_addController) Post() {
 			dst, err := os.Create("uploads/covers/" + random + files[i].Filename)
 			defer dst.Close()
 			if err != nil {
-
-				flash.Error(err.Error())
-				flash.Store(&c.Controller)
-				c.Redirect("/comics/add", 301)
+				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.ServeJSON()
 				return
 			}
 			//copy the uploaded file to the destination file
 			if _, err := io.Copy(dst, file); err != nil {
-
-				flash.Error(err.Error())
-				flash.Store(&c.Controller)
-				c.Redirect("/comics/add", 301)
+				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.ServeJSON()
 				return
 			}
 			pat := "uploads/covers/" + random + files[i].Filename
 			err = resize.ResizeImage(pat, pat+"_thumb")
 			if err != nil {
-
-				flash.Error(err.Error())
-				flash.Store(&c.Controller)
-				c.Redirect("/comics/add", 301)
+				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.ServeJSON()
 				return
 			}
 
@@ -130,21 +120,16 @@ func (c *Series_addController) Post() {
 		models.AddMultiSeriesTags(authors)
 		models.AddMultiSeriesTags(artists)
 		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/comics/add", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
-		flash.Success("Successfully added series!")
-		flash.Store(&c.Controller)
-		c.Redirect("/comics/add", 301)
-		return
+		c.Data["json"] = "{'success': 'Added series!'}"
 
 	}
 
-	flash.Error("Adding series failed")
-	flash.Store(&c.Controller)
-	c.Redirect("/comics/add", 302)
+	c.Data["json"] = "{'error': 'Adding series failed'}"
+	c.ServeJSON()
 	return
 
 }

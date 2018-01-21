@@ -6,7 +6,6 @@ import (
 	"github.com/dchest/uniuri"
 
 	"github.com/NyaaPantsu/manga/utils/zip"
-	"html/template"
 	"io"
 	"os"
 	"time"
@@ -44,19 +43,17 @@ type UploadForm struct {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *UploadController) Post() {
-	flash := beego.NewFlash()
+
 	u := UploadForm{}
 	if err := c.ParseForm(&u); err != nil {
-		flash.Warning(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/upload", 302)
+		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.ServeJSON()
 		return
 	}
 	series, err := models.GetSeriesByName(u.Title)
 	if err != nil {
-		flash.Warning(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/upload", 302)
+		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.ServeJSON()
 		return
 	}
 
@@ -74,18 +71,15 @@ func (c *UploadController) Post() {
 	id, err := models.AddSeriesChapters(&chapter)
 
 	if err != nil {
-
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/upload", 301)
+		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.ServeJSON()
 		return
 	}
 
 	chapters, err := models.GetSeriesChaptersById(int(id))
 	if err != nil {
-		flash.Error(err.Error())
-		flash.Store(&c.Controller)
-		c.Redirect("/upload", 301)
+		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.ServeJSON()
 		return
 	}
 
@@ -97,10 +91,8 @@ func (c *UploadController) Post() {
 		file, err := files[i].Open()
 		defer file.Close()
 		if err != nil {
-
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
 
@@ -110,27 +102,21 @@ func (c *UploadController) Post() {
 
 		defer dst.Close()
 		if err != nil {
-
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
 		//copy the uploaded file to the destination file
 		if _, err := io.Copy(dst, file); err != nil {
-
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
 
 		err = os.Mkdir("uploads/"+random, os.ModePerm)
 		if err != nil {
-
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
 
@@ -142,16 +128,14 @@ func (c *UploadController) Post() {
 			images, err = zip.Unzip(fpath, "uploads/"+random)
 		}
 		if len(images) == 0 {
-			flash.Error("Error no images in archive")
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': 'no files in the archive'}"
+			c.ServeJSON()
 			return
 
 		}
 		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
 		var temp []models.SeriesChaptersFiles
@@ -165,31 +149,13 @@ func (c *UploadController) Post() {
 		}
 		_, err = models.AddMultiChapterFiles(temp)
 		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/upload", 301)
+			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.ServeJSON()
 			return
 		}
 
 	}
-	flash.Success("Successfully added series!")
-	flash.Store(&c.Controller)
-	c.Redirect("/upload", 301)
+	c.ServeJSON()
 	return
 
-}
-
-// Get ...
-// @Title Get
-// @Description get Upload by id
-// @Success 200 {object} models.Upload
-// @router / [get]
-func (c *UploadController) Get() {
-	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	l, _ := models.GetAllLanguages()
-	series, _ := models.GetAllSeriesArray()
-	c.Data["languages"] = l
-	c.Data["series"] = series
-
-	c.Render()
 }
