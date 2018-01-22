@@ -5,7 +5,7 @@ import (
 )
 
 type SeriesChaptersGroups struct {
-	Id        int             `orm:"r`
+	Id        int             `orm:"auto"`
 	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk)"`
 	GroupName string          `orm:"column(group_name)"`
 }

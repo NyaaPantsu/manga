@@ -55,11 +55,13 @@ func (c *UploadController) Post() {
 		c.ServeJSON()
 		return
 	}
+	user, _ := models.GetUserByUsername(c.Claims())
 
 	random := uniuri.New()
 	chapter := models.SeriesChapters{
 		Title:                 u.Title,
 		SeriesId:              &series,
+		ContributorId:         user,
 		ChapterLanguage:       &models.Languages{Name: u.ChapterLanguage},
 		Hash:                  random,
 		VolumeNumber:          u.VolumeNumber,

@@ -54,9 +54,8 @@ func (c *SeriesChaptersController) Post() {
 // @Failure 403 :id is empty
 // @router /:id [get]
 func (c *SeriesChaptersController) GetOne() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetSeriesChaptersById(id)
+	id := c.Ctx.Input.Param(":id")
+	v, err := models.GetSeriesChaptersByHash(id)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
