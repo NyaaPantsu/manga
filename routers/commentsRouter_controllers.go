@@ -7,22 +7,6 @@ import (
 
 func init() {
 
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
-		beego.ControllerComments{
-			Method: "GetAll",
-			Router: `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ComicsController"],
-		beego.ControllerComments{
-			Method: "GetOne",
-			Router: `/:id/:name`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:GroupsScanlationController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:GroupsScanlationController"],
 		beego.ControllerComments{
 			Method: "Post",
@@ -156,6 +140,14 @@ func init() {
 			Method: "GetOne",
 			Router: `/:hash`,
 			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:RegisterController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:RegisterController"],
+		beego.ControllerComments{
+			Method: "Post",
+			Router: `/`,
+			AllowHTTPMethods: []string{"post"},
 			MethodParams: param.Make(),
 			Params: nil})
 
@@ -304,14 +296,6 @@ func init() {
 			Params: nil})
 
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:UploadController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:UploadController"],
-		beego.ControllerComments{
-			Method: "Post",
-			Router: `/`,
-			AllowHTTPMethods: []string{"post"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:UsersController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:UsersController"],
 		beego.ControllerComments{
 			Method: "Post",
 			Router: `/`,

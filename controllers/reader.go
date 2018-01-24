@@ -45,16 +45,31 @@ func (c *ReaderController) GetOne() {
 	l, err := models.GetSeriesChaptersByHash(hash)
 
 	if err != nil {
-
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
 		return
 	}
 	v, err := models.GetAllChapterFilesById(l.Id, limit, offset)
+	count, _ := models.GetSeriesChaptersFilesCount(l.Id)
 	if err != nil {
-
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
 		return
 	}
 
-	c.Data["json"] = v
+	var temp []interface{}
+	temp = append(temp, v)
+	c.Data["json"] = Response{
+		Success:  true,
+		Response: temp,
+		Count:    count,
+	}
 
 	c.ServeJSON()
 	return

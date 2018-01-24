@@ -4,6 +4,7 @@ import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/dchest/uniuri"
 
+	"errors"
 	"github.com/NyaaPantsu/manga/utils/zip"
 	"io"
 	"os"
@@ -45,13 +46,21 @@ func (c *UploadController) Post() {
 
 	u := UploadForm{}
 	if err := c.ParseForm(&u); err != nil {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 		c.ServeJSON()
 		return
 	}
 	series, err := models.GetSeriesByName(u.Title)
 	if err != nil {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 		c.ServeJSON()
 		return
 	}
@@ -72,14 +81,22 @@ func (c *UploadController) Post() {
 	id, err := models.AddSeriesChapters(&chapter)
 
 	if err != nil {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 		c.ServeJSON()
 		return
 	}
 
 	chapters, err := models.GetSeriesChaptersById(int(id))
 	if err != nil {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 		c.ServeJSON()
 		return
 	}
@@ -92,7 +109,11 @@ func (c *UploadController) Post() {
 		file, err := files[i].Open()
 		defer file.Close()
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 		}
@@ -103,20 +124,32 @@ func (c *UploadController) Post() {
 
 		defer dst.Close()
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 		}
 		//copy the uploaded file to the destination file
 		if _, err := io.Copy(dst, file); err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 		}
 
 		err = os.Mkdir("uploads/"+random, os.ModePerm)
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 		}
@@ -129,13 +162,22 @@ func (c *UploadController) Post() {
 			images, err = zip.Unzip(fpath, "uploads/"+random)
 		}
 		if len(images) == 0 {
-			c.Data["json"] = "{'error': 'no files in the archive'}"
+			err := errors.New("error empty archive")
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 
 		}
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 		}
@@ -150,7 +192,11 @@ func (c *UploadController) Post() {
 		}
 		_, err = models.AddMultiChapterFiles(temp)
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+
 			c.ServeJSON()
 			return
 		}

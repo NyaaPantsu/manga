@@ -6,15 +6,16 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"encoding/json"
+	"errors"
 )
 
-// SignupController operations for Signup
-type SignupController struct {
+// RegisterController operations for Signup
+type RegisterController struct {
 	beego.Controller
 }
 
 // URLMapping ...
-func (c *SignupController) URLMapping() {
+func (c *RegisterController) URLMapping() {
 	c.Mapping("Post", c.Post)
 }
 
@@ -25,15 +26,20 @@ func (c *SignupController) URLMapping() {
 // @Success 201 {string} models.Users
 // @Failure 403 {string}
 // @router / [post]
-func (c *UsersController) Post() {
+func (c *RegisterController) Post() {
 	var v models.Signup
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		username := models.UsernameExists(v.Username)
 		email := models.EmailExists(v.Email)
 		if email || username {
-			c.Data["json"] = "{'error':'Username or email in use'}"
+			err := errors.New("Username or email in use")
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 			c.ServeJSON()
 			return
+
 		}
 
 		password := []byte(v.Password)
@@ -41,7 +47,10 @@ func (c *UsersController) Post() {
 		// Hashing the password with the default cost of 10
 		hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 			c.ServeJSON()
 			return
 
@@ -54,13 +63,26 @@ func (c *UsersController) Post() {
 
 		if _, err := models.AddUsers(&users); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			v.Password = ""
-			c.Data["json"] = v
+			users.PasswordHash = ""
+			var temp []interface{}
+			temp = append(temp, users)
+			c.Data["json"] = Response{
+				Success:  true,
+				Response: temp,
+				Count:    1,
+			}
+
 		} else {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }

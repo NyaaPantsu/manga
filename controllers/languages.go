@@ -32,12 +32,25 @@ func (c *LanguagesController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if _, err := models.AddLanguages(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+			var temp []interface{}
+			temp = append(temp, v)
+			c.Data["json"] = Response{
+				Success:  true,
+				Response: temp,
+				Count:    1,
+			}
+
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
@@ -52,9 +65,20 @@ func (c *LanguagesController) GetAll() {
 
 	l, err := models.GetAllLanguages()
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 	} else {
-		c.Data["json"] = l
+
+		var temp []interface{}
+		temp = append(temp, l)
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: temp,
+		}
+
 	}
 	c.ServeJSON()
 }
@@ -69,9 +93,16 @@ func (c *LanguagesController) GetAll() {
 func (c *LanguagesController) Delete() {
 	id := c.Ctx.Input.Param(":id")
 	if err := models.DeleteLanguages(id); err == nil {
-		c.Data["json"] = "OK"
+		c.Data["json"] = Response{
+			Success: true,
+		}
+
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 	}
 	c.ServeJSON()
 }

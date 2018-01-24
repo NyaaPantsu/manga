@@ -56,6 +56,7 @@ func (c *Series_addController) Post() {
 	exists := models.SeriesNameExists(u.Name)
 	if !exists {
 		files, err := c.GetFiles("cover")
+
 		for i := range files {
 
 			//for each fileheader, get a handle to the actual file

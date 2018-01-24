@@ -35,12 +35,24 @@ func (c *GroupsScanlationController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if err := models.AddGroupsScanlation(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+			var temp []interface{}
+			temp = append(temp, v)
+			c.Data["json"] = Response{
+				Success:  true,
+				Response: temp,
+				Count:    1,
+			}
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
@@ -56,9 +68,18 @@ func (c *GroupsScanlationController) GetOne() {
 	name := c.Ctx.Input.Param(":name")
 	v, err := models.GetGroupsScanlationByName(name)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	} else {
-		c.Data["json"] = v
+		var temp []interface{}
+		temp = append(temp, v)
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: temp,
+			Count:    1,
+		}
 	}
 	c.ServeJSON()
 }
@@ -108,7 +129,11 @@ func (c *GroupsScanlationController) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalname query key/value pair")
+				err := errors.New("Error: invalid query key/value pair")
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
@@ -119,7 +144,10 @@ func (c *GroupsScanlationController) GetAll() {
 
 	l, err := models.GetAllGroupsScanlation(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	} else {
 		c.Data["json"] = l
 	}
@@ -141,10 +169,16 @@ func (c *GroupsScanlationController) Put() {
 		if err := models.UpdateGroupsScanlationByName(&v); err == nil {
 			c.Data["json"] = "OK"
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
@@ -161,7 +195,10 @@ func (c *GroupsScanlationController) Delete() {
 	if err := models.DeleteGroupsScanlation(name); err == nil {
 		c.Data["json"] = "OK"
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }

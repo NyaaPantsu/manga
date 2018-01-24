@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/astaxie/beego"
 )
 
 // StatusesController operations for Statuses
@@ -25,9 +25,20 @@ func (c *StatusesController) GetAll() {
 
 	l, err := models.GetAllStatuses()
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 	} else {
-		c.Data["json"] = l
+		var temp []interface{}
+		temp = append(temp, l)
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: temp,
+			Count:    1,
+		}
+
 	}
 	c.ServeJSON()
 }

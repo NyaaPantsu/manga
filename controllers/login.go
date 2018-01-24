@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"encoding/json"
+	"errors"
 	"time"
 )
 
@@ -33,7 +34,11 @@ func (c *LoginController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		username := models.UsernameExists(v.Username)
 		if !username {
-			c.Data["json"] = "{'error': 'Error invalid username'}"
+			err := errors.New("Error invalid username")
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 			c.ServeJSON()
 			return
 		}
@@ -41,15 +46,20 @@ func (c *LoginController) Post() {
 
 		user, err := models.GetUserByUsername(v.Username)
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 			c.ServeJSON()
 			return
-
 		}
 
 		err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), password)
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 			c.ServeJSON()
 			return
 		}
@@ -58,12 +68,30 @@ func (c *LoginController) Post() {
 			Expires:  time.Now().Unix() + 3600,
 		}
 		tokenString, _ := et.GetToken()
-		c.Data["json"] = "{'tokenString': '" + tokenString + "', 'username':'"+user.Username+"'}"
+		type Auth struct {
+			Token    string `json:"token"`
+			Username string `json:"username"`
+		}
+		auth := Auth{
+			Token:    tokenString,
+			Username: v.Username,
+		}
+		var temp []interface{}
+		temp = append(temp, auth)
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: temp,
+			Count:    1,
+		}
+
 		c.ServeJSON()
 		return
 
 	} else {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 	return

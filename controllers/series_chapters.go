@@ -4,11 +4,17 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/astaxie/beego"
 	"strconv"
 	"strings"
-
-	"github.com/astaxie/beego"
 )
+
+type Response struct {
+	Success  bool          `json:"success"`
+	Error    string        `json:"errors,omitempty`
+	Response []interface{} `json:"response"`
+	Count    int64         `json:"count"`
+}
 
 // SeriesChaptersController operations for SeriesChapters
 type SeriesChaptersController struct {
@@ -36,12 +42,25 @@ func (c *SeriesChaptersController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if _, err := models.AddSeriesChapters(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+			var temp []interface{}
+			temp = append(temp, v)
+			c.Data["json"] = Response{
+				Success:  true,
+				Response: temp,
+				Count:    1,
+			}
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 	}
 	c.ServeJSON()
 }
@@ -57,9 +76,18 @@ func (c *SeriesChaptersController) GetOne() {
 	id := c.Ctx.Input.Param(":id")
 	v, err := models.GetSeriesChaptersByHash(id)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	} else {
-		c.Data["json"] = v
+		var temp []interface{}
+		temp = append(temp, v)
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: temp,
+			Count:    1,
+		}
 	}
 	c.ServeJSON()
 }
@@ -109,7 +137,11 @@ func (c *SeriesChaptersController) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
+				err := errors.New("Error: invalid query key/value pair")
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
@@ -118,11 +150,19 @@ func (c *SeriesChaptersController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit, 0)
+	l, count, err := models.GetAllSeriesChapters(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 	} else {
-		c.Data["json"] = l
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: l,
+			Count:    count,
+		}
 	}
 	c.ServeJSON()
 }
@@ -136,17 +176,26 @@ func (c *SeriesChaptersController) GetAll() {
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *SeriesChaptersController) Put() {
+
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
 	v := models.SeriesChapters{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if err := models.UpdateSeriesChaptersById(&v); err == nil {
-			c.Data["json"] = "OK"
+			c.Data["json"] = Response{
+				Success: true,
+			}
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
@@ -162,9 +211,14 @@ func (c *SeriesChaptersController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
 	if err := models.DeleteSeriesChapters(id); err == nil {
-		c.Data["json"] = "OK"
+		c.Data["json"] = Response{
+			Success: true,
+		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }

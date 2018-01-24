@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
-	"github.com/astaxie/beego"
 	"github.com/microcosm-cc/bluemonday"
 
+	"errors"
 	"gopkg.in/russross/blackfriday.v2"
 	"strings"
 )
@@ -38,14 +38,22 @@ type GroupsForm struct {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *Groups_addController) Post() {
-
-	flash := beego.NewFlash()
-
+	_, err := models.GetUserByUsername(c.Claims())
+	if err != nil {
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
+		return
+	}
 	u := GroupsForm{}
 	if err := c.ParseForm(&u); err != nil {
-		flash.Error("Groups invalid")
-		flash.Store(&c.Controller)
-		c.Redirect("/groups/add", 302)
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
 		return
 	}
 
@@ -67,33 +75,51 @@ func (c *Groups_addController) Post() {
 			urls = append(urls, temp)
 		}
 
-		err := models.AddGroupsScanlation(&groups)
-		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/groups/add", 301)
-			return
+		if err := models.AddGroupsScanlation(&groups); err == nil {
+			usergroups := models.UsersGroups{
+				GroupName: u.Name,
+			}
+			if err = models.AddUserGroups(&usergroups); err == nil {
+
+				var k []interface{}
+				k = append(k, groups)
+				k = append(k, usergroups)
+				c.Data["json"] = Response{
+					Success:  true,
+					Response: k,
+					Count:    1,
+				}
+				c.ServeJSON()
+				return
+			}
+
+			if err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
 		}
-		usergroups := models.UsersGroups{
-			GroupName: u.Name,
-		}
-		err = models.AddUserGroups(&usergroups)
+
 		if err != nil {
-			flash.Error(err.Error())
-			flash.Store(&c.Controller)
-			c.Redirect("/groups/add", 301)
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+			c.ServeJSON()
 			return
 		}
 
-		flash.Success("Successfully added group!")
-		flash.Store(&c.Controller)
-		c.Redirect("/groups/add", 301)
 		return
 
 	}
-
-	flash.Error("Adding a group failed")
-	flash.Store(&c.Controller)
-	c.Redirect("/groups/add", 302)
+	err = errors.New("error unable to add new group")
+	c.Data["json"] = Response{
+		Success: false,
+		Error:   err.Error(),
+	}
+	c.ServeJSON()
 	return
 }

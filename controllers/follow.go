@@ -14,12 +14,24 @@ func (c *FollowController) ToggleFollow() {
 	var sid, uid int
 	var err error
 
-	user, _ := models.GetUserByUsername(c.Claims())
+	user, err := models.GetUserByUsername(c.Claims())
+	if err != nil {
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
+		return
+	}
 
 	uid = user.Id
 	sid, err = strconv.Atoi(c.Ctx.Input.Param(":id"))
 	if err != nil {
-		c.Data["json"] = "{'error':'" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+
 		c.ServeJSON()
 		return
 	}
@@ -27,13 +39,20 @@ func (c *FollowController) ToggleFollow() {
 	following := models.Following(uid, sid)
 	if following {
 		err = models.Unfollow(uid, sid)
-		c.Data["json"] = "{'success': 'You are no longer following this series.'}"
+		c.Data["json"] = Response{
+			Success: true,
+		}
 	} else {
 		err = models.Follow(uid, sid)
-		c.Data["json"] = "{'success':'You are now following this series!'}"
+		c.Data["json"] = Response{
+			Success: true,
+		}
 	}
 	if err != nil {
-		c.Data["json"] = "{'error':'" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 	return

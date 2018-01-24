@@ -28,7 +28,7 @@ func init() {
 	ns2 := beego.NewNamespace("/mod",
 		beego.NSNamespace("/reports",
 			beego.NSInclude(
-				&controllers.SignupController{},
+				&controllers.RegisterController{},
 			),
 		),
 	)
@@ -77,7 +77,8 @@ func init() {
 				"post:Post",
 			),
 			beego.NSRouter("/register",
-				&controllers.SignupController{},
+				&controllers.RegisterController{},
+				"post:Post",
 			),
 		),
 		beego.NSRouter("/reader/:hash", &controllers.ReaderController{}, "get:GetOne"),

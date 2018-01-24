@@ -34,7 +34,8 @@ func GroupsScanlationNameExists(name string) (exists bool) {
 
 // AddGroupsScanlation insert a new GroupsScanlation into database and returns
 // last inserted Name on success.
-func AddGroupsScanlation(m *GroupsScanlation) (err error) { o := orm.NewOrm()
+func AddGroupsScanlation(m *GroupsScanlation) (err error) {
+	o := orm.NewOrm()
 	_, err = o.Insert(m)
 	return
 }

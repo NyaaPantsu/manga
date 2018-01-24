@@ -34,12 +34,24 @@ func (c *SeriesStatusController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if _, err := models.AddSeriesStatus(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+			var temp []interface{}
+			temp = append(temp, v)
+			c.Data["json"] = Response{
+				Success:  true,
+				Response: temp,
+				Count:    1,
+			}
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
@@ -56,9 +68,18 @@ func (c *SeriesStatusController) GetOne() {
 	id, _ := strconv.Atoi(idStr)
 	v, err := models.GetSeriesStatusById(id)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	} else {
-		c.Data["json"] = v
+		var temp []interface{}
+		temp = append(temp, v)
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: temp,
+			Count:    1,
+		}
 	}
 	c.ServeJSON()
 }
@@ -108,7 +129,11 @@ func (c *SeriesStatusController) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
+				err := errors.New("Error: invalid query key/value pair")
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
@@ -117,11 +142,19 @@ func (c *SeriesStatusController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllSeriesStatus(query, fields, sortby, order, offset, limit)
+	l, count, err := models.GetAllSeriesStatus(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	} else {
-		c.Data["json"] = l
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: l,
+			Count:    count,
+		}
+
 	}
 	c.ServeJSON()
 }
@@ -142,10 +175,16 @@ func (c *SeriesStatusController) Put() {
 		if err := models.UpdateSeriesStatusById(&v); err == nil {
 			c.Data["json"] = "OK"
 		} else {
-			c.Data["json"] = err.Error()
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
@@ -163,7 +202,10 @@ func (c *SeriesStatusController) Delete() {
 	if err := models.DeleteSeriesStatus(id); err == nil {
 		c.Data["json"] = "OK"
 	} else {
-		c.Data["json"] = err.Error()
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 	}
 	c.ServeJSON()
 }
