@@ -13,6 +13,7 @@ type SeriesTags struct {
 func (t *SeriesTags) TableName() string {
 	return "series_tags"
 }
+
 // AddMultiSeriesTags adds multiple files to chapter ID
 func AddMultiSeriesTags(tags []*SeriesTags) (count int64, err error) {
 

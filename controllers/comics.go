@@ -20,6 +20,14 @@ func (c *ComicsController) URLMapping() {
 	c.Mapping("GetAll", c.GetAll)
 }
 
+func (c *ComicsController) redirect(id string) {
+	if id == "" {
+		c.Redirect("/comics/1", 302)
+	} else {
+		c.Redirect("/comics", 302)
+	}
+}
+
 // GetOne ...
 // @Title GetOne
 // @Description get Comics by name
@@ -36,16 +44,17 @@ func (c *ComicsController) GetOne() {
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
-		c.Redirect("/comics", 302)
+		c.redirect(id)
 		return
 	}
 	l, err := models.GetSeriesById(i1)
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
-		c.Redirect("/comics", 302)
+		c.redirect(id)
 		return
 	}
+
 	chap, err := models.GetSeriesChaptersBySeriesId(l.Id)
 	tag, err := models.GetAllTagsById(l.Id)
 	c.TplName = "comic.html"
@@ -141,7 +150,7 @@ func (c *ComicsController) GetAll() {
 	if err != nil {
 		flash.Error(err.Error())
 		flash.Store(&c.Controller)
-		c.Redirect("/comics", 302)
+		c.redirect("")
 		return
 
 	}

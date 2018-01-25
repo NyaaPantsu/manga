@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/astaxie/beego"
 )
 
 // StatusesController operations for Statuses
