@@ -17,7 +17,7 @@ func init() {
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "DELETE", "PUT", "PATCH"},
-		AllowHeaders:     []string{"Origin", "content-type", "Access-Control-Allow-Origin"},
+		AllowHeaders:     []string{"Origin", "Authorization", "content-type", "Access-Control-Allow-Origin"},
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin"},
 		AllowCredentials: true,
 	}))
@@ -85,7 +85,7 @@ func init() {
 		beego.NSRouter("/comics/add", &controllers.Series_addController{}),
 		beego.NSRouter("/groups/add", &controllers.Groups_addController{}, "get:Get;post:Post"),
 		beego.NSRouter("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow"),
-		beego.NSRouter("/follows", &controllers.ImportController{}),
+		beego.NSRouter("/follows/import", &controllers.ImportController{}),
 	)
 	beego.AddNamespace(ns)
 	beego.AddNamespace(ns2)
