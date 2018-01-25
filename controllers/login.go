@@ -68,7 +68,6 @@ func (c *LoginController) Post() {
 			Expires:  time.Now().Unix() + 3600,
 		}
 		tokenString, _ := et.GetToken()
-<<<<<<< HEAD
 		type Auth struct {
 			Token    string `json:"token"`
 			Username string `json:"username"`
@@ -85,9 +84,6 @@ func (c *LoginController) Post() {
 			Count:    1,
 		}
 
-=======
-		c.Data["json"] = "{'tokenString': '" + tokenString + "', 'username':'" + user.Username + "'}"
->>>>>>> 579eefc4a9f183c95e82404087b7e61e0ca3d033
 		c.ServeJSON()
 		return
 

@@ -74,8 +74,6 @@ func init() {
 			MethodParams:     param.Make(),
 			Params:           nil})
 
-<<<<<<< HEAD
-=======
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Groups_addController"],
 		beego.ControllerComments{
 			Method:           "GetAll",
@@ -116,7 +114,6 @@ func init() {
 			MethodParams:     param.Make(),
 			Params:           nil})
 
->>>>>>> 579eefc4a9f183c95e82404087b7e61e0ca3d033
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ImportController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:ImportController"],
 		beego.ControllerComments{
 			Method:           "Post",
