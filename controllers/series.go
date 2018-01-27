@@ -1,13 +1,21 @@
 package controllers
 
 import (
+	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/resize"
+	"github.com/NyaaPantsu/manga/utils/split"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+	"github.com/dchest/uniuri"
+	"github.com/microcosm-cc/bluemonday"
+	"gopkg.in/russross/blackfriday.v2"
+
 	"encoding/json"
 	"errors"
-	"github.com/NyaaPantsu/manga/models"
+	"io"
+	"os"
 	"strconv"
 	"strings"
-
-	"github.com/astaxie/beego"
 )
 
 // SeriesController operations for Series
@@ -20,7 +28,139 @@ func (c *SeriesController) URLMapping() {
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
+	c.Mapping("Post", c.Post)
 	c.Mapping("Delete", c.Delete)
+}
+
+type SeriesForm struct {
+	Name        string `form:"name, text"`
+	Description string `form:"description, text"`
+	CoverImage  string `form:"cover, file"`
+	TypeName    string `form:"typename, text"`
+	TypeDemonym string `form:"typedenonym, text"`
+	Status      string `form:"status, text"`
+	Tags        string `form:"tags, text"`
+	Authors     string `form:"authors, text"`
+	Artist      string `form:"artists, text"`
+	Mature      bool   `form:"mature, checkbox"`
+}
+
+// Post ...
+// @Title Create
+// @Description create Series_add
+// @Param	body		body 	models.Series	true		"body for Series_add content"
+// @Success 201 {object} models.Series
+// @Failure 403 body is empty
+// @router / [post]
+func (c *SeriesController) Post() {
+
+	u := SeriesForm{}
+	if err := c.ParseForm(&u); err != nil {
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
+		return
+	}
+	l := logs.GetLogger()
+	l.Println(u.Status)
+	var coverimg string
+	exists := models.SeriesNameExists(u.Name)
+	if !exists {
+		files, err := c.GetFiles("cover")
+
+		for i := range files {
+
+			//for each fileheader, get a handle to the actual file
+			file, err := files[i].Open()
+			defer file.Close()
+			if err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
+			random := uniuri.New()
+			coverimg = random + files[i].Filename
+			//create destination file making sure the path is writeable.
+			dst, err := os.Create("uploads/covers/" + random + files[i].Filename)
+			defer dst.Close()
+			if err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
+			//copy the uploaded file to the destination file
+			if _, err := io.Copy(dst, file); err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
+			pat := "uploads/covers/" + random + files[i].Filename
+			err = resize.ResizeImage(pat, pat+"_thumb")
+			if err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
+
+		}
+
+		unsafe := blackfriday.Run([]byte(u.Description))
+		html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+		status := models.Statuses{Name: u.Status}
+		series := models.Series{
+			Name:        u.Name,
+			Description: string(html),
+			TypeName:    u.TypeName,
+			CoverImage:  coverimg,
+			TypeDemonym: u.TypeDemonym,
+			Status:      &status,
+		}
+		id, err := models.AddSeries(&series)
+		series.Id = int(id)
+
+		split.CreateTags(&series, u.Tags, "genre")
+		split.CreateTags(&series, u.Authors, "author")
+		split.CreateTags(&series, u.Artist, "artist")
+		if u.Mature {
+			split.CreateTags(&series, "mature", "content")
+		}
+		if err != nil {
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
+			c.ServeJSON()
+			return
+		}
+		c.Data["json"] = Response{
+			Success: true,
+		}
+		c.ServeJSON()
+		return
+
+	}
+	err := errors.New("Adding series failed")
+	c.Data["json"] = Response{
+		Success: false,
+		Error:   err.Error(),
+	}
+	c.ServeJSON()
+	return
+
 }
 
 // GetOne ...

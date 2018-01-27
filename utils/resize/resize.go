@@ -33,7 +33,7 @@ func ResizeImage(open string, filepath string) (err error) {
 
 		// resize to width 60 using Lanczos resampling
 		// and preserve aspect ratio
-		m := resize.Thumbnail(500, 500, img, resize.Lanczos3)
+		m := resize.Thumbnail(200, 200, img, resize.Lanczos3)
 
 		out, err := os.Create(filepath)
 		if err != nil {
@@ -55,7 +55,7 @@ func ResizeImage(open string, filepath string) (err error) {
 		}
 
 		// and preserve aspect ratio
-		m := resize.Thumbnail(500, 500, img, resize.Lanczos3)
+		m := resize.Thumbnail(200, 200, img, resize.Lanczos3)
 
 		out, err := os.Create(filepath)
 		if err != nil {

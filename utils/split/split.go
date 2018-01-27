@@ -16,13 +16,13 @@ func ProcessTags(series *models.Series, tags string) (processed []*models.Series
 			return nil, err
 		}
 		temp1 := models.Tags{
-			Name:      kv[0],
-			Namespace: kv[1],
+			Namespace: kv[0],
+			Name:      kv[1],
 		}
 		temp := models.SeriesTags{
 			SeriesId:     series,
-			TagName:      kv[0],
-			TagNamespace: kv[1],
+			TagNamespace: kv[0],
+			TagName:      kv[1],
 		}
 		processed = append(processed, &temp)
 		processedTags = append(processedTags, &temp1)
@@ -34,7 +34,7 @@ func ProcessTags(series *models.Series, tags string) (processed []*models.Series
 
 func CreateTag(name string, namespace string) (temp string) {
 
-	temp = name + ":" + namespace
+	temp = namespace + ":" + name
 	return
 }
 

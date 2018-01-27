@@ -5,8 +5,7 @@ import (
 )
 
 type SeriesAliases struct {
-	Id       int     `orm:"auto"`
-	SeriesId *Series `orm:"column(series_id);rel(fk)"`
+	SeriesId *Series `orm:"column(series_id);rel(fk);pk"`
 	Name     string  `orm:"column(name)"`
 }
 

@@ -45,6 +45,11 @@ func init() {
 				&controllers.LanguagesController{},
 			),
 		),
+		beego.NSNamespace("/tags",
+			beego.NSInclude(
+				&controllers.TagsController{},
+			),
+		),
 
 		beego.NSNamespace("/groups_scanlation",
 			beego.NSInclude(
@@ -82,7 +87,6 @@ func init() {
 			),
 		),
 		beego.NSRouter("/reader/:hash", &controllers.ReaderController{}, "get:GetOne"),
-		beego.NSRouter("/comics/add", &controllers.Series_addController{}),
 		beego.NSRouter("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow"),
 		beego.NSRouter("/follows/import", &controllers.ImportController{}),
 	)

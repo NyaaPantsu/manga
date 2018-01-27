@@ -25,8 +25,12 @@ func AddStatuses(m *Statuses) (id int64, err error) {
 }
 
 // GetAllStatuses gets all Types and returns an array on success
-func GetAllStatuses() (statuses []*Statuses, err error) {
+func GetAllStatuses() (ml []interface{}, err error) {
+	var l []Statuses
 	o := orm.NewOrm()
-	_, err = o.QueryTable("statuses").All(&statuses)
+	_, err = o.QueryTable("statuses").All(&l)
+	for _, v := range l {
+		ml = append(ml, v)
+	}
 	return
 }

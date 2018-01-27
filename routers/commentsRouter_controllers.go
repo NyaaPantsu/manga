@@ -201,6 +201,14 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SeriesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SeriesController"],
 		beego.ControllerComments{
+			Method: "Post",
+			Router: `/`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SeriesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SeriesController"],
+		beego.ControllerComments{
 			Method: "GetAll",
 			Router: `/`,
 			AllowHTTPMethods: []string{"get"},
@@ -268,18 +276,18 @@ func init() {
 			Method: "Delete",
 			Router: `/:id`,
 			AllowHTTPMethods: []string{"delete"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Series_addController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Series_addController"],
-		beego.ControllerComments{
-			Method: "Post",
-			Router: `/`,
-			AllowHTTPMethods: []string{"post"},
 			MethodParams: param.Make(),
 			Params: nil})
 
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:StatusesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:StatusesController"],
+		beego.ControllerComments{
+			Method: "GetAll",
+			Router: `/`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:TagsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:TagsController"],
 		beego.ControllerComments{
 			Method: "GetAll",
 			Router: `/`,
