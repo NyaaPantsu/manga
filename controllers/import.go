@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/auth"
 
 	"encoding/json"
 	"strconv"
@@ -38,7 +39,7 @@ func (c *ImportController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		for _, key := range v {
 			i1, _ := strconv.Atoi(key.ComicID)
-			user, _ := models.GetUserByUsername(c.Claims())
+			user, _ := models.GetUserByUsername(auth.GetUsername(c.Ctx))
 			models.Follow(user.Id, i1)
 		}
 		c.Data["json"] = "{'success': 'Successfully imported follows'}"

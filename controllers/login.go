@@ -64,7 +64,7 @@ func (c *LoginController) Post() {
 			return
 		}
 		et := jwtbeego.EasyToken{
-			Username: user.Username,
+			Username: v.Username,
 			Expires:  time.Now().Unix() + 3600,
 		}
 		tokenString, _ := et.GetToken()

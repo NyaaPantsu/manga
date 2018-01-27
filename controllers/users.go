@@ -1,8 +1,10 @@
 package controllers
 
 import (
-	"encoding/json"
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/auth"
+
+	"encoding/json"
 	"strconv"
 )
 
@@ -27,7 +29,7 @@ func (c *UsersController) URLMapping() {
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *UsersController) Put() {
-	username := c.Claims()
+	username := auth.GetUsername(c.Ctx)
 	user, _ := models.GetUserByUsername(username)
 
 	idStr := c.Ctx.Input.Param(":id")
@@ -60,7 +62,7 @@ func (c *UsersController) Put() {
 // @Failure 403 id is empty
 // @router /:id [delete]
 func (c *UsersController) Delete() {
-	username := c.Claims()
+	username := auth.GetUsername(c.Ctx)
 	user, _ := models.GetUserByUsername(username)
 
 	idStr := c.Ctx.Input.Param(":id")

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/auth"
 
 	"strconv"
 )
@@ -14,7 +15,7 @@ func (c *FollowController) ToggleFollow() {
 	var sid, uid int
 	var err error
 
-	user, err := models.GetUserByUsername(c.Claims())
+	user, err := models.GetUserByUsername(auth.GetUsername(c.Ctx))
 	if err != nil {
 		c.Data["json"] = Response{
 			Success: false,

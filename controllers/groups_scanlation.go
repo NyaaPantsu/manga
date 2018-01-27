@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/auth"
+	"github.com/microcosm-cc/bluemonday"
+	"gopkg.in/russross/blackfriday.v2"
 	"strings"
 
 	"github.com/astaxie/beego"
@@ -16,45 +19,99 @@ type GroupsScanlationController struct {
 
 // URLMapping ...
 func (c *GroupsScanlationController) URLMapping() {
-	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
+	c.Mapping("Post", c.Post)
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
 }
 
+type Groups struct {
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	ReleaseDelay int    `json:"releasedelay"`
+	Urls         string `json:"urls"`
+}
+
 // Post ...
-// @Title Post
-// @Description create GroupsScanlation
-// @Param	body		body 	models.GroupsScanlation	true		"body for GroupsScanlation content"
-// @Success 201 {int} models.GroupsScanlation
+// @Title Create
+// @Description create Groups
+// @Param	body		body 	GroupsForm	true		"body for GroupsScanlation content"
+// @Success 201 {object} models.GroupsScanlation
 // @Failure 403 body is empty
 // @router / [post]
 func (c *GroupsScanlationController) Post() {
-	var v models.GroupsScanlation
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.AddGroupsScanlation(&v); err == nil {
-			c.Ctx.Output.SetStatus(201)
-			var temp []interface{}
-			temp = append(temp, v)
-			c.Data["json"] = Response{
-				Success:  true,
-				Response: temp,
-				Count:    1,
-			}
-		} else {
-			c.Data["json"] = Response{
-				Success: false,
-				Error:   err.Error(),
-			}
-		}
-	} else {
+	_, err := models.GetUserByUsername(auth.GetUsername(c.Ctx))
+	if err != nil {
 		c.Data["json"] = Response{
 			Success: false,
 			Error:   err.Error(),
 		}
+		c.ServeJSON()
+		return
+	}
+	u := Groups{}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &u); err == nil {
+
+		exists := models.GroupsScanlationNameExists(u.Name)
+		if !exists {
+			unsafe := blackfriday.Run([]byte(u.Description))
+			html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+			groups := models.GroupsScanlation{
+				Name:        u.Name,
+				Description: string(html),
+			}
+			// todo prevent xss
+			urls := []models.GroupsScanlationUrls{}
+			for _, cond := range strings.Split(u.Urls, ",") {
+				temp := models.GroupsScanlationUrls{
+					GroupName: &groups,
+					Url:       cond,
+				}
+				urls = append(urls, temp)
+			}
+
+			if err := models.AddGroupsScanlation(&groups); err == nil {
+				models.AddMultiGroupUrl(urls)
+
+				var k []interface{}
+				k = append(k, groups)
+				k = append(k, urls)
+				c.Data["json"] = Response{
+					Success:  true,
+					Response: k,
+					Count:    1,
+				}
+				c.ServeJSON()
+				return
+
+			}
+			if err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
+
+			if err != nil {
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
+				c.ServeJSON()
+				return
+			}
+		}
+	}
+	err = errors.New("error unable to add new group")
+	c.Data["json"] = Response{
+		Success: false,
+		Error:   err.Error(),
 	}
 	c.ServeJSON()
+	return
 }
 
 // GetOne ...
@@ -154,7 +211,6 @@ func (c *GroupsScanlationController) GetAll() {
 	c.ServeJSON()
 }
 
-// Put ...
 // @Title Put
 // @Description update the GroupsScanlation
 // @Param	name		path 	string	true		"The name you want to update"

@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"github.com/NyaaPantsu/manga/models"
+	"github.com/NyaaPantsu/manga/utils/auth"
+	"github.com/NyaaPantsu/manga/utils/zip"
 	"github.com/dchest/uniuri"
 
 	"errors"
-	"github.com/NyaaPantsu/manga/utils/zip"
 	"io"
 	"os"
 	"time"
@@ -60,11 +61,10 @@ func (c *UploadController) Post() {
 			Success: false,
 			Error:   err.Error(),
 		}
-
 		c.ServeJSON()
 		return
 	}
-	user, _ := models.GetUserByUsername(c.Claims())
+	user, _ := models.GetUserByUsername(auth.GetUsername(c.Ctx))
 
 	random := uniuri.New()
 	chapter := models.SeriesChapters{

@@ -8,6 +8,7 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 	"gopkg.in/russross/blackfriday.v2"
 
+	"errors"
 	"io"
 	"os"
 )
@@ -47,11 +48,13 @@ func (c *Series_addController) Post() {
 
 	u := SeriesForm{}
 	if err := c.ParseForm(&u); err != nil {
-		c.Data["json"] = "{'error': '" + err.Error() + "'}"
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
 		c.ServeJSON()
 		return
 	}
-
 	var coverimg string
 	exists := models.SeriesNameExists(u.Name)
 	if !exists {
@@ -63,7 +66,10 @@ func (c *Series_addController) Post() {
 			file, err := files[i].Open()
 			defer file.Close()
 			if err != nil {
-				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
@@ -73,20 +79,29 @@ func (c *Series_addController) Post() {
 			dst, err := os.Create("uploads/covers/" + random + files[i].Filename)
 			defer dst.Close()
 			if err != nil {
-				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
 			//copy the uploaded file to the destination file
 			if _, err := io.Copy(dst, file); err != nil {
-				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
 			pat := "uploads/covers/" + random + files[i].Filename
 			err = resize.ResizeImage(pat, pat+"_thumb")
 			if err != nil {
-				c.Data["json"] = "{'error': '" + err.Error() + "'}"
+				c.Data["json"] = Response{
+					Success: false,
+					Error:   err.Error(),
+				}
 				c.ServeJSON()
 				return
 			}
@@ -120,15 +135,25 @@ func (c *Series_addController) Post() {
 		models.AddMultiSeriesTags(authors)
 		models.AddMultiSeriesTags(artists)
 		if err != nil {
-			c.Data["json"] = "{'error': '" + err.Error() + "'}"
+			c.Data["json"] = Response{
+				Success: false,
+				Error:   err.Error(),
+			}
 			c.ServeJSON()
 			return
 		}
-		c.Data["json"] = "{'success': 'Added series!'}"
+		c.Data["json"] = Response{
+			Success: true,
+		}
+		c.ServeJSON()
+		return
 
 	}
-
-	c.Data["json"] = "{'error': 'Adding series failed'}"
+	err := errors.New("Adding series failed")
+	c.Data["json"] = Response{
+		Success: false,
+		Error:   err.Error(),
+	}
 	c.ServeJSON()
 	return
 

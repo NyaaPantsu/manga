@@ -16,7 +16,7 @@ import (
 func init() {
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
 		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "DELETE", "PUT", "PATCH"},
+		AllowMethods:     []string{"GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Authorization", "content-type", "Access-Control-Allow-Origin"},
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin"},
 		AllowCredentials: true,
@@ -83,7 +83,6 @@ func init() {
 		),
 		beego.NSRouter("/reader/:hash", &controllers.ReaderController{}, "get:GetOne"),
 		beego.NSRouter("/comics/add", &controllers.Series_addController{}),
-		beego.NSRouter("/groups/add", &controllers.Groups_addController{}, "get:Get;post:Post"),
 		beego.NSRouter("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow"),
 		beego.NSRouter("/follows/import", &controllers.ImportController{}),
 	)
