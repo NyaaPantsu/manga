@@ -206,7 +206,10 @@ func (c *GroupsScanlationController) GetAll() {
 			Error:   err.Error(),
 		}
 	} else {
-		c.Data["json"] = l
+		c.Data["json"] = Response{
+			Success:  true,
+			Response: l,
+		}
 	}
 	c.ServeJSON()
 }

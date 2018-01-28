@@ -5,8 +5,7 @@ import (
 )
 
 type GroupsScanlationUrls struct {
-	Id        int               `orm:"auto"`
-	GroupName *GroupsScanlation `orm:"column(group_name);rel(fk)"`
+	GroupName *GroupsScanlation `orm:"column(group_name);rel(fk);pk"`
 	Url       string            `orm:"column(url)"`
 }
 

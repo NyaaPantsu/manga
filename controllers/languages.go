@@ -72,11 +72,9 @@ func (c *LanguagesController) GetAll() {
 
 	} else {
 
-		var temp []interface{}
-		temp = append(temp, l)
 		c.Data["json"] = Response{
 			Success:  true,
-			Response: temp,
+			Response: l,
 		}
 
 	}

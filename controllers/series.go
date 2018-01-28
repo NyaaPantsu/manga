@@ -37,7 +37,7 @@ type SeriesForm struct {
 	Description string `form:"description, text"`
 	CoverImage  string `form:"cover, file"`
 	TypeName    string `form:"typename, text"`
-	TypeDemonym string `form:"typedenonym, text"`
+	TypeDemonym string `form:"typedemonym, text"`
 	Status      string `form:"status, text"`
 	Tags        string `form:"tags, text"`
 	Authors     string `form:"authors, text"`

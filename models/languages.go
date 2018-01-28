@@ -28,9 +28,13 @@ func AddLanguages(m *Languages) (id int64, err error) {
 }
 
 // GetAllLanguages gets all languages and returns an array on success
-func GetAllLanguages() (languages []*Languages, err error) {
+func GetAllLanguages() (ml []interface{}, err error) {
 	o := orm.NewOrm()
+	var languages []Languages
 	_, err = o.QueryTable("languages").OrderBy("name").All(&languages)
+	for _, v := range languages {
+		ml = append(ml, v)
+	}
 	return
 }
 
