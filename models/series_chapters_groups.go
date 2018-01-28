@@ -5,8 +5,7 @@ import (
 )
 
 type SeriesChaptersGroups struct {
-	Id        int             `orm:"auto"`
-	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk)"`
+	ChapterId *SeriesChapters `orm:"column(chapter_id);rel(fk);pk"`
 	GroupName string          `orm:"column(group_name)"`
 }
 
@@ -16,4 +15,12 @@ func (t *SeriesChaptersGroups) TableName() string {
 
 func init() {
 	orm.RegisterModel(new(SeriesChaptersGroups))
+}
+
+// AddSeriesChaptersGroups insert a new SeriesChaptersGroups into database and returns
+// last inserted Id on success.
+func AddSeriesChaptersGroups(m *SeriesChaptersGroups) (id int64, err error) {
+	o := orm.NewOrm()
+	id, err = o.Insert(m)
+	return
 }
