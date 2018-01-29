@@ -15,8 +15,8 @@ type SeriesChapters struct {
 	SeriesId              *Series                 `orm:"column(series_id);rel(fk)"`
 	Title                 string                  `orm:"column(title)"`
 	ChapterNumberAbsolute string                  `orm:"column(chapter_number_absolute)"`
-	ChapterNumberVolume   float64                 `orm:"column(chapter_number_volume);null"`
-	VolumeNumber          float64                 `orm:"column(volume_number);null"`
+	ChapterNumberVolume   string                  `orm:"column(chapter_number_volume);null"`
+	VolumeNumber          string                  `orm:"column(volume_number);null"`
 	ChapterLanguage       *Languages              `orm:"column(chapter_language);rel(fk)"`
 	ContributorId         *Users                  `orm:"column(contributor_id);rel(fk)"`
 	TimeUploaded          time.Time               `orm:"column(time_uploaded);type(timestamp without time zone);auto_now_add"`
