@@ -9,6 +9,16 @@
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
 		},
 		{
+			"ImportPath": "github.com/astaxie/beego/cache",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego/cache/redis",
+			"Comment": "v1.9.2-2-gf166888",
+			"Rev": "f16688817aa428d10361394015b40d096b680542"
+		},
+		{
 			"ImportPath": "github.com/astaxie/beego/config",
 			"Comment": "v1.9.2-2-gf166888",
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
@@ -59,11 +69,6 @@
 			"Rev": "f16688817aa428d10361394015b40d096b680542"
 		},
 		{
-			"ImportPath": "github.com/astaxie/beego/utils/pagination",
-			"Comment": "v1.9.2-2-gf166888",
-			"Rev": "f16688817aa428d10361394015b40d096b680542"
-		},
-		{
 			"ImportPath": "github.com/dchest/uniuri",
 			"Rev": "8902c56451e9b58ff940bbe5fec35d5f9c04584a"
 		},
@@ -71,6 +76,16 @@
 			"ImportPath": "github.com/dgrijalva/jwt-go",
 			"Comment": "v3.0.0-20-ga539ee1",
 			"Rev": "a539ee1a749a2b895533f979515ac7e6e0f5b650"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Comment": "v1.1.0-6-g57f1cd7",
+			"Rev": "57f1cd7de6175c96b423e7ac2534ff2b39e2ef79"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Comment": "v1.1.0-6-g57f1cd7",
+			"Rev": "57f1cd7de6175c96b423e7ac2534ff2b39e2ef79"
 		},
 		{
 			"ImportPath": "github.com/gorilla/feeds",
