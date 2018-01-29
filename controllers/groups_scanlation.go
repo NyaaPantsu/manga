@@ -199,7 +199,7 @@ func (c *GroupsScanlationController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllGroupsScanlation(query, fields, sortby, order, offset, limit)
+	l, count, err := models.GetAllGroupsScanlation(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		c.Data["json"] = Response{
 			Success: false,
@@ -209,6 +209,7 @@ func (c *GroupsScanlationController) GetAll() {
 		c.Data["json"] = Response{
 			Success:  true,
 			Response: l,
+			Count:    count,
 		}
 	}
 	c.ServeJSON()

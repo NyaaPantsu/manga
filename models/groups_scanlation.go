@@ -57,7 +57,7 @@ func GetGroupsScanlationByName(name string) (v *GroupsScanlation, err error) {
 // GetAllGroupsScanlation retrieves all GroupsScanlation matches certain condition. Returns empty list if
 // no records exist
 func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []string, order []string,
-	offset int64, limit int64) (ml []interface{}, err error) {
+	offset int64, limit int64) (ml []interface{}, count int64, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(GroupsScanlation))
 	// query k=v
@@ -82,7 +82,7 @@ func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []s
 				} else if order[i] == "asc" {
 					orderby = v
 				} else {
-					return nil, errors.New("Error: Invalid order. Must be either [asc|desc]")
+					return nil, 0, errors.New("Error: Invalid order. Must be either [asc|desc]")
 				}
 				sortFields = append(sortFields, orderby)
 			}
@@ -96,21 +96,22 @@ func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []s
 				} else if order[0] == "asc" {
 					orderby = v
 				} else {
-					return nil, errors.New("Error: Invalid order. Must be either [asc|desc]")
+					return nil, 0, errors.New("Error: Invalid order. Must be either [asc|desc]")
 				}
 				sortFields = append(sortFields, orderby)
 			}
 		} else if len(sortby) != len(order) && len(order) != 1 {
-			return nil, errors.New("Error: 'sortby', 'order' sizes mismatch or 'order' size is not 1")
+			return nil, 0, errors.New("Error: 'sortby', 'order' sizes mismatch or 'order' size is not 1")
 		}
 	} else {
 		if len(order) != 0 {
-			return nil, errors.New("Error: unused 'order' fields")
+			return nil, 0, errors.New("Error: unused 'order' fields")
 		}
 	}
 
 	var l []GroupsScanlation
 	qs = qs.OrderBy(sortFields...)
+	count, _ = qs.Count()
 	if _, err = qs.Limit(limit, offset).RelatedSel().All(&l, fields...); err == nil {
 		if len(fields) == 0 {
 			for _, v := range l {
@@ -128,9 +129,9 @@ func GetAllGroupsScanlation(query map[string]string, fields []string, sortby []s
 				ml = append(ml, m)
 			}
 		}
-		return ml, nil
+		return ml, count, nil
 	}
-	return nil, err
+	return nil, 0, err
 }
 
 // UpdateGroupsScanlation updates GroupsScanlation by Name and returns error if
