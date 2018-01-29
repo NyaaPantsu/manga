@@ -24,15 +24,15 @@ type Response struct {
 }
 
 type UploadForm struct {
-	Id                    int     `form:"-"`
-	Name                  string  `form:"name, text"`
-	Title                 string  `form:"title, text"`
-	ChapterNumberAbsolute string  `form:"chapternum, te`
-	ChapterNumberVolume   float64 `form:"chaptervol, number"`
-	VolumeNumber          float64 `form:"volnum, number"`
-	ChapterLanguage       string  `form:"languages, text"`
-	ReleaseDelay          int     `form:"delay, number"`
-	Groups                string  `form:"groups, text"`
+	Id                    int    `form:"-"`
+	Name                  string `form:"name, text"`
+	Title                 string `form:"title, text"`
+	ChapterNumberAbsolute string `form:"chapternum, text`
+	ChapterNumberVolume   string `form:"chaptervol, text"`
+	VolumeNumber          string `form:"volnum, text"`
+	ChapterLanguage       string `form:"languages, text"`
+	ReleaseDelay          int    `form:"delay, number"`
+	Groups                string `form:"groups, text"`
 }
 
 // SeriesChaptersController operations for SeriesChapters
