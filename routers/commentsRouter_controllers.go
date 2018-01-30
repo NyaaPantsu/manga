@@ -263,6 +263,22 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
+	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Series_user_ratingsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Series_user_ratingsController"],
+		beego.ControllerComments{
+			Method: "Post",
+			Router: `/`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Series_user_ratingsController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:Series_user_ratingsController"],
+		beego.ControllerComments{
+			Method: "GetOne",
+			Router: `/:id`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:StatusesController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:StatusesController"],
 		beego.ControllerComments{
 			Method: "GetAll",

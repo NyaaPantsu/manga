@@ -53,18 +53,20 @@ paths:
     post:
       tags:
       - groups_scanlation
-      description: create GroupsScanlation
-      operationId: GroupsScanlationController.Post
+      description: create Groups
+      operationId: GroupsScanlationController.Create
       parameters:
       - in: body
         name: body
         description: body for GroupsScanlation content
         required: true
         schema:
-          $ref: '#/definitions/models.GroupsScanlation'
+          $ref: '#/definitions/.GroupsForm'
       responses:
         "201":
-          description: '{int} models.GroupsScanlation'
+          description: ""
+          schema:
+            $ref: '#/definitions/models.GroupsScanlation'
         "403":
           description: body is empty
   /groups_scanlation/{name}:
@@ -175,6 +177,24 @@ paths:
           description: '{string} delete success!'
         "403":
           description: id is empty
+  /reports/:
+    post:
+      tags:
+      - reports
+      description: create Users
+      operationId: RegisterController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Users content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Signup'
+      responses:
+        "201":
+          description: '{string} models.Users'
+        "403":
+          description: '{string}'
   /series/:
     get:
       tags:
@@ -214,6 +234,25 @@ paths:
             $ref: '#/definitions/models.Series'
         "403":
           description: ""
+    post:
+      tags:
+      - series
+      description: create Series_add
+      operationId: SeriesController.Create
+      parameters:
+      - in: body
+        name: body
+        description: body for Series_add content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Series'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Series'
+        "403":
+          description: body is empty
   /series/{id}:
     get:
       tags:
@@ -403,6 +442,45 @@ paths:
               $ref: '#/definitions/models.Statuses'
         "403":
           description: ""
+  /tags/:
+    get:
+      tags:
+      - tags
+      description: get Tags
+      operationId: TagsController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Tags'
+        "403":
+          description: ""
   /users/:
     get:
       tags:
@@ -519,11 +597,11 @@ paths:
         "403":
           description: id is empty
 definitions:
+  .GroupsForm:
+    type: object
   .Import:
     type: object
-  .Rss:
-    type: object
-  .Upload:
+  .Series_user_ratings:
     type: object
   models.GroupsScanlation:
     title: GroupsScanlation
@@ -546,9 +624,6 @@ definitions:
     properties:
       GroupName:
         $ref: '#/definitions/models.GroupsScanlation'
-      Id:
-        type: integer
-        format: int64
       Url:
         type: string
   models.Languages:
@@ -602,9 +677,6 @@ definitions:
     title: SeriesAliases
     type: object
     properties:
-      Id:
-        type: integer
-        format: int64
       Name:
         type: string
       SeriesId:
@@ -618,8 +690,7 @@ definitions:
       ChapterNumberAbsolute:
         type: string
       ChapterNumberVolume:
-        type: number
-        format: double
+        type: string
       ContributorId:
         $ref: '#/definitions/models.Users'
       Hash:
@@ -643,8 +714,7 @@ definitions:
       Title:
         type: string
       VolumeNumber:
-        type: number
-        format: double
+        type: string
   models.SeriesChaptersFiles:
     title: SeriesChaptersFiles
     type: object
@@ -661,16 +731,10 @@ definitions:
         $ref: '#/definitions/models.SeriesChapters'
       GroupName:
         type: string
-      Id:
-        type: integer
-        format: int64
   models.SeriesRatings:
     title: SeriesRatings
     type: object
     properties:
-      Id:
-        type: integer
-        format: int64
       Rating:
         type: integer
         format: int64
@@ -713,6 +777,14 @@ definitions:
     properties:
       Name:
         type: string
+  models.Tags:
+    title: Tags
+    type: object
+    properties:
+      Name:
+        type: string
+      Namespace:
+        type: string
   models.Users:
     title: Users
     type: object
@@ -738,9 +810,6 @@ definitions:
     title: UsersFollowingSeries
     type: object
     properties:
-      Id:
-        type: integer
-        format: int64
       SeriesId:
         $ref: '#/definitions/models.Series'
       UserId:
@@ -759,13 +828,16 @@ definitions:
 tags:
 - name: reports
   description: |
-    SignupController operations for Signup
+    RegisterController operations for Signup
 - name: statuses
   description: |
     StatusesController operations for Statuses
 - name: languages
   description: |
     LanguagesController operations for Languages
+- name: tags
+  description: |2
+     TagsController operations for Tags
 - name: groups_scanlation
   description: |
     GroupsScanlationController operations for GroupsScanlation

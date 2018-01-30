@@ -5,7 +5,6 @@ import (
 	"github.com/NyaaPantsu/manga/utils/resize"
 	"github.com/NyaaPantsu/manga/utils/split"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	"github.com/dchest/uniuri"
 	"github.com/microcosm-cc/bluemonday"
 	"gopkg.in/russross/blackfriday.v2"
@@ -63,8 +62,6 @@ func (c *SeriesController) Post() {
 		c.ServeJSON()
 		return
 	}
-	l := logs.GetLogger()
-	l.Println(u.Status)
 	var coverimg string
 	exists := models.SeriesNameExists(u.Name)
 	if !exists {
