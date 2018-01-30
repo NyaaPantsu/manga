@@ -3,12 +3,13 @@ package controllers
 import (
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/NyaaPantsu/manga/utils/auth"
+	"github.com/astaxie/beego"
 
 	"strconv"
 )
 
 type FollowController struct {
-	BaseController
+	beego.Controller
 }
 
 func (c *FollowController) Get() {
