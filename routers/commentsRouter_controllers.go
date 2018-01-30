@@ -143,22 +143,6 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:RssController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:RssController"],
-		beego.ControllerComments{
-			Method: "GetFollowed",
-			Router: `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:RssController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:RssController"],
-		beego.ControllerComments{
-			Method: "GetNew",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
 	beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SeriesChaptersController"] = append(beego.GlobalControllerRouter["github.com/NyaaPantsu/manga/controllers:SeriesChaptersController"],
 		beego.ControllerComments{
 			Method: "Post",

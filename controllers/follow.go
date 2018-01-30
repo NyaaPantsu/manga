@@ -11,6 +11,44 @@ type FollowController struct {
 	BaseController
 }
 
+func (c *FollowController) Get() {
+	var limit int64 = 25
+	var offset int64
+
+	// limit: 10 (default is 10)
+	if v, err := c.GetInt64("limit"); err == nil {
+		limit = v
+	}
+	// offset: 0 (default is 0)
+	if v, err := c.GetInt64("offset"); err == nil {
+		offset = v
+	}
+	user, err := models.GetUserByUsername(auth.GetUsername(c.Ctx))
+	if err != nil {
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+		c.ServeJSON()
+		return
+	}
+	l, count, err := models.GetRecentFollowedSeriesByChapter(user.Id, offset, limit)
+	c.Data["json"] = Response{
+		Success:  true,
+		Response: l,
+		Count:    count,
+	}
+	if err != nil {
+		c.Data["json"] = Response{
+			Success: false,
+			Error:   err.Error(),
+		}
+	}
+	c.ServeJSON()
+	return
+
+}
+
 func (c *FollowController) ToggleFollow() {
 	var sid, uid int
 	var err error

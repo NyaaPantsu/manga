@@ -22,9 +22,6 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	beego.Router("/rss/latest", &controllers.RssController{}, "get:GetNew")
-	beego.Router("/rss/followed", &controllers.RssController{}, "get:GetFollowed")
-
 	ns2 := beego.NewNamespace("/mod",
 		beego.NSNamespace("/reports",
 			beego.NSInclude(
@@ -88,6 +85,7 @@ func init() {
 		),
 		beego.NSRouter("/reader/:hash", &controllers.ReaderController{}, "get:GetOne"),
 		beego.NSRouter("/follow/:id", &controllers.FollowController{}, "get,post:ToggleFollow"),
+		beego.NSRouter("/follows", &controllers.FollowController{}, "get:Get"),
 		beego.NSRouter("/follows/import", &controllers.ImportController{}),
 	)
 	beego.AddNamespace(ns)
