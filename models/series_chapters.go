@@ -55,6 +55,8 @@ func GetSeriesChaptersByHash(hash string) (v SeriesChapters, err error) {
 	err = o.QueryTable("series_chapters").Filter("hash", hash).RelatedSel().One(&v)
 
 	v.SeriesChaptersFiles, err = GetAllChapterFilesById(v.Id, 200, 0)
+	v.ContributorId.PasswordHash = ""
+	v.ContributorId.Email = ""
 
 	o.LoadRelated(&v, "SeriesChaptersGroups")
 	return
