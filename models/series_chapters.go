@@ -52,11 +52,11 @@ func GetSeriesChaptersBySeriesId(id int) (v SeriesChapters, err error) {
 // Id doesn't exist
 func GetSeriesChaptersByHash(hash string) (v SeriesChapters, err error) {
 	o := orm.NewOrm()
-	err = o.QueryTable("series_chapters").Filter("hash", hash).OrderBy("SeriesChaptersFiles__Name").RelatedSel().One(&v)
-	o.LoadRelated(&v, "SeriesChaptersFiles")
+	err = o.QueryTable("series_chapters").Filter("hash", hash).RelatedSel().One(&v)
+
+	v.SeriesChaptersFiles, err = GetAllChapterFilesById(v.Id, 200, 0)
+
 	o.LoadRelated(&v, "SeriesChaptersGroups")
-	v.ContributorId.PasswordHash = ""
-	v.ContributorId.Email = ""
 	return
 }
 
