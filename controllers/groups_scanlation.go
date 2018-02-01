@@ -125,7 +125,7 @@ func (c *GroupsScanlationController) Post() {
 func (c *GroupsScanlationController) GetOne() {
 	name := c.Ctx.Input.Param(":name")
 	escaped, _ := url.QueryUnescape(name)
-	v, err := models.GetGroupsScanlationByName(name)
+	v, err := models.GetGroupsScanlationByName(escaped)
 	if err != nil {
 		c.Data["json"] = Response{
 			Success: false,
