@@ -1,15 +1,16 @@
 package controllers
 
 import (
-	"encoding/json"
-	"errors"
 	"github.com/NyaaPantsu/manga/models"
 	"github.com/NyaaPantsu/manga/utils/auth"
 	"github.com/microcosm-cc/bluemonday"
 	"gopkg.in/russross/blackfriday.v2"
-	"strings"
-
 	"github.com/astaxie/beego"
+
+	"strings"
+	"encoding/json"
+	"errors"
+	"net/url"
 )
 
 // GroupsScanlationController operations for GroupsScanlation
@@ -123,6 +124,7 @@ func (c *GroupsScanlationController) Post() {
 // @router /:name [get]
 func (c *GroupsScanlationController) GetOne() {
 	name := c.Ctx.Input.Param(":name")
+	escaped, _ := url.QueryUnescape(name)
 	v, err := models.GetGroupsScanlationByName(name)
 	if err != nil {
 		c.Data["json"] = Response{
