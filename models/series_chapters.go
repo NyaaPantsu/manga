@@ -151,6 +151,7 @@ func GetAllSeriesChapters(query map[string]string, fields []string, sortby []str
 
 			for _, v := range l {
 				o.LoadRelated(&v, "SeriesChaptersFiles")
+				o.LoadRelated(&v, "SeriesId")
 				o.LoadRelated(&v, "SeriesChaptersGroups")
 				v.ContributorId.PasswordHash = ""
 				v.ContributorId.Email = ""
