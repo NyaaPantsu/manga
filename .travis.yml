@@ -27,9 +27,9 @@ install:
   - go get github.com/mattn/goveralls
   - go get -u github.com/golang/lint/golint
 script:
-  - go test -v ./... -covermode=count -coverprofile=profile.cov
+  - go test -v -coverpkg=./... -covermode=count -coverprofile=profile.cov
   - goveralls -coverprofile=profile.cov -service=travis-ci
-  - gosimple -ignore "$(cat .gosimpleignore)" $(go list ./... | grep -v /vendor/)
+  - gosimple -ignore " $(go list ./... | grep -v /vendor/)
   - unconvert $(go list ./... | grep -v /vendor/)
   - ineffassign .
   - find . ! \( -path './vendor' -prune \) -type f -name '*.go' -print0 | xargs -0 gofmt -l -s
