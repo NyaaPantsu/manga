@@ -26,9 +26,6 @@ install:
   - go get -u github.com/gordonklaus/ineffassign
   - go get github.com/mattn/goveralls
   - go get -u github.com/golang/lint/golint
-before_script:
-  - psql --version
-  - sh -c "if [ '$ORM_DRIVER' = 'postgres' ]; then psql -c 'create user manga;create database manga;' -U manga; fi"
 script:
   - go test -v ./... -covermode=count -coverprofile=profile.cov
   - goveralls -coverprofile=profile.cov -service=travis-ci
