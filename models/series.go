@@ -75,6 +75,9 @@ func GetSeriesById(id int) (v *Series, err error) {
 
 	o := orm.NewOrm()
 	err = o.QueryTable("series").Filter("id", id).RelatedSel().One(&temp)
+	o.LoadRelated(&temp, "SeriesTags")
+	o.LoadRelated(&temp, "SeriesAliases")
+	o.LoadRelated(&temp, "SeriesRatings")
 	if err != nil {
 		return nil, err
 	}
