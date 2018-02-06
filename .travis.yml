@@ -1,0 +1,41 @@
+language: go
+
+go:
+  - 1.6
+  - 1.7.x
+  - master
+services:
+  - redis-server
+  - postgresql
+env:
+  - ORM_DRIVER=postgres ORM_SOURCE="user=manga dbname=manga sslmode=disable"
+install:
+  - go get github.com/lib/pq
+  - go get github.com/garyburd/redigo/redis
+  - go get github.com/beego/x2j
+  - go get github.com/beego/goyaml2
+  - go get github.com/belogik/goes
+  - go get github.com/siddontang/ledisdb/config
+  - go get github.com/siddontang/ledisdb/ledis
+  - go get github.com/cloudflare/golz4
+  - go get github.com/gogo/protobuf/proto
+  - go get github.com/Knetic/govaluate
+  - go get github.com/casbin/casbin
+  - go get -u honnef.co/go/tools/cmd/gosimple
+  - go get -u github.com/mdempsky/unconvert
+  - go get -u github.com/gordonklaus/ineffassign
+  - go get github.com/mattn/goveralls
+  - go get -u github.com/golang/lint/golint
+before_script:
+  - psql --version
+  - sh -c "if [ '$ORM_DRIVER' = 'postgres' ]; then psql -c 'create user manga;create database manga;' -U manga; fi"
+script:
+  - go test -v ./... -covermode=count -coverprofile=profile.cov
+  - goveralls -coverprofile=profile.cov -service=travis-ci
+  - gosimple -ignore "$(cat .gosimpleignore)" $(go list ./... | grep -v /vendor/)
+  - unconvert $(go list ./... | grep -v /vendor/)
+  - ineffassign .
+  - find . ! \( -path './vendor' -prune \) -type f -name '*.go' -print0 | xargs -0 gofmt -l -s
+  - golint ./...
+addons:
+  postgresql: "10"
