@@ -16,6 +16,7 @@ manga
 *.tmp
 uploads/*
 node_modules/*
+keys/*
 
 # emacs files
 *~
