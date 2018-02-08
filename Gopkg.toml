@@ -1,0 +1,78 @@
+# Gopkg.toml example
+#
+# Refer to https://github.com/golang/dep/blob/master/docs/Gopkg.toml.md
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
+
+
+[[constraint]]
+  name = "github.com/astaxie/beego"
+  version = "1.9.2"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/dchest/uniuri"
+
+[[constraint]]
+  name = "github.com/dgrijalva/jwt-go"
+  version = "3.1.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/juusechec/jwt-beego"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/lib/pq"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/microcosm-cc/bluemonday"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/nfnt/resize"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/nwaples/rardecode"
+
+[[constraint]]
+  name = "github.com/smartystreets/goconvey"
+  version = "1.6.3"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+
+[[constraint]]
+  name = "gopkg.in/h2non/filetype.v1"
+  version = "1.0.5"
+
+[[constraint]]
+  name = "gopkg.in/russross/blackfriday.v2"
+  version = "2.0.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true

@@ -30,6 +30,8 @@ Please note that the previous instructions assume the default configuration of P
 
     psql -p 5432 -d manga -U manga -f GOPATH/schema.sql
     go install GOPATH/src/NyaaPantsu/manga
+    openssl genrsa -out keys/rsakey.pem 2048
+    openssl rsa -in keys/rsakey.pem -pubout > keys/rsakey.pem.pub
 
 It is assumed that the PostgreSQL server was set-up with the configuration given above, if this is not the case, please update the `psql` command above to reflect the appropriate configuration.
 
